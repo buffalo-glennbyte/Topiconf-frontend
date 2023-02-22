@@ -5,8 +5,59 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TC - Event aanmaken</title>
+    <style>
+        
+    </style>
+    <script>
+        function toonEvenementen(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Evenementen opgehaald");
+                    var allEvents = JSON.parse(this.responseText);
+                    var eindString = "<table border=2><tr><th>Titel</th><th>Omschrijving</th><th>Begin</th><th>Eind</th>";
+                        for(var x = 0; x < allEvents.length; x++){
+                            eindString += "<tr><td>" + allEvents[x].naam + "</td>";
+                            eindString += "<td>" + allEvents[x].omschrijving + "</td>";
+                            eindString += "<td>" + allEvents[x].beginDatumTijd + "</td>";
+                            eindString += "<td>" + allEvents[x].eindDatumTijd + "</td></tr>";
+                        }
+                    eindString += "</table>";
+                    document.getElementById("alleEvenementenTabel").innerHTML = eindString;
+                }
+
+            }
+            xhr.open("GET","http://localhost:8082/alleEvenementen", true);
+            xhr.send();
+        }
+
+        function toevoegenEvenement(){
+            var nieuwEvenement = {};
+            nieuwEvenement.naam = document.getElementById("naamEvenement").value;
+            nieuwEvenement.omschrijving = document.getElementById("omschrijvingEvenement").value;
+            nieuwEvenement.beginDatumTijd = document.getElementById("beginDatumTijdEvenement").value;
+            nieuwEvenement.eindDatumTijd = document.getElementById("eindDatumTijdEvenement").value;
+            var EvenementJSON = JSON.stringify(nieuwEvenement);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Evenement aangemaakt");
+                }
+            }
+            xhr.open("POST","http://localhost:8082/voegEvenementToe", true);
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(EvenementJSON);
+        }
+    </script>
 </head>
 <body>
-    
+    <input placeholder="Naam van evenement" id="naamEvenement">
+    <input placeholder="Omschrijving van evenement" id="omschrijvingEvenement">
+    <input type="datetime-local" id="beginDatumTijdEvenement">
+    <input type="datetime-local" id="eindDatumTijdEvenement">
+    <button onclick="toevoegenEvenement()">Voeg evenement toe</button>
+    <br><hr>
+    <button onclick="toonEvenementen()">Toon evenementen</button>
+    <div id="alleEvenementenTabel"></div>
 </body>
 </html>
