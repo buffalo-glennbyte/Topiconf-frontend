@@ -1,0 +1,64 @@
+
+:root {
+    --secondary-color: #242F34;
+    --main-color:#F8E800;
+    --white-color:#fff;
+    --hover: #f1ca1e;
+  }
+
+
+html {
+    /* 62.5% of 16px browser font size is 10px */
+    /* 1 rem = 10px */
+    font-size: 62.5%;
+  }
+
+  body{
+    background-color: #3a4448;
+    /* background: linear-gradient(45deg, rgba(36,47,52,1) 0%, rgba(80,89,93,1) 25%,rgba(80,89,93,1) 75%, rgba(36,47,52,1) 100%); */
+    overflow: hidden;
+  }
+.wrapper{
+    height: 100vh;
+    width: 130rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 0 auto;
+  }
+
+.request_window{
+    border-top: 2px solid var(--main-color);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary-color);
+    min-width: 60rem;
+    height: fit-content;
+    padding: 6.4rem 3.2rem;
+  }
+  .field{
+    margin-bottom: 2.4rem;
+    display: flex;
+  }
+  .input{
+    padding: 1.6rem;
+    width: 100%;
+    font-size: 1.8rem;
+  }
+
+  .btn{ 
+    margin-top: 2.4rem;
+    padding: 1.6rem 3.2rem;
+    background-color: var(--main-color);
+    font-weight: 700;
+    font-size: 2.4rem;
+    cursor:pointer;
+    color: var(--secondary-color);
+    border-radius: 999rem;
+    border: none;
+    transition: all 300ms;
+    
+  }
+  .btn:hover{
+    background-color: var(--hover);
+  }
