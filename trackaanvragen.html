@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        td {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    </style>
+
+    <script>
+        
+        function addTrack(){
+            var trackToAdd = {};
+            trackToAdd.name = document.getElementById("trackName").value;
+            trackToAdd.description = document.getElementById("trackDescription").value;
+            var JSONcall = JSON.stringify(trackToAdd);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log(JSONcall);
+                }
+            }
+            xhr.open("POST","http://localhost:8082/track/voegTrackToe", true);
+            xhr.setRequestHeader("Content-Type", "application/json")
+            xhr.send(JSONcall);
+            // showTracks();
+        }
+
+        function editTrack(){
+            
+        }
+
+        
+    </script>
+</head>
+
+<body>
+    
+    <h3>Track adding form</h3>
+    <table>
+        <tr>
+            <td>Name of track?</td>
+            <td><input id = "trackName"></td>
+        </tr>
+        <tr>
+            <td>Description of track?</td>
+            <td><input id = "trackDescription"></td>
+        </tr>
+        <tr>
+            <td><button onclick="addTrack()">Add track</button></td>
+        </tr>
+    </table><br><br>
+    
+</body>
+</html>
