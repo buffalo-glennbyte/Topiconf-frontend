@@ -32,6 +32,17 @@
             xhr.send();
         }
 
+        function deleteTrack(id){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+
+                }
+            }
+            xhr.open("DELETE","http://localhost:8082/track/verwijderTrack/" + id, true);
+            xhr.send();
+            // showTracks();
+        }
 
     </script>
 
