@@ -1,0 +1,33 @@
+.request{
+    background-color: var(--white-color);
+    display: flex;
+    border: 1px solid var(--secondary-color);
+    width: 60rem;
+    padding: 1.6rem 3.2rem;
+    border-radius: 9px;
+    justify-content: space-between;
+  }
+  .wrapper, .requestList{
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+  
+  .actionBtn{
+    padding: 1.6rem;
+    border-radius: 999rem;
+  }
+  .green{
+    background-color: #09ee2f;
+  }
+  .yellow{
+    background-color: #f0fc08;
+  }
+  .delete{
+    background-color: #f20202;
+  }
+  .buttons{
+    display: flex;
+    gap: 1.6rem;
+    /* flex-direction :row is by default */
+  }
