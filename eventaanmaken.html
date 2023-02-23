@@ -5,8 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TC - Event aanmaken</title>
+    <style>
+        .inputfield {
+            width: 175px;
+        }
+    </style>
+    <script>
+        function toevoegenEvenement(){
+            var nieuwEvenement = {};
+            nieuwEvenement.naam = document.getElementById("naamEvenement").value;
+            nieuwEvenement.omschrijving = document.getElementById("omschrijvingEvenement").value;
+            nieuwEvenement.beginDatumTijd = document.getElementById("beginDatumTijdEvenement").value;
+            nieuwEvenement.eindDatumTijd = document.getElementById("eindDatumTijdEvenement").value;
+            var EvenementJSON = JSON.stringify(nieuwEvenement);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Evenement aangemaakt");
+                }
+            }
+            xhr.open("POST","http://localhost:8082/voegEvenementToe", true);
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(EvenementJSON);
+            naamEvenement.value = null;
+            omschrijvingEvenement.value = null;
+            beginDatumTijdEvenement.value = null;
+            eindDatumTijdEvenement.value = null;
+            alert("Evenement toegevoegd");
+        }
+    </script>
 </head>
 <body>
-    
+    <input class='inputfield' placeholder="Naam van evenement" id="naamEvenement">
+    <input class='inputfield' placeholder="Omschrijving van evenement" id="omschrijvingEvenement"><br>
+    <input class='inputfield' type="datetime-local" id="beginDatumTijdEvenement">
+    <input class='inputfield' type="datetime-local" id="eindDatumTijdEvenement"><br>
+    <button onclick="toevoegenEvenement()">Voeg evenement toe</button>
 </body>
 </html>
