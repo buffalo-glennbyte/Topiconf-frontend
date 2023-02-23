@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script>
+        function showEvents()
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function()
+            {
+                if(this.readyState == 4)
+                {
+                    console.log(this.responseText);
+                    var allEvents = JSON.parse(this.responseText);
+                    var HTMLString = "<table border = 1; cellpadding=5";
+                    HTMLString += "<tr>"
+                        + "<td>Naam</td>"
+                        + "<td>Omschrijving</td>"
+                        + "<td>Begin Datum/Tijd</td>"
+                        + "<td>Eind Datum/Tijd</td>"
+                        + "</tr>";
+                    for(var i = 0; i < allEvents.length; i++)
+                    {
+                        HTMLString += "<tr><td>" + allEvents[i].name + "</td>";
+                        HTMLString += "<td>" + allEvents[i].description + "</td>";
+                        HTMLString += "<td>" + allEvents[i].startdate + "</td>";
+                        HTMLString += "<td>" + allEvents[i].enddate + "</td>";
+                        HTMLString += "<td><button onclick='deleteEvent("+allEvents[i].name+")'>Delete</td></tr>";
+                    }
+                    HTMLString += "</table>"
+                    document.getElementById("eventsTable").innerHTML = HTMLString;
+                }
+            }
+            console.log("event button working");
+            xhr.open("GET", "http://localhost:8082/event/geefAlleEvents", true);
+            xhr.send();
+        }
+
+        function deleteEvent()
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+
+                }
+            }
+            xhr.open("DELETE","http://localhost:8082/event/verwijderEvent/" + name, true);
+            xhr.send();
+        }
+
+
+
+    </script>
+
+
+
+</head>
+<body>
+    <button onclick="showEvents()">Show all events</button>
+    <div id="eventsTable"></div>
+</body>
+</html>
