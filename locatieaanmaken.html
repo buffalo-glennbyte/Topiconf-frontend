@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Locations</title>
 
     <style>
-        td {
+        body {
             padding-left: 10px;
-            padding-right: 10px;
+        }
+        input {
+            min-width: 300px;
+        }
+        td {
+            padding-right: 20px;
         }
     </style>
 
@@ -21,12 +26,12 @@
                     console.log(this.responseText);
                     var alleLocaties = JSON.parse(this.responseText);
                     var HTMLString = "<table border=1>";
-                    HTMLString += "<tr><td>id</td> <td>Name</td> <td>Description</td></b></tr>"
+                    HTMLString += "<tr><td>id</td> <td>Name</td> <td>Description</td> <td>Capacity</td> <td>Delete</td></b></tr>"
                     for(var i = 0; i < alleLocaties.length; i++){
                         HTMLString += "<tr><td>" + alleLocaties[i].id + "</td>";
                         HTMLString += "<td>" + alleLocaties[i].name + "</td>";
                         HTMLString += "<td>" + alleLocaties[i].description + "</td>";
-                        // HTMLString += "<td><button onclick='editLocatie()'>Edit</button></td>";
+                        HTMLString += "<td>" + alleLocaties[i].capacity + "</td>"; 
                         HTMLString += "<td><button onclick='deletelocatie("+alleLocaties[i].id+")'>Delete</button></td></tr>"
                     }
                     HTMLString += "</table>";
@@ -53,6 +58,11 @@
             xhr.open("POST","http://localhost:8082/locatie/voegLocatieToe", true);
             xhr.setRequestHeader("Content-Type", "application/json")
             xhr.send(JSONcall);
+
+            // Reset input fields after sending
+            document.getElementById("locatieName").value = "";
+            document.getElementById("locatieDescription").value = "";
+            document.getElementById("locationCapacity").value = "";
         }
 
         function editLocatie(){
@@ -73,7 +83,6 @@
 </head>
 
 <body>
-    <button onclick="showLocaties()">Show all locations</button><br><br>
     <h3>Location adding form</h3>
     <table>
         <tr>
@@ -89,9 +98,10 @@
             <td><input id = "locationCapacity"></td>
         </tr>
         <tr>
-            <td><button onclick="addLocatie()">Add location</button></td>
+            <td><button onclick="addLocatie()" style="margin-top: 20px;">Add location</button></td>
         </tr>
     </table><br><br>
+    <button onclick="showLocaties()">Show all locations</button><br><br>
     <div id="locationsTable"></div>
 </body>
 </html>
