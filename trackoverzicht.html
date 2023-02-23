@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script>
+        function showTracks(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log(this.responseText);
+                    var alleTracks = JSON.parse(this.responseText);
+                    var HTMLString = "<table border=1>";
+                    HTMLString += "<tr><td>id</td> <td>Name</td> <td>Description</td></b></tr>"
+                    for(var i = 0; i < alleTracks.length; i++){
+                        HTMLString += "<tr><td>" + alleTracks[i].id + "</td>";
+                        HTMLString += "<td>" + alleTracks[i].name + "</td>";
+                        HTMLString += "<td>" + alleTracks[i].description + "</td>";
+                        // HTMLString += "<td><button onclick='editTrack()'>Edit</button></td>";
+                        HTMLString += "<td><button onclick='deleteTrack("+alleTracks[i].id+")'>Delete</button></td></tr>"
+                    }
+                    HTMLString += "</table>";
+                    document.getElementById("tracksTable").innerHTML = HTMLString;
+                }
+            }
+            console.log("hoi");
+            xhr.open("GET","http://localhost:8082/track/geefAlleTracks", true);
+            xhr.send();
+        }
+
+        function deleteTrack(id){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+
+                }
+            }
+            xhr.open("DELETE","http://localhost:8082/track/verwijderTrack/" + id, true);
+            xhr.send();
+            // showTracks();
+        }
+
+    </script>
+
+
+
+</head>
+<body>
+    <button onclick="showTracks()">Show all tracks</button><br><br>
+
+    <div id="tracksTable"></div>
+</body>
+</html>

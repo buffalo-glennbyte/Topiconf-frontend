@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topiconf Request</title>
+    
+    <script>
+        const clearValue = function(){
+            document.getElementById("nameInput").value='';
+            document.getElementById("surnameInput").value='';
+            document.getElementById("topicInput").value='';
+            document.getElementById("emaiInput").value='';
+        }
+        function addRequest(){
+            const name = document.getElementById("nameInput").value;
+            const surname = document.getElementById("surnameInput").value;
+            const topic = document.getElementById("topicInput").value;
+            const mail = document.getElementById("emaiInput").value;
+
+            const isValid =name&&surname&&topic&&mail;
+
+            if(isValid){
+
+                const request = {}
+                request.naam= name;
+                request.voornaam = surname;
+                request.onderwerp = topic;
+                request.eMail = mail;
+                fetch("http://localhost:8082/postBody",{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(request)
+            })
+            .then((response) => alert("Request was send succesfully"))
+            clearValue();  
+        }
+    }
+
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <form class="request_window">
+            <div class="field">
+                <input type="text" id="nameInput"
+                class="input" placeholder="Naam" required>
+                <label for=""></label>
+            </div>
+            <div class="field">
+                <input type="text" id="surnameInput"
+                class="input" placeholder="Voornaam" required>
+                <label for=""></label>
+            </div>
+            <div class="field">
+                <input type="text" id="topicInput"
+                class="input" placeholder="Presentation topic" required>
+                <label for=""></label>
+            </div>
+            <div class="field">
+                <input type="email" pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" id="emaiInput"
+                class="input" placeholder="example@email.nl" required>
+                <label for=""></label>
+            </div>
+            <button onclick="addRequest()" class="btn">Verstuur</button>
+        </form>
+    </div>
+</body>
+</html>
