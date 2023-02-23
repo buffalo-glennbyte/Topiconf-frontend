@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        td {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    </style>
+
+    <script>
+        function showLocaties(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log(this.responseText);
+                    var alleLocaties = JSON.parse(this.responseText);
+                    var HTMLString = "<table border=1>";
+                    HTMLString += "<tr><td>id</td> <td>Name</td> <td>Description</td></b></tr>"
+                    for(var i = 0; i < alleLocaties.length; i++){
+                        HTMLString += "<tr><td>" + alleLocaties[i].id + "</td>";
+                        HTMLString += "<td>" + alleLocaties[i].name + "</td>";
+                        HTMLString += "<td>" + alleLocaties[i].description + "</td>";
+                        // HTMLString += "<td><button onclick='editLocatie()'>Edit</button></td>";
+                        HTMLString += "<td><button onclick='deletelocatie("+alleLocaties[i].id+")'>Delete</button></td></tr>"
+                    }
+                    HTMLString += "</table>";
+                    document.getElementById("locationsTable").innerHTML = HTMLString;
+                }
+            }
+            console.log("hallo!");
+            xhr.open("GET","http://localhost:8082/locatie/geefAlleLocaties", true);
+            xhr.send();
+        }
+
+        function addLocatie(){
+            var locatieToAdd = {};
+            locatieToAdd.name = document.getElementById("locatieName").value;
+            locatieToAdd.description = document.getElementById("locatieDescription").value;
+            locatieToAdd.capacity = document.getElementById("locationCapacity").value;
+            var JSONcall = JSON.stringify(locatieToAdd);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log(JSONcall);
+                }
+            }
+            xhr.open("POST","http://localhost:8082/locatie/voegLocatieToe", true);
+            xhr.setRequestHeader("Content-Type", "application/json")
+            xhr.send(JSONcall);
+        }
+
+        function editLocatie(){
+            
+        }
+
+        function deleteLocatie(id){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+
+                }
+            }
+            xhr.open("DELETE","http://localhost:8082/locatie/verwijderLocatie/" + id, true);
+            xhr.send();
+        }
+    </script>
+</head>
+
+<body>
+    <button onclick="showLocaties()">Show all locations</button><br><br>
+    <h3>Location adding form</h3>
+    <table>
+        <tr>
+            <td>Name of location?</td>
+            <td><input id = "locatieName"></td>
+        </tr>
+        <tr>
+            <td>Description of location?</td>
+            <td><input id = "locatieDescription"></td>
+        </tr>
+        <tr>
+            <td>Capacity of location</td>
+            <td><input id = "locationCapacity"></td>
+        </tr>
+        <tr>
+            <td><button onclick="addLocatie()">Add location</button></td>
+        </tr>
+    </table><br><br>
+    <div id="locationsTable"></div>
+</body>
+</html>
