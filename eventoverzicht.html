@@ -6,8 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TC - Event overzicht</title>
     <style>
-        
+        body {
+            display: flex;
+        }
+
+        .leftside {
+            width: 50%;
+            height: fit-content;
+        }
+
+        .rightside {
+            width: 50%;
+            height: fit-content;
+            background-color: lightslategray;
+        }
+
+        td {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
     </style>
+
+
     <script>
         function toonEvenementen(){
             var xhr = new XMLHttpRequest();
@@ -20,20 +40,68 @@
                             eindString += "<tr><td>" + allEvents[x].naam + "</td>";
                             eindString += "<td>" + allEvents[x].omschrijving + "</td>";
                             eindString += "<td>" + allEvents[x].beginDatumTijd + "</td>";
-                            eindString += "<td>" + allEvents[x].eindDatumTijd + "</td></tr>";
+                            eindString += "<td>" + allEvents[x].eindDatumTijd + "</td>";
+                            eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td></tr>"
                         }
                     eindString += "</table>";
                     document.getElementById("alleEvenementenTabel").innerHTML = eindString;
                 }
 
             }
-            xhr.open("GET","http://localhost:8082/alleEvenementen", true);
+            xhr.open("GET","http://localhost:8082/evenement/alleEvenementen", true);
+            xhr.send();
+        }
+
+        function toonTracksPerEvenement(id, name){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log(this.responseText);
+                    var allTracksPerEvent = JSON.parse(this.responseText);
+                    var HTMLString = "<p>Tracks voor " + name + "</p>";
+                    HTMLString += "<table border=1>";
+                    HTMLString += "<tr><td>Naam</td> <td>Omschrijving</td></tr>"
+                    for(var i = 0; i < allTracksPerEvent.length; i++){
+                        HTMLString += "<td>" + allTracksPerEvent[i].name + "</td>";
+                        HTMLString += "<td>" + allTracksPerEvent[i].description + "</td>";
+                        HTMLString += "<td><button onclick='verwijderTrack("+allTracksPerEvent[i].id+")'>Delete</button></td><tr>"
+                    }
+                    
+                    HTMLString += "</table>";
+                    
+
+                    document.getElementById("trackTable").innerHTML = HTMLString;
+
+                    
+                }
+            }
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleTracksPerEvenement/" + id, true);
+            xhr.send();
+
+            document.getElementById("")
+        }
+
+        function voegTrackToeAanEvent(id){
+            
+        }
+
+        function verwijderTrack(id){
+            var xhr = new XMLHttpRequest();
+            xhr.open("DELETE", "http://localhost:8082/track/verwijderTrack/" + id, true);
             xhr.send();
         }
     </script>
 </head>
+
+
 <body onload="toonEvenementen()">
-    <button onclick="toonEvenementen()">Ververs evenementen</button>
-    <div id="alleEvenementenTabel"></div>
+    <div class="leftside">
+        <button onclick="toonEvenementen()">Ververs evenementen</button>
+        <div id="alleEvenementenTabel"></div>
+    </div>
+    <div class="rightside">
+        <div id="trackTable">
+        </div>
+    </div>
 </body>
 </html>
