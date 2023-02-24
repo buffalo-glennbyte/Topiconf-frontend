@@ -43,8 +43,6 @@
                             eindString += "<td>" + allEvents[x].eindDatumTijd + "</td>";
                             eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td></tr>"
                             eindString += "<td><button onclick='deleteEvent("+allEvents[x].id+")'>Delete</button></td></tr>";
-
-                            eindString += "<td><button onclick='deleteEvent("+allEvents[x].id+")'>Delete</button></td></tr>";
                         }
                     eindString += "</table>";
                     document.getElementById("alleEvenementenTabel").innerHTML = eindString;
@@ -68,19 +66,13 @@
                         HTMLString += "<td>" + allTracksPerEvent[i].name + "</td>";
                         HTMLString += "<td>" + allTracksPerEvent[i].description + "</td>";
                         HTMLString += "<td><button onclick='verwijderTrack("+allTracksPerEvent[i].id+")'>Delete</button></td><tr>"
-                    }
-                    
+                    }                   
                     HTMLString += "</table>";
-                    
-
-                    document.getElementById("trackTable").innerHTML = HTMLString;
-
-                    
+                    document.getElementById("trackTable").innerHTML = HTMLString;                  
                 }
             }
             xhr.open("GET","http://localhost:8082/evenement/geefAlleTracksPerEvenement/" + id, true);
             xhr.send();
-
             document.getElementById("")
         }
 
