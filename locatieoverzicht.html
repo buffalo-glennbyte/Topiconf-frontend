@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locatie Overzicht</title>
+
+
+    <script>
+        function toonLocaties(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Locaties opgehaald");
+                    var allLocations = JSON.parse(this.responseText);
+                    var eindString = "<table border=1><tr><th>Locatie</th><th>Adress</th>";
+                        for(var x = 0; x < allLocations.length; x++){
+                            eindString += "<tr><td>" + allLocations[x].naam + "</td>";
+                            eindString += "<td>" + allLocations[x].omschrijving + "</td>";
+                            eindString += "<td>" + allLocations[x].beginDatumTijd + "</td>";
+                            eindString += "<td>" + allLocations[x].eindDatumTijd + "</td></tr>";
+                        }
+                    eindString += "</table>";
+                    document.getElementById("locatieTabel").innerHTML = eindString;
+                }
+
+            }
+            xhr.open("GET","http://localhost:8082/", true);
+            xhr.send();
+        }
+
+        
+    </script>
+
+</head>
+<body>
+    <button onclick="toonLocaties()">Ververs locaties</button>
+    <div id="locatieTabel"></div>
+</body>
+</html>
