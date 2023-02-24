@@ -41,13 +41,18 @@
                             eindString += "<td>" + allEvents[x].omschrijving + "</td>";
                             eindString += "<td>" + allEvents[x].beginDatumTijd + "</td>";
                             eindString += "<td>" + allEvents[x].eindDatumTijd + "</td>";
+<<<<<<< HEAD
                             eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td></tr>"
+=======
+                            eindString += "<td><button onclick='deleteEvent("+allEvents[x].id+")'>Delete</button></td></tr>";
+>>>>>>> 90219ca1e35e2af4029d37e3c83e414c9d80ef84
                         }
                     eindString += "</table>";
                     document.getElementById("alleEvenementenTabel").innerHTML = eindString;
                 }
 
             }
+<<<<<<< HEAD
             xhr.open("GET","http://localhost:8082/evenement/alleEvenementen", true);
             xhr.send();
         }
@@ -88,6 +93,21 @@
         function verwijderTrack(id){
             var xhr = new XMLHttpRequest();
             xhr.open("DELETE", "http://localhost:8082/track/verwijderTrack/" + id, true);
+=======
+            xhr.open("GET","http://localhost:8082/event/alleEvenementen", true);
+            xhr.send();
+        }
+
+        function deleteEvent(EVENTID)
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Event verwijderd");
+                }
+            }
+            xhr.open("DELETE","http://localhost:8082/event/verwijderEvent/" + EVENTID, true);
+>>>>>>> 90219ca1e35e2af4029d37e3c83e414c9d80ef84
             xhr.send();
         }
     </script>
