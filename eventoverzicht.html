@@ -20,27 +20,27 @@
                             eindString += "<tr><td>" + allEvents[x].naam + "</td>";
                             eindString += "<td>" + allEvents[x].omschrijving + "</td>";
                             eindString += "<td>" + allEvents[x].beginDatumTijd + "</td>";
-                            eindString += "<td>" + allEvents[x].eindDatumTijd + "</td></tr>";
-                            eindString += "<td><button onclick='deleteEvent("+allEvents[i].naam+")'>Delete</td></tr>";
+                            eindString += "<td>" + allEvents[x].eindDatumTijd + "</td>";
+                            eindString += "<td><button onclick='deleteEvent("+allEvents[x].id+")'>Delete</button></td></tr>";
                         }
                     eindString += "</table>";
                     document.getElementById("alleEvenementenTabel").innerHTML = eindString;
                 }
 
             }
-            xhr.open("GET","http://localhost:8082/alleEvenementen", true);
+            xhr.open("GET","http://localhost:8082/event/alleEvenementen", true);
             xhr.send();
         }
 
-        function deleteEvent()
+        function deleteEvent(EVENTID)
         {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-
+                    console.log("Event verwijderd");
                 }
             }
-            xhr.open("DELETE","http://localhost:8082/event/verwijderEvent/" + name, true);
+            xhr.open("DELETE","http://localhost:8082/event/verwijderEvent/" + EVENTID, true);
             xhr.send();
         }
     </script>
