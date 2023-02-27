@@ -13,6 +13,10 @@ html {
     font-size: 62.5%;
   }
 
+header {
+  margin-bottom: 20px;
+}
+
   body{
     background-color: #3a4448;
     /* background: linear-gradient(45deg, rgba(36,47,52,1) 0%, rgba(80,89,93,1) 25%,rgba(80,89,93,1) 75%, rgba(36,47,52,1) 100%); */
@@ -23,6 +27,7 @@ html {
     height: 100vh;
     width: 130rem;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: 0 auto 0 auto;
@@ -48,11 +53,10 @@ html {
   }
 
   .btn{ 
-    margin-top: 2.4rem;
-    padding: 1.6rem 3.2rem;
+    padding: 0.8rem 1.6rem;
     background-color: var(--main-color);
     font-weight: 700;
-    font-size: 2.4rem;
+    font-size: 2rem;
     cursor:pointer;
     color: var(--secondary-color);
     border-radius: 999rem;
@@ -103,4 +107,14 @@ li a.active {
 li a:hover:not(.active) {
   background-color: #d8ca03;
   color: white;
+}
+
+
+/* Tabel */
+
+.tabel{
+  margin-top: 20px;
+  background-color: white;
+  border-color: #d8ca03;
+  width: fit-content;
 }

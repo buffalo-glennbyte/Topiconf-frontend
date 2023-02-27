@@ -6,30 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TC - Event overzicht</title>
     <link rel="stylesheet" href="../styles/style.css">
-    <style>
-        
-        body {
-            display: flex;
-            flex-direction: column;
-
-        }
-
-        .leftside {
-            width: 50%;
-            height: fit-content;
-        }
-
-        .rightside {
-            width: 50%;
-            height: fit-content;
-            background-color: lightslategray;
-        }
-
-        td {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-    </style>
+    <style></style>
 
 
     <script>
@@ -155,12 +132,14 @@
         </nav>
     </header>
     <main>
-        <div class="leftside">
-            <button onclick="toonEvenementen()">Ververs evenementen</button>
-            <div id="alleEvenementenTabel"></div>
-        </div>
-        <div class="rightside">
-            <div id="trackTable">
+        <div class="wrapper">
+            <div class="leftside">
+                <button class="btn" onclick="toonEvenementen()">Vernieuwen</button>
+                <div class="tabel" id="alleEvenementenTabel"></div>
+            </div>
+            <div class="rightside">
+                <div id="trackTable">
+                </div>
             </div>
         </div>
     </main>
