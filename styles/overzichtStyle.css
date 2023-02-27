@@ -10,10 +10,14 @@ body{
     border-radius: 9px;
     justify-content: space-between;
   }
-  .wrapper, .requestList{
+  .wrapper, .content{
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
+    justify-content: flex-start;
+  }
+  .requestList{
+    display: none;
   }
   
   .actionBtn{
@@ -33,4 +37,20 @@ body{
     display: flex;
     gap: 1.6rem;
     /* flex-direction :row is by default */
+  }
+  .active{
+    transform: translateY(-1rem);
+    background-color: var(--hover);
+  }
+  .requestList--4,
+  .requestList--3,
+  .requestList--2,
+  .requestList--1{
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    display: none;
+  }
+  .visible{
+    display: flex;
   }

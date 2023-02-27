@@ -9,6 +9,24 @@
     <link rel="stylesheet" href="../styles/overzichtStyle.css">
     <script>
         
+
+       function addListenerToContentButtons(){
+        document.querySelectorAll(".content-btn").forEach((btn)=>{
+            btn.addEventListener("click", function(e){
+                document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("active"))
+            btn.classList.remove("active");
+            e.target.classList.add("active");
+            const target= e.target.dataset.tabnumber;
+            document.querySelector(".requestList--1").classList.remove("visible");
+            document.querySelector(".requestList--2").classList.remove("visible");
+            document.querySelector(".requestList--3").classList.remove("visible");
+            document.querySelector(".requestList--4").classList.remove("visible");
+
+            document.querySelector(`.requestList--${target}`).classList.add("visible");
+
+        })})
+       }
+
         function addListenersToActionButtons(){
                  document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
                  const target =e.target;
@@ -36,11 +54,12 @@
                 })
                 })
             }))}
-        
 
-        //clear the data 
         function clear(){ 
-            document.querySelector(".requestList").innerHTML='';
+            document.querySelector(".requestList--4").innerHTML='';
+            document.querySelector(".requestList--3").innerHTML='';
+            document.querySelector(".requestList--2").innerHTML='';
+            document.querySelector(".requestList--1").innerHTML='';
         }
 
         function refresh(){
@@ -54,7 +73,11 @@
              .then((request)=>request.json())
              .then((request)=>{
                  const [...data] =request;
-                 const wrapper = document.querySelector(".requestList");
+                 const list_4 = document.querySelector(".requestList--4");
+                 const list_3 = document.querySelector(".requestList--3");
+                 const list_2 = document.querySelector(".requestList--2");
+                 const list_1 = document.querySelector(".requestList--1");
+                 
                  data.forEach(data => {
                  const html =`
                         <div class="request" data-id='${data.id}' id='request${data.id}'>
@@ -68,17 +91,31 @@
                         <div class="actionBtn delete" data-action="afgewezen"></div>
                         </div>
                         </div>`;
+
+
                  console.log(data);
-                 wrapper.insertAdjacentHTML("afterbegin",html);
+                 if(data.status === "ongemarkeerd"){
+                    list_4.insertAdjacentHTML("afterbegin",html);
+                 }
+                 else if(data.status === "geaccepteerd"){
+                    list_1.insertAdjacentHTML("afterbegin",html);
+                 }
+                 else if(data.status === "gemarkeerd"){
+                    list_2.insertAdjacentHTML("afterbegin",html);
+                 }
+                 else if(data.status === "afgewezen"){
+                    list_3.insertAdjacentHTML("afterbegin",html);
+                 }
                  });
              })
-             .then(()=>addListenersToActionButtons()) ;
+             .then(()=>addListenersToActionButtons());
         }
                 
   
     </script>
 </head>
-<body onload="toonAanvragen()">
+
+<body onload="toonAanvragen(), addListenerToContentButtons()">
     <header>
         <h1 class="title">Aanvragen</h1>
         <nav class="navbar">
@@ -93,8 +130,17 @@
     </header>
     <main>
         <div class="wrapper">
-            <button onclick = "refresh()" class="btn">vernieuwen</button>
-            <div class="requestList"></div>
+             <div class="content-buttons">
+              <button class="content-btn btn" data-tabNumber="1">geaccepteerd</button>
+              <button class="content-btn btn" data-tabNumber="2">gevlagt</button>
+              <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
+              <button class="content-btn btn active" data-tabNumber="4">ongemarkeerd</button>
+            </div>
+            <button onclick = "refresh()" class="btn">Vernieuwen</button>
+            <div class="requestList--4 visible"></div>
+            <div class="requestList--3"></div>
+             <div class="requestList--2"></div>
+             <div class="requestList--1"></div>
        </div>
     </main>
 </body>
