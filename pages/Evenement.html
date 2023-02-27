@@ -8,7 +8,7 @@
 
 
     <script>
-        function toonAanvragenVanDitEvenement(){
+        function toonAanvragenVanDitEvenement(id){
             console.log("ik ben hier");
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
@@ -33,7 +33,7 @@
                 }
 
             }
-            xhr.open("GET","http://localhost:8082/evenement/alleEvenementen/{eventid}", true);
+            xhr.open("GET","http://localhost:8082/evenement/alleEvenementen/" + id , true);
             xhr.send();
         }
 
