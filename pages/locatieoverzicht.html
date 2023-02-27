@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Locatie Overzicht</title>
-
+    <link rel="stylesheet" href="../styles/style.css">
 
     <script>
         function toonLocaties(){
@@ -33,8 +33,23 @@
     </script>
 
 </head>
-<body>
-    <button onclick="toonLocaties()">Ververs locaties</button>
-    <div id="locatieTabel"></div>
+<body onload="toonLocaties()">
+    <header>
+        <h1 class="title">Locaties</h1>
+        <nav>
+            <ul>
+                <li><a href="eventoverzicht.html">Evenementen</a></li>
+                <li><a href="trackoverzicht.html">Tracks</a></li>
+                <li><a class="active" href="locatieoverzicht.html">Locaties</a></li>
+                <li><a href="overzichtaanvragen.html">Aanvragen</a></li>
+                <li><a href="planner.html">Planner</a></li>
+              </ul>
+            </nav>
+    </header>
+    <main>
+        <button class="btn" onclick="toonLocaties()">Ververs locaties</button>
+        <div id="locatieTabel"></div>
+    </main>
+
 </body>
 </html>
