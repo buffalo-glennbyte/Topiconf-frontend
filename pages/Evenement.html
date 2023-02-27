@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evenement</title>
+
+
+    <script>
+        function toonAanvragenVanDitEvenement(){
+            console.log("ik ben hier");
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Aanvragen opgehaald");
+                    var alleAanvragen = JSON.parse(this.responseText);
+                    var eindString = "<table border=2>"
+                        + "<tr><th>Voornaam</th>"
+                        + "<th>Achternaam</th>"
+                        + "<th>Onderwerp</th>"
+                        + "<th>Email</th>"
+                        + "<th>Status</th></tr>"
+                        for(var x = 0; x < alleAanvragen.length; x++){
+                            eindString += "<tr><td>" + alleAanvragen[x].voornaam + "</td>";
+                            eindString += "<td>" + alleAanvragen[x].naam + "</td>";
+                            eindString += "<td>" + alleAanvragen[x].onderwerp + "</td>";
+                            eindString += "<td>" + alleAanvragen[x].e_mail + "</td>";
+                            eindString += "<td>" + alleAanvragen[x].status + "</td></tr>";
+                        }
+                    eindString += "</table>";
+                    document.getElementById("evenement").innerHTML = eindString;
+                }
+
+            }
+            xhr.open("GET","http://localhost:8082/evenement/alleEvenementen/{eventid}", true);
+            xhr.send();
+        }
+
+    </script>
+
+
+
+</head>
+<body onload="toonAanvragenVanDitEvenement()">
+    <h1>Aanvragen voor dit Evenement</h1>
+    <div id="evenement"></div>
+</body>
+</html>
