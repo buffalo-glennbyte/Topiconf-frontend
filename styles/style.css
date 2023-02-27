@@ -52,6 +52,21 @@ header {
     font-size: 1.8rem;
   }
 
+  .tableBtn {
+    background-color: var(--main-color);
+    margin-bottom: 5px;
+    font-weight: 700;
+    cursor:pointer;
+    color: var(--secondary-color);
+    border-radius: 999rem;
+    border: none;
+    transition: all 300ms;
+  }
+
+  .tableBtn:hover{
+      background-color: var(--hover);
+  }
+
   .btn{ 
     padding: 0.8rem 1.6rem;
     background-color: var(--main-color);

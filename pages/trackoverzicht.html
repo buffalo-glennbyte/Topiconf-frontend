@@ -17,13 +17,13 @@
                     console.log(this.responseText);
                     var alleTracks = JSON.parse(this.responseText);
                     var HTMLString = "<table class=table>";
-                    HTMLString += "<tr><th>id</th> <th>Name</th> <th>Description</th></b></tr>"
+                    HTMLString += "<tr><th>ID</th> <th>Naam</th> <th>Omschrijving</th></tr>"
                     for(var i = 0; i < alleTracks.length; i++){
                         HTMLString += "<tr><td>" + alleTracks[i].id + "</td>";
                         HTMLString += "<td>" + alleTracks[i].name + "</td>";
                         HTMLString += "<td>" + alleTracks[i].description + "</td>";
                         // HTMLString += "<td><button onclick='editTrack()'>Edit</button></td>";
-                        HTMLString += "<td><button onclick='deleteTrack("+alleTracks[i].id+")'>Delete</button></td></tr>"
+                        HTMLString += "<td><button class='tableBtn' onclick='deleteTrack("+alleTracks[i].id+")'>Delete</button></td></tr>"
                     }
                     HTMLString += "</table>";
                     document.getElementById("tracksTable").innerHTML = HTMLString;
