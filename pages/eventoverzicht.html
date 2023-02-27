@@ -45,7 +45,7 @@
                             eindString += "<td>" + allEvents[x].omschrijving + "</td>";
                             eindString += "<td>" + allEvents[x].beginDatumTijd + "</td>";
                             eindString += "<td>" + allEvents[x].eindDatumTijd + "</td>";
-                            eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td>"
+                            eindString += "<td><a href=\'evenementpagina.html?id=" + allEvents[x].id + "'><button>Evenement bekijken</button></a></td>";
                             eindString += "<td><a href=\"Evenement.html\"><button onclick='bekijkAanvragen("+ allEvents[x].id +")'>Aanvragen</button></a></td>" 
                             eindString += "<td><button onclick='deleteEvent("+allEvents[x].id+")'>Delete</button></td></tr>";
                         }

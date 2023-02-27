@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <style>
+        
+        body {
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .leftside {
+            width: 50%;
+            height: fit-content;
+        }
+
+        .rightside {
+            width: 50%;
+            height: fit-content;
+            background-color: lightslategray;
+        }
+
+        td {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    </style>
+
+    <script> 
+        window.onload = function(){
+            var eventid = window.location.href.split('=').pop();
+            document.getElementById("fiets").innerHTML = eventid;
+
+            
+            var currentEvent = toonEvenement
+        }
+
+
+        
+    </script>
+</head>
+<body>
+    <header>
+        <h1 class="title" id="evenementTitel"></h1>
+        <nav>
+            <ul>
+                <li><a class="active" href="eventoverzicht.html">Evenementen</a></li>
+                <li><a href="trackoverzicht.html">Tracks</a></li>
+                <li><a href="locatieoverzicht.html">Locaties</a></li>
+                <li><a href="overzichtaanvragen.html">Aanvragen</a></li>
+                <li><a href="planner.html">Planner</a></li>
+              </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="leftside">
+            <button onclick="toonEvenementen()">Ververs evenementen</button>
+            <div id="alleEvenementenTabel"></div>
+        </div>
+        <div class="rightside">
+            <div id="trackTable">
+            </div>
+        </div>
+    </main>
+</body>
+</html>
