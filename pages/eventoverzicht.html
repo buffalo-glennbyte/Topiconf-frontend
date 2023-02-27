@@ -53,7 +53,7 @@
             xhr.send();
         }
 
-        function toonTracksPerEvenement(id, name){
+        function toonTracksPerEvenement(id){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -68,6 +68,11 @@
                         HTMLString += "<td><button onclick='verwijderTrack("+allTracksPerEvent[i].id+")'>Delete</button></td><tr>"
                     }                   
                     HTMLString += "</table>";
+
+                    HTMLString += "<h4>Track adding form</h4>";
+                    HTMLString += "Naam track: <input id='trackNaam'><br>";
+                    HTMLString += "Omschrijving: <input id='trackOmschrijving'><br>";
+                    HTMLString += "<button onclick='voegTrackToeAanEvenement(" + id + ")'>Add track</button>"
                     document.getElementById("trackTable").innerHTML = HTMLString;                  
                 }
             }
@@ -76,15 +81,16 @@
             document.getElementById("")
         }
 
-        function voegTrackToeAanEvent(id){
+        function voegTrackToeAanEvenement(id){
             var xhr = new XMLHttpRequest();
             var trackToAdd = {};
             trackToAdd.name = document.getElementById("trackNaam").value;
-            trackToAdd.description = document.getElementById("trackDescription").value;
-
-                
-            xhr.open("POST", "http//localhost:8082/track/voegTrackToeAanEvenement/" + id);
-            xhr.send();
+            trackToAdd.description = document.getElementById("trackOmschrijving").value;
+            JSONstatement = JSON.stringify(trackToAdd);      
+            console.log(JSONstatement);         
+            xhr.open("POST", "http://localhost:8082/evenement/voegTrackAanEvenementToe/" + id, true);          
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSONstatement);
         }
 
         function verwijderTrack(id){
