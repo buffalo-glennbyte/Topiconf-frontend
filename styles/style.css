@@ -63,4 +63,13 @@ html {
     background-color: var(--hover);
   }
 
-  
+  /* index container */
+.container {
+  text-align: center;
+
+}
+
+.title {
+  text-align: center;
+  color: white;
+}
