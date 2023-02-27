@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../styles/style.css">
 
 
     <script>
@@ -49,9 +50,24 @@
 
 
 </head>
-<body>
-    <button onclick="showTracks()">Show all tracks</button><br><br>
 
-    <div id="tracksTable"></div>
+<body onload="showTracks()">
+    <header>
+        <h1 class="title">Tracks</h1>
+        <nav>
+            <ul>
+                <li><a href="eventoverzicht.html">Evenementen</a></li>
+                <li><a class="active" href="trackoverzicht.html">Tracks</a></li>
+                <li><a href="locatieoverzicht.html">Locaties</a></li>
+                <li><a href="overzichtaanvragen.html">Aanvragen</a></li>
+                <li><a href="planner.html">Planner</a></li>
+              </ul>
+            </nav>
+    </header>
+    <main>
+        <button onclick="showTracks()">Show all tracks</button><br><br>
+        <div id="tracksTable"></div>
+    </main>
+
 </body>
 </html>
