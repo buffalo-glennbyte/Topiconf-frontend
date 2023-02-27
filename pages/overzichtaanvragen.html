@@ -114,20 +114,34 @@
   
     </script>
 </head>
+
 <body onload="toonAanvragen(), addListenerToContentButtons()">
-    
-   <div class="wrapper">
-    <div class="content-buttons">
-        <button class="content-btn btn" data-tabNumber="1">geaccepteerd</button>
-        <button class="content-btn btn" data-tabNumber="2">gevlagt</button>
-        <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
-        <button class="content-btn btn active" data-tabNumber="4">ongemarkeerd</button>
-    </div>
-    <button onclick = "refresh()" class="btn">vernieuwen</button>
-   <div class="requestList--4 visible"></div>
-   <div class="requestList--3"></div>
-   <div class="requestList--2"></div>
-   <div class="requestList--1"></div>
-   </div>
+    <header>
+        <h1 class="title">Aanvragen</h1>
+        <nav class="navbar">
+            <ul>
+                <li><a href="eventoverzicht.html">Evenementen</a></li>
+                <li><a href="trackoverzicht.html">Tracks</a></li>
+                <li><a href="locatieoverzicht.html">Locaties</a></li>
+                <li><a class="active" href="overzichtaanvragen.html">Aanvragen</a></li>
+                <li><a href="planner.html">Planner</a></li>
+              </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="wrapper">
+             <div class="content-buttons">
+              <button class="content-btn btn" data-tabNumber="1">geaccepteerd</button>
+              <button class="content-btn btn" data-tabNumber="2">gevlagt</button>
+              <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
+              <button class="content-btn btn active" data-tabNumber="4">ongemarkeerd</button>
+            </div>
+            <button onclick = "refresh()" class="btn">Vernieuwen</button>
+            <div class="requestList--4 visible"></div>
+            <div class="requestList--3"></div>
+             <div class="requestList--2"></div>
+             <div class="requestList--1"></div>
+       </div>
+    </main>
 </body>
 </html>
