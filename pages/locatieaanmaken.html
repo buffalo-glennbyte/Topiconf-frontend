@@ -131,7 +131,7 @@
                         HTMLString += "<td>" + alleLocaties[i].name + "</td>";
                         HTMLString += "<td>" + alleLocaties[i].description + "</td>";
                         HTMLString += "<td>" + alleLocaties[i].capacity + "</td>"; 
-                        HTMLString += "<td><button class='tableBtn' onclick='deletelocatie("+alleLocaties[i].id+")'>Del.</button></td></tr>"
+                        HTMLString += "<td><button class='tableBtn' onclick='deleteLocatie("+alleLocaties[i].id+")'>del.</button></td></tr>"
                     }
                     HTMLString += "</table>";
                     document.getElementById("locatieTabel").innerHTML = HTMLString;
