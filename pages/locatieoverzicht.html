@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Locatie Overzicht</title>
     <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/overzichtStyle.css">
 
     <script>
         function toonLocaties(){
@@ -14,7 +15,7 @@
                 if(this.readyState == 4){
                     console.log("Locaties opgehaald");
                     var allLocations = JSON.parse(this.responseText);
-                    var eindString = "<table border=1><tr><th>Naam</th><th>Omschrijving</th><th>Capaciteit</th>";
+                    var eindString = "<table class=table><tr><th>Naam</th><th>Omschrijving</th><th>Capaciteit</th>";
                         for(var x = 0; x < allLocations.length; x++){
                             eindString += "<tr><td>" + allLocations[x].name + "</td>";
                             eindString += "<td>" + allLocations[x].description + "</td>";
@@ -42,14 +43,14 @@
                 <li><a href="trackoverzicht.html">Tracks</a></li>
                 <li><a class="active" href="locatieoverzicht.html">Locaties</a></li>
                 <li><a href="overzichtaanvragen.html">Aanvragen</a></li>
-                <li><a href="planner.html">Planner</a></li>
+                <li><a href="programma.html">Programma</a></li>
               </ul>
             </nav>
     </header>
     <main>
         <div class="wrapper">
             <button class="btn" onclick="toonLocaties()">Vernieuwen</button>
-            <div class="tabel" id="locatieTabel"></div>
+            <div class="request" id="locatieTabel"></div>
         </div>
     </main>
 
