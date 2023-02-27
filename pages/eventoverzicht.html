@@ -5,9 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TC - Event overzicht</title>
+    <link rel="stylesheet" href="../styles/style.css">
     <style>
+        
         body {
             display: flex;
+            flex-direction: column;
+
         }
 
         .leftside {
@@ -42,7 +46,7 @@
                             eindString += "<td>" + allEvents[x].beginDatumTijd + "</td>";
                             eindString += "<td>" + allEvents[x].eindDatumTijd + "</td>";
                             eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td>"
-                            eindString += "<td><button onclick='bekijkAanvragen("+ allEvents[x].id +")'>Aanvragen</button></td>" 
+                            eindString += "<td><a href=\"Evenement.html\"><button onclick='bekijkAanvragen("+ allEvents[x].id +")'>Aanvragen</button></a></td>" 
                             eindString += "<td><button onclick='deleteEvent("+allEvents[x].id+")'>Delete</button></td></tr>";
                         }
                     eindString += "</table>";
@@ -135,13 +139,28 @@
 
 
 <body onload="toonEvenementen()">
-    <div class="leftside">
-        <button onclick="toonEvenementen()">Ververs evenementen</button>
-        <div id="alleEvenementenTabel"></div>
-    </div>
-    <div class="rightside">
-        <div id="trackTable">
+    <header>
+        <h1 class="title">Evenementen</h1>
+        <nav>
+            <ul>
+                <li><a class="active" href="eventoverzicht.html">Evenementen</a></li>
+                <li><a href="trackoverzicht.html">Tracks</a></li>
+                <li><a href="locatieoverzicht.html">Locaties</a></li>
+                <li><a href="overzichtaanvragen.html">Aanvragen</a></li>
+                <li><a href="planner.html">Planner</a></li>
+              </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="leftside">
+            <button onclick="toonEvenementen()">Ververs evenementen</button>
+            <div id="alleEvenementenTabel"></div>
         </div>
-    </div>
+        <div class="rightside">
+            <div id="trackTable">
+            </div>
+        </div>
+    </main>
+ 
 </body>
 </html>
