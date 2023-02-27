@@ -9,15 +9,20 @@
     <link rel="stylesheet" href="overzichtStyle.css">
     <script>
         
-
-       
-        function handleRequest(option ,id){
-            document.querySelector(`#request${id}`).classList.add(option); 
-            console.log(document.querySelector(`#request${id}`));
+        function addListenersToActionButtons(){
+                 document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
+                 const target =e.target;
+                 const action = target.dataset.action;
+                 const parent = target.closest('.request');
+                 parent.classList.add(action)
+                //  will have to call update method (in progress)
+                // fetch(`http://localhost:8082/updateElementStatus/${parent.dataset.id}/${action}`)
+                 
+                }))
         }
 
-        function clear(){
-            //clear the data 
+        //clear the data 
+        function clear(){ 
             document.querySelector(".requestList").innerHTML='';
         }
 
@@ -27,44 +32,33 @@
         }
         
         function toonAanvragen(){
-          
-            var xhr = new XMLHttpRequest();
-            const wrapper = document.querySelector(".requestList");
-            xhr.open("GET", "http://localhost:8082/getBody", true);
-            xhr.send();
-
-           xhr.addEventListener("load", function(){
-                const data = JSON.parse(this.responseText);
-                console.log(data);
-                for(let x = 0; x < data.length; x++){
-                    const html =`
-                <div class="request" id='request${data[x].id}'>
-                     <div class="data name"><p>Naam: ${data[x].naam}</p></div>
-                     <div class="data surname"><p>Voornaam: ${data[x].voornaam}</p></div>
-                     <div class="data topic"><p>onderwerp: ${data[x].onderwerp}</p></div>
-                     <div class="data email"><p>eMail: <a href="mailto:${data[x].eMail}">${data[x].eMail}</a></p></div>
-                     <div class="buttons">
-                     <div class="actionBtn green" onclick='handleRequest("accept",${data[0].id})'></div>
-                     <div class="actionBtn yellow" onclick='handleRequest("flag",${data[0].id})'></div>
-                      <div class="actionBtn delete" onclick='handleRequest("reject",${data[0].id})'></div>
-                  </div>
-                 </div>`;
-                 console.log(wrapper);
-                 wrapper.insertAdjacentHTML("beforeend",html);
-                }
                 
-                })
+             fetch("http://localhost:8082/getBody")
+             .then((request)=>request.json())
+             .then((request)=>{
+                 const [...data] =request;
+                 const wrapper = document.querySelector(".requestList");
+                 data.forEach(data => {
+                 const html =`
+                        <div class="request" data-id='${data.id}' id='request${data.id}'>
+                        <div class="data name"><p>Naam: ${data.naam}</p></div>
+                        <div class="data surname"><p>Voornaam: ${data.voornaam}</p></div>
+                        <div class="data topic"><p>onderwerp: ${data.onderwerp}</p></div>
+                        <div class="data email"><p>eMail: <a href="mailto:${data.eMail}">${data.eMail}</a></p></div>
+                        <div class="buttons">
+                        <div class="actionBtn green" data-action="geaccepteerd"></div>
+                        <div class="actionBtn yellow" data-action="gemarkeerd"></div>
+                        <div class="actionBtn delete" data-action="afgewezen"></div>
+                        </div>
+                        </div>`;
+                 console.log(data);
+                 wrapper.insertAdjacentHTML("afterbegin",html);
+                 });
+             })
+             .then(()=>addListenersToActionButtons()) ;
+        }
                 
-            
-            // const data= fetch("http://localhost:8082/getBody").then((data)=>data.json()).then((respond)=>{return respond });
-
-            // console.log(data);
-            // const[xyz] = data.catch(any)
-            // console.log(xyz[0]);
-            }
-           
-            
-        
+  
     </script>
 </head>
 <body onload="toonAanvragen()">
