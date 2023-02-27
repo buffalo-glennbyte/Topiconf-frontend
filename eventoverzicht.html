@@ -41,7 +41,11 @@
                             eindString += "<td>" + allEvents[x].omschrijving + "</td>";
                             eindString += "<td>" + allEvents[x].beginDatumTijd + "</td>";
                             eindString += "<td>" + allEvents[x].eindDatumTijd + "</td>";
+<<<<<<< HEAD
                             eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td></tr>"
+=======
+                            eindString += "<td><button onclick='bekijkAanvragen("+ allEvents[x].id +")'>Aanvragen</button></td>" 
+>>>>>>> c7e0d01f494759e49398a1b56d05c6e3ed73f494
                             eindString += "<td><button onclick='deleteEvent("+allEvents[x].id+")'>Delete</button></td></tr>";
                         }
                     eindString += "</table>";
@@ -50,6 +54,7 @@
 
             }
             xhr.open("GET","http://localhost:8082/evenement/alleEvenementen", true);
+<<<<<<< HEAD
             xhr.send();
         }
 
@@ -83,8 +88,27 @@
         function verwijderTrack(id){
             var xhr = new XMLHttpRequest();
             xhr.open("DELETE", "http://localhost:8082/track/verwijderTrack/" + id, true);
+=======
+>>>>>>> c7e0d01f494759e49398a1b56d05c6e3ed73f494
             xhr.send();
         }
+
+        function bekijkAanvragen(EVENTID)
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function()
+            {
+                if(this.readyState == 4)
+                {
+                    console.log("Redirect to event ID: " + EVENTID);
+                }
+            }
+
+            xhr.open("GET", "http://localhost:8082/evenement/alleEvenementen/" +EVENTID, true);
+            xhr.send();
+        }
+
+
 
         function deleteEvent(EVENTID)
         {
