@@ -8,8 +8,15 @@
 
 
     <script>
-        function toonAanvragenVanDitEvenement(id){
-            console.log("ik ben hier");
+        function toonAlles(id)
+        {
+            toonAanvragenVanDitEvenement(id);
+            toonLocaties();
+        }
+
+
+        function toonAanvragenVanDitEvenement(id)
+        {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -37,6 +44,27 @@
             xhr.send();
         }
 
+        function toonLocaties(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Locaties opgehaald");
+                    var alleLocaties = JSON.parse(this.responseText);
+                    var eindString = "<table border=2><tr><th>Naam</th><th>Beschrijving</th><th>Capiciteit</th></tr>"                       
+                        for(var x = 0; x < alleAanvragen.length; x++){
+                            eindString += "<tr><td>" + alleLocaties[x].name + "</td>";
+                            eindString += "<td>" + alleLocaties[x].description + "</td>";
+                            eindString += "<td>" + alleLocaties[x].capacity + "</td></tr>";
+                        }
+                    eindString += "</table>";
+                    document.getElementById("evenement").innerHTML = eindString;
+                }
+
+            }
+            xhr.open("GET","http://localhost:8082/locatie/geefAlleLocaties", true);
+            xhr.send();
+        }
+
     </script>
 
 
@@ -45,5 +73,6 @@
 <body onload="toonAanvragenVanDitEvenement()">
     <h1>Aanvragen voor dit Evenement</h1>
     <div id="evenement"></div>
+    <div id="locatie"></div>
 </body>
 </html>
