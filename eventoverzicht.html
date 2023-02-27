@@ -41,10 +41,7 @@
                             eindString += "<td>" + allEvents[x].omschrijving + "</td>";
                             eindString += "<td>" + allEvents[x].beginDatumTijd + "</td>";
                             eindString += "<td>" + allEvents[x].eindDatumTijd + "</td>";
-                            eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td>";
-                            eindString += "<td><button onclick='deleteEvent(" + allEvents[x].id + ")'>Delete</button></td></tr>";
-
-                            eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td></tr>"
+                            eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td>"
                             eindString += "<td><button onclick='bekijkAanvragen("+ allEvents[x].id +")'>Aanvragen</button></td>" 
                             eindString += "<td><button onclick='deleteEvent("+allEvents[x].id+")'>Delete</button></td></tr>";
                         }
@@ -80,11 +77,20 @@
         }
 
         function voegTrackToeAanEvent(id){
-            
+            var xhr = new XMLHttpRequest();
+            var trackToAdd = {};
+            trackToAdd.name = document.getElementById("trackNaam").value;
+            trackToAdd.description = document.getElementById("trackDescription").value;
+
+                
+            xhr.open("POST", "http//localhost:8082/track/voegTrackToeAanEvenement/" + id);
+            xhr.send();
         }
 
         function verwijderTrack(id){
             var xhr = new XMLHttpRequest();
+
+
             xhr.open("DELETE", "http://localhost:8082/track/verwijderTrack/" + id, true);
             xhr.send();
         }
