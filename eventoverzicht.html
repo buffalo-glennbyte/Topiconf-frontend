@@ -43,6 +43,10 @@
                             eindString += "<td>" + allEvents[x].eindDatumTijd + "</td>";
                             eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td>";
                             eindString += "<td><button onclick='deleteEvent(" + allEvents[x].id + ")'>Delete</button></td></tr>";
+
+                            eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td></tr>"
+                            eindString += "<td><button onclick='bekijkAanvragen("+ allEvents[x].id +")'>Aanvragen</button></td>" 
+                            eindString += "<td><button onclick='deleteEvent("+allEvents[x].id+")'>Delete</button></td></tr>";
                         }
                     eindString += "</table>";
                     document.getElementById("alleEvenementenTabel").innerHTML = eindString;
@@ -86,6 +90,28 @@
         }
 
         function deleteEvent(EVENTID){
+
+        }
+
+        function bekijkAanvragen(EVENTID)
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function()
+            {
+                if(this.readyState == 4)
+                {
+                    console.log("Redirect to event ID: " + EVENTID);
+                }
+            }
+
+            xhr.open("GET", "http://localhost:8082/evenement/alleEvenementen/" +EVENTID, true);
+            xhr.send();
+        }
+
+
+
+        function deleteEvent(EVENTID)
+        {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
