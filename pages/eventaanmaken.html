@@ -31,7 +31,7 @@
                     console.log("Evenement aangemaakt");
                 }
             }
-            xhr.open("POST","http://localhost:8082/event/voegEvenementToe", true);
+            xhr.open("POST","http://localhost:8082/evenement/voegEvenementToe", true);
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(EvenementJSON);
             naamEvenement.value = null;
