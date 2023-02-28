@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TC - Event overzicht</title>
     <link rel="stylesheet" href="../styles/style.css">
-    <style></style>
+    <style> </style>
 
 
     <script>
@@ -22,9 +22,8 @@
                             eindString += "<td>" + allEvents[x].omschrijving + "</td>";
                             eindString += "<td>" + allEvents[x].beginDatumTijd + "</td>";
                             eindString += "<td>" + allEvents[x].eindDatumTijd + "</td>";
-                            eindString += "<td><button onclick='toonTracksPerEvenement(" + allEvents[x].id + ")'>Show tracks</button></td>"
-                            eindString += "<td><a href=\"Evenement.html\"><button onclick='bekijkEvenement("+ allEvents[x].id +")'>Aanvragen</button></a></td>" 
-                            eindString += "<td><a href=\"Evenement.html\"><button onclick='bekijkEvenement("+ allEvents[x].id +")'>Locatie</button></a></td>" 
+                            eindString += "<td><a href=\'evenementpagina.html?id=" + allEvents[x].id + "'><button>Evenement bekijken</button></a></td>";
+
                             eindString += "<td><button onclick='deleteEvent("+allEvents[x].id+")'>Delete</button></td></tr>";
                         }
                     eindString += "</table>";
@@ -84,7 +83,7 @@
 
         }
 
-        function bekijkEvenement(EVENTID)
+        function bekijkAanvragen(EVENTID)
         {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function()
@@ -95,11 +94,13 @@
                 }
             }
 
-            xhr.open("GET", "http://localhost:8082/evenement/alleEvenementen/" + EVENTID, true);
+            xhr.open("GET", "http://localhost:8082/evenement/alleEvenementen/" +EVENTID, true);
             xhr.send();
         }
 
-
+        function saveID(){
+            
+        }
 
         function deleteEvent(EVENTID)
         {
@@ -122,22 +123,20 @@
         <nav>
             <ul>
                 <li><a class="active" href="eventoverzicht.html">Evenementen</a></li>
-                <li><a href="trackoverzicht.html">Tracks</a></li>
-                <li><a href="locatieoverzicht.html">Locaties</a></li>
+                <li><a onclick='toonTracksPerEvenement()'>Tracks</a></li>
+                <li><a onclick='toonLocatiesPerEvenement()'>Locaties</a></li>
                 <li><a href="overzichtaanvragen.html">Aanvragen</a></li>
                 <li><a href="planner.html">Planner</a></li>
               </ul>
         </nav>
     </header>
     <main>
-        <div class="wrapper">
-            <div class="leftside">
-                <button class="btn" onclick="toonEvenementen()">Vernieuwen</button>
-                <div class="tabel" id="alleEvenementenTabel"></div>
-            </div>
-            <div class="rightside">
-                <div id="trackTable">
-                </div>
+        <div class="leftside">
+            <button onclick="toonEvenementen()">Ververs evenementen</button>
+            <div id="alleEvenementenTabel"></div>
+        </div>
+        <div class="rightside">
+            <div id="trackTable">
             </div>
         </div>
     </main>
