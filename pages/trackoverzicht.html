@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/overzichtStyle.css">
 
 
     <script>
@@ -15,14 +16,14 @@
                 if(this.readyState == 4){
                     console.log(this.responseText);
                     var alleTracks = JSON.parse(this.responseText);
-                    var HTMLString = "<table border=1>";
-                    HTMLString += "<tr><td>id</td> <td>Name</td> <td>Description</td></b></tr>"
+                    var HTMLString = "<table class=table>";
+                    HTMLString += "<tr><th>ID</th> <th>Naam</th> <th>Omschrijving</th></tr>"
                     for(var i = 0; i < alleTracks.length; i++){
                         HTMLString += "<tr><td>" + alleTracks[i].id + "</td>";
                         HTMLString += "<td>" + alleTracks[i].name + "</td>";
                         HTMLString += "<td>" + alleTracks[i].description + "</td>";
                         // HTMLString += "<td><button onclick='editTrack()'>Edit</button></td>";
-                        HTMLString += "<td><button onclick='deleteTrack("+alleTracks[i].id+")'>Delete</button></td></tr>"
+                        HTMLString += "<td><button class='tableBtn' onclick='deleteTrack("+alleTracks[i].id+")'>Delete</button></td></tr>"
                     }
                     HTMLString += "</table>";
                     document.getElementById("tracksTable").innerHTML = HTMLString;
@@ -60,14 +61,14 @@
                 <li><a class="active" href="trackoverzicht.html">Tracks</a></li>
                 <li><a href="locatieoverzicht.html">Locaties</a></li>
                 <li><a href="overzichtaanvragen.html">Aanvragen</a></li>
-                <li><a href="planner.html">Planner</a></li>
+                <li><a href="programma.html">Programma</a></li>
               </ul>
             </nav>
     </header>
     <main>
         <div class="wrapper">
             <button class="btn" onclick="showTracks()">Vernieuwen</button>
-            <div class="tabel" id="tracksTable"></div>
+            <div class="request" id="tracksTable"></div>
         </div>
     </main>
 
