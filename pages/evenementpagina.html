@@ -45,46 +45,51 @@
         function toonTracksPerEvenement(){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
-                var allTracksPerEvent = JSON.parse(this.responseText);
-                HTMLString = "<table border=1>";
-                HTMLString += "<tr><td>Naam</td> <td>Omschrijving</td></tr>"
-                for(var i = 0; i < allTracksPerEvent.length; i++){
-                    HTMLString += "<td>" + allTracksPerEvent[i].name + "</td>";
-                    HTMLString += "<td>" + allTracksPerEvent[i].description + "</td>";
-                    HTMLString += "<td><button onclick='verwijderTrack("+allTracksPerEvent[i].id+")'>Delete</button></td><tr>"
-                }                   
-                HTMLString += "</table>";
+                if(this.readyState == 4){
+                    var allTracksPerEvent = JSON.parse(this.responseText);
+                    HTMLString = "<table border=1>";
+                    HTMLString += "<tr><td>Naam</td> <td>Omschrijving</td></tr>"
+                    for(var i = 0; i < allTracksPerEvent.length; i++){
+                        HTMLString += "<td>" + allTracksPerEvent[i].name + "</td>";
+                        HTMLString += "<td>" + allTracksPerEvent[i].description + "</td>";
+                        HTMLString += "<td><button onclick='verwijderTrack("+allTracksPerEvent[i].id+")'>Delete</button></td><tr>"
+                    }                   
+                    HTMLString += "</table>";
 
-                HTMLString += "<h4>Track adding form</h4>";
-                HTMLString += "Naam track: <input id='trackNaam'><br>";
-                HTMLString += "Omschrijving: <input id='trackOmschrijving'><br>";
-                HTMLString += "<button onclick='voegTrackToeAanEvenement(" + currentEvent.id + ")'>Add track</button>"
-                document.getElementById("innerTable").innerHTML = HTMLString;                               
+                    HTMLString += "<h4>Track adding form</h4>";
+                    HTMLString += "Naam track: <input id='trackNaam'><br>";
+                    HTMLString += "Omschrijving: <input id='trackOmschrijving'><br>";
+                    HTMLString += "<button onclick='voegTrackToeAanEvenement(" + currentEvent.id + ")'>Add track</button>"
+                    document.getElementById("innerTable").innerHTML = HTMLString;     
+                }                          
             }
             xhr.open("GET","http://localhost:8082/evenement/geefAlleTracksPerEvenement/" + currentEvent.id, true);
+            console.log("http://localhost:8082/evenement/geefAlleTracksPerEvenement/" + currentEvent.id);
             xhr.send();
         }
 
         function toonLocatiesPerEvenement(){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
-                var allLocationsPerEvent = JSON.parse(this.responseText);
-                HTMLString = "<table border=1>";
-                HTMLString += "<tr><td>Naam</td> <td>Omschrijving</td> <td>Capaciteit</td></tr>"
-                for(var i = 0; i < allLocationsPerEvent.length; i++){
-                    HTMLString += "<td>" + allLocationsPerEvent[i].name + "</td>";
-                    HTMLString += "<td>" + allLocationsPerEvent[i].description + "</td>"
-                    HTMLString += "<td>" + allLocationsPerEvent[i].capacity + "</td>";
-                    HTMLString += "<td><button onclick='verwijderLocatie("+allLocationsPerEvent[i].id+")'>Delete</button></td><tr>"
-                }                   
-                HTMLString += "</table>";
+                if(this.readyState == 4){
+                    var allLocationsPerEvent = JSON.parse(this.responseText);
+                    HTMLString = "<table border=1>";
+                    HTMLString += "<tr><td>Naam</td> <td>Omschrijving</td> <td>Capaciteit</td></tr>"
+                    for(var i = 0; i < allLocationsPerEvent.length; i++){
+                        HTMLString += "<td>" + allLocationsPerEvent[i].name + "</td>";
+                        HTMLString += "<td>" + allLocationsPerEvent[i].description + "</td>"
+                        HTMLString += "<td>" + allLocationsPerEvent[i].capacity + "</td>";
+                        HTMLString += "<td><button onclick='verwijderLocatie("+allLocationsPerEvent[i].id+")'>Delete</button></td><tr>"
+                    }                   
+                    HTMLString += "</table>";
 
-                HTMLString += "<h4>Track adding form</h4>";
-                HTMLString += "Naam locatie: <input id='locatieNaam'><br>";
-                HTMLString += "Omschrijving: <input id='locatieOmschrijving'><br>";
-                HTMLString += "Capaciteit: <input id='locatieCapaciteit'><br>";
-                HTMLString += "<button onclick='voegLocatieToeAanEvenement(" + currentEvent.id + ")'>Add location</button>"
-                document.getElementById("innerTable").innerHTML = HTMLString;                               
+                    HTMLString += "<h4>Track adding form</h4>";
+                    HTMLString += "Naam locatie: <input id='locatieNaam'><br>";
+                    HTMLString += "Omschrijving: <input id='locatieOmschrijving'><br>";
+                    HTMLString += "Capaciteit: <input id='locatieCapaciteit'><br>";
+                    HTMLString += "<button onclick='voegLocatieToeAanEvenement(" + currentEvent.id + ")'>Add location</button>"
+                    document.getElementById("innerTable").innerHTML = HTMLString;    
+                }                                          
             }
             xhr.open("GET","http://localhost:8082/evenement/geefAlleLocatiesPerEvenement/" + currentEvent.id, true);
             xhr.send();
