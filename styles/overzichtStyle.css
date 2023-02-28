@@ -38,7 +38,7 @@ body{
     gap: 1.6rem;
     /* flex-direction :row is by default */
   }
-  .active{
+  .btn-active{
     transform: translateY(-1rem);
     background-color: var(--hover);
   }
