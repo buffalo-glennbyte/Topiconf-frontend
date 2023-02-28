@@ -130,6 +130,7 @@ li a:hover:not(.active) {
 table {
   width: 100%;
   font-size: medium;
+  background-color: white;
 }
 
 th {
