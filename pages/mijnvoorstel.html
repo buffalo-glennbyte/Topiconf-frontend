@@ -11,19 +11,7 @@
     <script>
         var alleVoorstellen;
 
-        function defineGlobalVariable()
-        {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function()
-            {
-                if(this.readyState == 4)
-                {
-                    alleVoorstellen = JSON.parse(this.responseText);
-                    
-                }                        
-            }
-        }
-
+        
         function toonVoorstellen()
         {
             var xhr = new XMLHttpRequest();
@@ -31,7 +19,7 @@
             {
                 if(this.readyState == 4)
                 {
-                    //alleVoorstellen = JSON.parse(this.responseText);
+                    alleVoorstellen = JSON.parse(this.responseText);
                     var HTMLString = "<table border=1>";
                     HTMLString += "<tr><th>Onderwerp</th> <th>Status</th></tr>"
                     for(var i = 0; i < alleVoorstellen.length; i++){
@@ -79,7 +67,7 @@
 </head>
 
 
-<body onload="defineGlobalVariable(),toonVoorstellen()">
+<body onload="toonVoorstellen()">
     <header>
         <h1 class="title">Voorstel</h1>
     </header>
