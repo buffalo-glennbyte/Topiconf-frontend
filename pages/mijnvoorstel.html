@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mijn Voorstel</title>
+    <link rel="stylesheet" href="../styles/style.css">
+
+
+    <script>
+        var alleVoorstellen;
+
+        function defineGlobalVariable()
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function()
+            {
+                if(this.readyState == 4)
+                {
+                    alleVoorstellen = JSON.parse(this.responseText);
+                    
+                }                        
+            }
+        }
+
+        function toonVoorstellen()
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function()
+            {
+                if(this.readyState == 4)
+                {
+                    //alleVoorstellen = JSON.parse(this.responseText);
+                    var HTMLString = "<table border=1>";
+                    HTMLString += "<tr><th>Onderwerp</th> <th>Status</th></tr>"
+                    for(var i = 0; i < alleVoorstellen.length; i++){
+                        HTMLString += "<td id='onderwerp "+alleVoorstellen[i].id + "' contenteditable='true'> "+ alleVoorstellen[i].onderwerp +"</td>";
+                        HTMLString += "<td>" + alleVoorstellen[i].status + "</td>";
+                        HTMLString += "<td><button onclick='wijzigVoorstel(" + alleVoorstellen[i].id + ")'>wijzig onderwerp</button></td><tr>"
+                    }                   
+                
+                    HTMLString += "</table>";
+                    document.getElementById("voorstelTable").innerHTML = HTMLString;
+                    console.log(alleVoorstellen);
+                }                        
+            }
+            xhr.open("GET","http://localhost:8082/getBody", true);
+            xhr.send();
+        }
+
+        function wijzigVoorstel(identifier)
+        {
+            var xhr = new XMLHttpRequest();
+            var wijzigingVersturen = {};
+
+            wijzigingVersturen.id = alleVoorstellen[identifier].id;
+            wijzigingVersturen.naam = alleVoorstellen[identifier].naam;
+            wijzigingVersturen.voornaam = alleVoorstellen[identifier].voornaam;
+            wijzigingVersturen.email = alleVoorstellen[identifier].email;
+            wijzigingVersturen.status = alleVoorstellen[identifier].status;
+            wijzigingVersturen.onderwerp = document.getElementById("onderwerp " + identifier).textContent;
+
+            JSONStatement = JSON.stringify(wijzigingVersturen);
+            console.log(JSONStatement);
+
+            xhr.open("POST", "http://localhost:8082/postBody", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSONStatement);
+            
+        }
+
+
+    </script>
+
+
+
+
+</head>
+
+
+<body onload="defineGlobalVariable(),toonVoorstellen()">
+    <header>
+        <h1 class="title">Voorstel</h1>
+    </header>
+    <button onclick="toonVoorstellen()">Refresh</button>
+    <div id="voorstelTable"></div>
+</body>
+</html>
