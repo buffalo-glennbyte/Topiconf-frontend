@@ -17,15 +17,15 @@
             const name = document.getElementById("nameInput").value;
             const surname = document.getElementById("surnameInput").value;
             const topic = document.getElementById("topicInput").value;
-            const mail = document.getElementById("emaiInput").value;
+            const mail = document.getElementById("emailInput").value;
 
             const isValid =name&&surname&&topic&&mail;
 
             if(isValid){
 
                 const request = {}
-                request.naam= name;
-                request.voornaam = surname;
+                request.voornaam= name;
+                request.achternaam = surname;
                 request.onderwerp = topic;
                 request.eMail = mail;
                 fetch("http://localhost:8082/postBody",{
@@ -60,7 +60,7 @@
                 <label for=""></label>
             </div>
             <div class="field">
-                <input type="email" pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" id="emaiInput"
+                <input type="email" pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" id="emailInput"
                 class="input" placeholder="example@email.nl" required>
                 <label for=""></label>
             </div>
