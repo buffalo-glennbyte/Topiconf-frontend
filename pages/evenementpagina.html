@@ -63,7 +63,6 @@
                 }                          
             }
             xhr.open("GET","http://localhost:8082/evenement/geefAlleTracksPerEvenement/" + currentEvent.id, true);
-            console.log("http://localhost:8082/evenement/geefAlleTracksPerEvenement/" + currentEvent.id);
             xhr.send();
         }
 
@@ -188,9 +187,10 @@
         }
         
         function toonVoorstellenPerEvenement(){
+            console.log(currentEvent.id);
             document.getElementById("innerTable").innerHTML = "";
             document.querySelector(".voorstelTabel").classList.add("visible");     
-             fetch("http://localhost:8082/getBody")
+             fetch("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + currentEvent.id)
              .then((request)=>request.json())
              .then((request)=>{
                  const [...data] =request;

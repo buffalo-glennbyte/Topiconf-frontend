@@ -23,12 +23,8 @@
 
             if(isValid){
 
-                const request = {}
-                request.voornaam= name;
-                request.achternaam = surname;
-                request.onderwerp = topic;
-                request.eMail = mail;
-                fetch("http://localhost:8082/postBody",{
+                const request = {voornaam: name, achternaam: surname, onderwerp: topic, eMail: mail}
+                fetch("http://localhost:8082/evenement/voegVoorstelAanEvenementToe/3",{
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(request)
