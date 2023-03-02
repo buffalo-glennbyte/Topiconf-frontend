@@ -13,9 +13,9 @@
        function addListenerToContentButtons(){
         document.querySelectorAll(".content-btn").forEach((btn)=>{
             btn.addEventListener("click", function(e){
-                document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("active"))
-            btn.classList.remove("active");
-            e.target.classList.add("active");
+                document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
+            btn.classList.remove("btn-active");
+            e.target.classList.add("btn-active");
             const target= e.target.dataset.tabnumber;
             document.querySelector(".requestList--1").classList.remove("visible");
             document.querySelector(".requestList--2").classList.remove("visible");
@@ -51,7 +51,7 @@
                       onderwerp:o.onderwerp,
                       eMail:o. eMail,
                       status : action})
-                })
+                }).then(element=> refresh());
                 })
             }))}
 
@@ -124,7 +124,7 @@
                 <li><a href="trackoverzicht.html">Tracks</a></li>
                 <li><a href="locatieoverzicht.html">Locaties</a></li>
                 <li><a class="active" href="overzichtaanvragen.html">Aanvragen</a></li>
-                <li><a href="planner.html">Planner</a></li>
+                <li><a href="programma.html">Programma</a></li>
               </ul>
         </nav>
     </header>
@@ -134,7 +134,7 @@
               <button class="content-btn btn" data-tabNumber="1">geaccepteerd</button>
               <button class="content-btn btn" data-tabNumber="2">gevlagt</button>
               <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
-              <button class="content-btn btn active" data-tabNumber="4">ongemarkeerd</button>
+              <button class="content-btn btn btn-active" data-tabNumber="4">ongemarkeerd</button>
             </div>
             <button onclick = "refresh()" class="btn">Vernieuwen</button>
             <div class="requestList--4 visible"></div>
