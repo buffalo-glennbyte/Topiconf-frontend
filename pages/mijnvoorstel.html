@@ -9,9 +9,7 @@
 
 
     <script>
-        var alleVoorstellen;
 
-        
         function toonVoorstellen()
         {
             var xhr = new XMLHttpRequest();
@@ -19,7 +17,7 @@
             {
                 if(this.readyState == 4)
                 {
-                    alleVoorstellen = JSON.parse(this.responseText);
+                    var alleVoorstellen = JSON.parse(this.responseText);
                     var HTMLString = "<table border=1>";
                     HTMLString += "<tr><th>Onderwerp</th> <th>Status</th></tr>"
                     for(var i = 0; i < alleVoorstellen.length; i++){
@@ -39,7 +37,13 @@
 
         function wijzigVoorstel(identifier)
         {
+            var alleVoorstellen;
             var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function()
+            {
+                alleVoorstellen = JSON.parse(this.responseText);
+            }
+            
             var wijzigingVersturen = {};
 
             wijzigingVersturen.id = alleVoorstellen[identifier].id;
