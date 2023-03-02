@@ -23,7 +23,6 @@
                             eindString += "<td>" + allEvents[x].beginDatumTijd + "</td>";
                             eindString += "<td>" + allEvents[x].eindDatumTijd + "</td>";
                             eindString += "<td><a href=\'evenementpagina.html?id=" + allEvents[x].id + "'><button>Evenement bekijken</button></a></td>";
-
                             eindString += "<td><button onclick='deleteEvent("+allEvents[x].id+")'>Delete</button></td></tr>";
                         }
                     eindString += "</table>";
@@ -134,10 +133,6 @@
         <div class="leftside">
             <button onclick="toonEvenementen()">Ververs evenementen</button>
             <div id="alleEvenementenTabel"></div>
-        </div>
-        <div class="rightside">
-            <div id="trackTable">
-            </div>
         </div>
     </main>
  
