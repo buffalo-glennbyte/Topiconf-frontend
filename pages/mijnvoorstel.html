@@ -10,31 +10,6 @@
 
     <script>
 
-        // async function toonVoorstellen() {
-        //     try {
-        //         const response = await fetch("http://localhost:8082/getBody", {
-        //         headers: {"Content-Type":"application/json"}
-        //     })
-        //     console.log(response);
-        //     const data = await response.json();
-        //     console.log(data);
-        //     data.forEach((element) =>  {
-        //         const list = document.getElementById("list");
-        //         const newListItem = document.createElement("li");
-        //         list.appendChild(newListItem);
-        //         const newButton = document.createElement("button");
-        //         newListItem.append(newButton);
-        //         newButton.innerHTML = element.voornaam;
-        //         newButton.onclick = function() {wijzigVoorstel(element.id, element.voornaam, element.achternaam, element.eMail, element.status)};
-                
-                
-        //     });
-        //     } catch(error) {
-        //         console.log(error);
-        //     }
- 
-        // }
-
         function toonVoorstellen()
         {
             var xhr = new XMLHttpRequest();
@@ -49,10 +24,9 @@
                         HTMLString += "<tr><td id='onderwerp "+alleVoorstellen[i].id + "' contenteditable='true'> "+ alleVoorstellen[i].onderwerp +"</td>";
                         HTMLString += "<td>" + alleVoorstellen[i].status + "</td>";
                         HTMLString += `<td><button onclick="wijzigVoorstel('${alleVoorstellen[i].id}', '${alleVoorstellen[i].voornaam}', '${alleVoorstellen[i].achternaam}', '${alleVoorstellen[i].email}', '${alleVoorstellen[i].status}')">wijzig onderwerp</button></td></tr>`
-                    }                   
-                    
+                    }
                     HTMLString += "</table>";
-                    console.log(HTMLString);
+
                     document.getElementById("voorstelTable").innerHTML = HTMLString;
                 }                        
             }
