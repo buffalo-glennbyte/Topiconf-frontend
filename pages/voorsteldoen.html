@@ -6,14 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voorstel voor Presentatie</title>
     
-    <script>        
-        let CurrentEvent;
-        
+    <script>
+        let currentEvent;
+
+        window.onload = function() {
+        const response = fetch("http://localhost:8082/evenement/alleEvenementen", {
+            method: "GET",
+            headers: {'Content-Type': 'application/json'},
+            }).then((response) => response.json()).then((data)=>{
+                data.forEach((element) => {
+                const option = document.createElement("option");
+                const button = document.getElementById("sendBtn");
+                option.innerHTML = element.naam;
+                option.value = element.id;
+                button.onclick = () => {addVoorstel();}
+                document.getElementById("select").append(option);
+                });
+            })
+        }        
+
         const clearValue = function(){
             document.getElementById("nameInput").value='';
             document.getElementById("surnameInput").value='';
             document.getElementById("topicInput").value='';
             document.getElementById("emailInput").value='';
+            document.getElementById("select").value='';
         }
 
         window.onload = function(){
@@ -79,30 +96,33 @@
 </head>
 <body>
     <div class="wrapper">
-        <form class="request_window">
+        <form id="form" class="request_window">
+            <h1 class="form_title">Stuur je voorstel in!</h1>
             <div class="field">
                 <input type="text" id="nameInput"
                 class="input" placeholder="Voornaam" required>
-                <label for=""></label>
             </div>
             <div class="field">
                 <input type="text" id="surnameInput"
                 class="input" placeholder="Achternaam" required>
-                <label for=""></label>
             </div>
             <div class="field">
                 <input type="text" id="topicInput"
                 class="input" placeholder="Onderwerp presentatie" required>
-                <label for=""></label>
             </div>
             <div class="field">
                 <input type="email" pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" id="emailInput"
                 class="input" placeholder="voorbeeld@email.nl" required>
-                <label for=""></label>
             </div>
             <div class="field" id="trackSelect">
             </div>
             <button onclick="addVoorstel()" class="btn">Verstuur</button>
+            <div class="field">
+                <select class="input" name="id" id="select" required>
+                    <option value="" selected disabled hidden>Selecteer evenement</option>
+                </select>
+            </div>
+            <button id="sendBtn" class="btn">Verstuur</button>
         </form>
     </div>
 </body>
