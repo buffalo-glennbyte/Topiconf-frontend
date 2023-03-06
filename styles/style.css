@@ -42,6 +42,11 @@ header {
     height: fit-content;
     padding: 6.4rem 3.2rem;
   }
+
+  .form_title{
+    color: white;
+    text-align: center;
+  }
   .field{
     margin-bottom: 2.4rem;
     display: flex;
@@ -67,7 +72,7 @@ header {
       background-color: var(--hover);
   }
 
-  .btn{ 
+  .btn{
     padding: 0.8rem 1.6rem;
     background-color: var(--main-color);
     font-weight: 700;
