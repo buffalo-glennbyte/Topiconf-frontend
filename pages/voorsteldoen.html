@@ -11,29 +11,25 @@
             document.getElementById("nameInput").value='';
             document.getElementById("surnameInput").value='';
             document.getElementById("topicInput").value='';
-            document.getElementById("emaiInput").value='';
+            document.getElementById("emailInput").value='';
         }
-        function addRequest(){
+        function addVoorstel(){
             const name = document.getElementById("nameInput").value;
             const surname = document.getElementById("surnameInput").value;
             const topic = document.getElementById("topicInput").value;
-            const mail = document.getElementById("emaiInput").value;
+            const mail = document.getElementById("emailInput").value;
 
             const isValid =name&&surname&&topic&&mail;
 
             if(isValid){
 
-                const request = {}
-                request.naam= name;
-                request.voornaam = surname;
-                request.onderwerp = topic;
-                request.eMail = mail;
-                fetch("http://localhost:8082/postBody",{
+                const request = {voornaam: name, achternaam: surname, onderwerp: topic, eMail: mail}
+                fetch("http://localhost:8082/evenement/voegVoorstelAanEvenementToe/3",{
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(request)
             })
-            .then((response) => alert("Request was send succesfully"))
+            .then((response) => alert("Voorstel is succesvol verstuurd"))
             clearValue();  
         }
     }
@@ -46,7 +42,7 @@
         <form class="request_window">
             <div class="field">
                 <input type="text" id="nameInput"
-                class="input" placeholder="Naam" required>
+                class="input" placeholder="Voornaam" required>
                 <label for=""></label>
             </div>
             <div class="field">
@@ -60,11 +56,11 @@
                 <label for=""></label>
             </div>
             <div class="field">
-                <input type="email" pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" id="emaiInput"
-                class="input" placeholder="example@email.nl" required>
+                <input type="email" pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" id="emailInput"
+                class="input" placeholder="voorbeeld@email.nl" required>
                 <label for=""></label>
             </div>
-            <button onclick="addRequest()" class="btn">Verstuur</button>
+            <button onclick="addVoorstel()" class="btn">Verstuur</button>
         </form>
     </div>
 </body>

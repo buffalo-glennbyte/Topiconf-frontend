@@ -51,6 +51,11 @@ body{
     gap: 1.6rem;
     display: none;
   }
+  .voorstelTabel {
+    display: none;
+  }
+
   .visible{
     display: flex;
   }
+

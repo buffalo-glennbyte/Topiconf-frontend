@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/overzichtStyle.css">
     <style>
-        
         body {
             display: flex;
             flex-direction: column;
@@ -35,20 +35,19 @@
         let currentEvent;
         window.onload = function(){
             var eventid = window.location.href.split('=').pop();
-
-            console.log(eventid);
-                fetch(`http://localhost:8082/evenement/geefEvenement/${eventid}`).then((response)=> response.json()).then((data)=>{
-                currentEvent = data;
-                document.getElementById("evenementTitel").innerHTML = currentEvent.naam;
+            fetch(`http://localhost:8082/evenement/geefEvenement/${eventid}`).then((response)=> response.json()).then((data)=>{
+            currentEvent = data;
+            document.getElementById("evenementTitel").innerHTML = currentEvent.naam;
         })}
             
         function toonTracksPerEvenement(){
+            document.querySelector(".voorstelTabel").classList.remove("visible");   
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     var allTracksPerEvent = JSON.parse(this.responseText);
                     HTMLString = "<table border=1>";
-                    HTMLString += "<tr><td>Naam</td> <td>Omschrijving</td></tr>"
+                    HTMLString += "<tr><th>Naam</th> <th>Omschrijving</th></tr>"
                     for(var i = 0; i < allTracksPerEvent.length; i++){
                         HTMLString += "<td>" + allTracksPerEvent[i].name + "</td>";
                         HTMLString += "<td>" + allTracksPerEvent[i].description + "</td>";
@@ -64,17 +63,17 @@
                 }                          
             }
             xhr.open("GET","http://localhost:8082/evenement/geefAlleTracksPerEvenement/" + currentEvent.id, true);
-            console.log("http://localhost:8082/evenement/geefAlleTracksPerEvenement/" + currentEvent.id);
             xhr.send();
         }
 
         function toonLocatiesPerEvenement(){
+            document.querySelector(".voorstelTabel").classList.remove("visible");   
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     var allLocationsPerEvent = JSON.parse(this.responseText);
                     HTMLString = "<table border=1>";
-                    HTMLString += "<tr><td>Naam</td> <td>Omschrijving</td> <td>Capaciteit</td></tr>"
+                    HTMLString += "<tr><th>Naam</th><th>Omschrijving</th><th>Capaciteit</th></tr>"
                     for(var i = 0; i < allLocationsPerEvent.length; i++){
                         HTMLString += "<td>" + allLocationsPerEvent[i].name + "</td>";
                         HTMLString += "<td>" + allLocationsPerEvent[i].description + "</td>"
@@ -122,18 +121,124 @@
 
         function verwijderTrack(id){
             var xhr = new XMLHttpRequest();
-
-
             xhr.open("DELETE", "http://localhost:8082/track/verwijderTrack/" + id, true);
             xhr.send();
         }
 
         function verwijderLocatie(id){
             var xhr = new XMLHttpRequest();
-
-
             xhr.open("DELETE", "http://localhost:8082/locatie/verwijderLocatie/" + id, true);
             xhr.send();
+        }
+
+        function addListenerToContentButtons(){
+        document.querySelectorAll(".content-btn").forEach((btn)=>{
+            btn.addEventListener("click", function(e){
+                document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
+            btn.classList.remove("btn-active");
+            e.target.classList.add("btn-active");
+            const target= e.target.dataset.tabnumber;
+            document.querySelector(".requestList--1").classList.remove("visible");
+            document.querySelector(".requestList--2").classList.remove("visible");
+            document.querySelector(".requestList--3").classList.remove("visible");
+            document.querySelector(".requestList--4").classList.remove("visible");
+            document.querySelector(`.requestList--${target}`).classList.add("visible");
+        })})
+       }
+
+        function addListenersToActionButtons(){
+                 document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
+                 const target =e.target;
+                 const action = target.dataset.action;
+                 const parent = target.closest('.request');
+                 const name = document.querySelector(".name").textContent;
+                 const surname = document.querySelector(".surname").textContent;
+                 const topic = document.querySelector(".topic").textContent;
+                 const email = document.querySelector(".email").textContent;
+                 parent.classList.add(action);
+
+                fetch(`http://localhost:8082/getElement/${parent.dataset.id}`).then((element)=>element.json()).then((obj)=>{
+                   const o = obj;
+                   console.log(o)
+                  fetch(`http://localhost:8082/updateElementStatus/${parent.dataset.id}`,
+                      {method: "PUT",
+                      headers: {'Content-Type': 'application/json'},
+                      body: JSON.stringify({
+                      id:o.id,
+                      voornaam: o.voornaam,
+                      achternaam:o.achternaam,
+                      onderwerp:o.onderwerp,
+                      eMail:o. eMail,
+                      status : action})
+                }).then(element=> refresh());
+                })
+            }))}
+
+        function clear(){ 
+            document.querySelector(".requestList--4").innerHTML='';
+            document.querySelector(".requestList--3").innerHTML='';
+            document.querySelector(".requestList--2").innerHTML='';
+            document.querySelector(".requestList--1").innerHTML='';
+        }
+
+        function refresh(){
+            clear();
+            toonVoorstellenPerEvenement();
+        }
+        
+        function toonVoorstellenPerEvenement(){
+            console.log(currentEvent.id);
+            document.getElementById("innerTable").innerHTML = "";
+            document.querySelector(".voorstelTabel").classList.add("visible");     
+             fetch("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + currentEvent.id)
+             .then((request)=>request.json())
+             .then((request)=>{
+                 const [...data] =request;
+                 const list_4 = document.querySelector(".requestList--4");
+                 const list_3 = document.querySelector(".requestList--3");
+                 const list_2 = document.querySelector(".requestList--2");
+                 const list_1 = document.querySelector(".requestList--1");
+                 const htmlButtons = `
+                        <div class="content-buttons">
+                            <button class="content-btn btn" data-tabNumber="1">geaccepteerd</button>
+                            <button class="content-btn btn" data-tabNumber="2">gevlagt</button>
+                            <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
+                            <button class="content-btn btn btn-active" data-tabNumber="4">ongemarkeerd</button>
+                        </div>
+                        <button onclick = "refresh()" class="btn">Vernieuwen</button>`;
+                 
+                 const buttonsElement = document.querySelector(".htmlbuttons").innerHTML = htmlButtons;
+                 addListenerToContentButtons();
+
+                 data.forEach(data => {
+                 const html =`
+                        <div class="request" data-id='${data.id}' id='request${data.id}'>
+                            <div class="data "><p>Voornaam:<span class = 'name'> ${data.voornaam}</span></p></div>
+                            <div class="data "><p>Achternaam: <span class = 'surname'>${data.achternaam}</span></p></div>
+                            <div class="data "><p>Onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
+                            <div class="data "><p>E-mail: <a class = 'email' href="mailto:${data.eMail}">${data.eMail}</a></p></div>
+                            <div class="buttons">
+                                <div class="actionBtn green" data-action="geaccepteerd"></div>
+                                <div class="actionBtn yellow" data-action="gemarkeerd"></div>
+                                <div class="actionBtn delete" data-action="afgewezen"></div>
+                            </div>
+                        </div>`;
+
+                 if(data.status === "ongemarkeerd"){
+                    list_4.insertAdjacentHTML("afterbegin",html);
+                 }
+                 else if(data.status === "geaccepteerd"){
+                    list_1.insertAdjacentHTML("afterbegin",html);
+                 }
+                 else if(data.status === "gemarkeerd"){
+                    list_2.insertAdjacentHTML("afterbegin",html);
+                 }
+                 else if(data.status === "afgewezen"){
+                    list_3.insertAdjacentHTML("afterbegin",html);
+                 }
+                 });
+             })
+             .then(()=>addListenersToActionButtons());
         }
     </script>
 </head>
@@ -142,18 +247,25 @@
         <h1 class="title" id="evenementTitel"></h1>
         <nav>
             <ul>
-                <li><a class="active" href="eventoverzicht.html">Evenementen</a></li>
+                <li><a class="active" href="evenementoverzicht.html">Evenementen</a></li>
                 <li><a onclick="toonTracksPerEvenement()">Tracks</a></li>
                 <li><a onclick="toonLocatiesPerEvenement()">Locaties</a></li>
-                <li><a href="overzichtaanvragen.html">Aanvragen</a></li>
-                <li><a href="planner.html">Planner</a></li>
+                <!-- <li><a href="overzichtaanvragen.html">Aanvragen</a></li> -->
+                <li><a onclick="toonVoorstellenPerEvenement()">Voorstellen</a></li>
+                <li><a href="programma.html">Programma</a></li>
               </ul>
         </nav>
     </header>
     <main>
-        <div id="innerTable">
-            
-        </div>
+        <h1>Welkom</h1>
+        <div id="innerTable"></div>
+        <div class="voorstelTabel wrapper">
+            <div class="htmlbuttons"></div>
+            <div class="requestList--4 visible"></div>
+            <div class="requestList--3"></div>
+            <div class="requestList--2"></div>
+            <div class="requestList--1"></div>
+       </div>
     </main>
 </body>
 </html>

@@ -1,3 +1,4 @@
+<!-- DEZE PAGINA IS OPGENOMEN IN EVENEMENTPAGINA.HTML -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,14 +83,14 @@
                  const html =`
                         <div class="request" data-id='${data.id}' id='request${data.id}'>
                         <div class="data "><p>Naam:<span class = 'name'> ${data.naam}</span></p></div>
-                        <div class="data "><p>Voornaam: <span class = 'surname'>${data.voornaam}</span></p></div>
-                        <div class="data "><p>onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
-                        <div class="data "><p>eMail: <a class = 'email' href="mailto:${data.eMail}">${data.eMail}</a></p></div>
-                        <div class="buttons">
-                        <div class="actionBtn green" data-action="geaccepteerd"></div>
-                        <div class="actionBtn yellow" data-action="gemarkeerd"></div>
-                        <div class="actionBtn delete" data-action="afgewezen"></div>
-                        </div>
+                            <div class="data "><p>Achternaam: <span class = 'surname'>${data.voornaam}</span></p></div>
+                            <div class="data "><p>Onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
+                            <div class="data "><p>E-mail: <a class = 'email' href="mailto:${data.eMail}">${data.eMail}</a></p></div>
+                            <div class="buttons">
+                                <div class="actionBtn green" data-action="geaccepteerd"></div>
+                                <div class="actionBtn yellow" data-action="gemarkeerd"></div>
+                                <div class="actionBtn delete" data-action="afgewezen"></div>
+                            </div>
                         </div>`;
 
 
