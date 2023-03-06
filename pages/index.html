@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 
 <html>
+    <script>
+       window.onload = function() {
+            const response = fetch("http://localhost:8082/evenement/alleEvenementen", {
+                    method: "GET",
+                    headers: {'Content-Type': 'application/json'},
+                }).then((response) => response.json()).then((data)=>{
+                    data.forEach((element) => {
+                        const option = document.createElement("option");
+                        const form = document.getElementById("form");
+                        option.innerHTML = element.naam;
+                        option.value = element.id;
+                        form.action = "voorsteldoen.html?id=" + `${element.id}`;
+                        document.getElementById("select").append(option);
+                    });
+                })
+        }
+    </script>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,11 +31,19 @@
             <div style="text-align: center;">
                 <img src="../images/TopicusLogo.png" width="200px" >
                 <h1 style="color: white;">Meldt je aan als:</h1>
-                <button class="btn" onclick="location.href = 'voorsteldoen.html';">Deelnemer</button>
-            </br>
+                
+                <form id="form">
+                    <label style="color: white">Selecteer evenement:
+                        <select name="id" id="select"></select>
+                    </label>
+                <br>
+                <br>
+                    <input type="submit" class="btn" value="Deelnemer"></input>
+            </form>
+            <br>
                 <a class="link" href="adminlogin.html">admin</a> 
             </div>
         </div>
-        <script></script>
+   
     </body>
 </html>
