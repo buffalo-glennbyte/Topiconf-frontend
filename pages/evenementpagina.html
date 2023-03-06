@@ -205,6 +205,8 @@
                             <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
                             <button class="content-btn btn btn-active" data-tabNumber="4">ongemarkeerd</button>
                         </div>
+                        <button class="btn" type="submit" value="Submit" form="markeerVoorstel">Definitief Geaccepteerd</button>
+                        <button class="btn" type="submit" value="Submit" form="markeerVoorstel">Definitief Afgewezen</button>
                         <button onclick = "refresh()" class="btn">Vernieuwen</button>`;
                  
                  const buttonsElement = document.querySelector(".htmlbuttons").innerHTML = htmlButtons;
@@ -213,6 +215,11 @@
                  data.forEach(data => {
                  const html =`
                         <div class="request" data-id='${data.id}' id='request${data.id}'>
+                            <div>
+                                <form id="markeerVoorstel" method="post" action="--------BACKEND MOET NOG WORDEN GEMAAKT">
+                                    <p><input type="checkbox" name="${data.id}" value="${data.id}"></p>
+                                </form>
+                            </div>
                             <div class="data "><p>Voornaam:<span class = 'name'> ${data.voornaam}</span></p></div>
                             <div class="data "><p>Achternaam: <span class = 'surname'>${data.achternaam}</span></p></div>
                             <div class="data "><p>Onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
