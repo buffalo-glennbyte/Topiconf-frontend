@@ -33,6 +33,9 @@ body{
   .delete{
     background-color: #f20202;
   }
+  .unmarked {
+    background-color: gray;
+  }
   .buttons{
     display: flex;
     gap: 1.6rem;

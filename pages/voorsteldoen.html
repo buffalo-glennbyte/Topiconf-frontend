@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Topiconf Request</title>
+    <title>Voorstel voor Presentatie</title>
     
     <script>        
         const clearValue = function(){
@@ -25,7 +25,6 @@
             if(isValid){
                 const request = {voornaam: name, achternaam: surname, onderwerp: topic, eMail: mail}
                 const currentEventId = window.location.href.split('=').pop();
-                console.log(currentEventId);
                 fetch(`http://localhost:8082/evenement/voegVoorstelAanEvenementToe/${currentEventId}`,{
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},

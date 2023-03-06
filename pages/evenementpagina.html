@@ -187,7 +187,6 @@
         }
         
         function toonVoorstellenPerEvenement(){
-            console.log(currentEvent.id);
             document.getElementById("innerTable").innerHTML = "";
             document.querySelector(".voorstelTabel").classList.add("visible");     
              fetch("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + currentEvent.id)
@@ -221,6 +220,7 @@
                                 <div class="actionBtn green" data-action="geaccepteerd"></div>
                                 <div class="actionBtn yellow" data-action="gemarkeerd"></div>
                                 <div class="actionBtn delete" data-action="afgewezen"></div>
+                                <div class="actionBtn unmarked" data-action="ongemarkeerd"></div>
                             </div>
                         </div>`;
 
@@ -250,8 +250,7 @@
                 <li><a class="active" href="evenementoverzicht.html">Evenementen</a></li>
                 <li><a onclick="toonTracksPerEvenement()">Tracks</a></li>
                 <li><a onclick="toonLocatiesPerEvenement()">Locaties</a></li>
-                <!-- <li><a href="overzichtaanvragen.html">Aanvragen</a></li> -->
-                <li><a onclick="toonVoorstellenPerEvenement()">Voorstellen</a></li>
+                <li><a onclick="refresh()">Voorstellen</a></li>
                 <li><a href="programma.html">Programma</a></li>
               </ul>
         </nav>
