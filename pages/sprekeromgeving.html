@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spreker Omgeving</title>
+    <link rel="stylesheet" href="../styles/style.css">
+
+
+    <script>
+        function toonAanvragen()
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Aanvragen opgehaald");
+                    var alleVoorstellen = JSON.parse(this.responseText);
+                    var HTMLString = "<table border=2>"
+                        + "<tr><th>Naam</th>"
+                        + "<th>Onderwerp</th>"
+                        + "<th>Samenvatting</th>"
+                        + "<th>Status</th></tr>"
+                        for(var x = 0; x < alleVoorstellen.length; x++){
+                            HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";
+                            HTMLString += "<td>" + alleVoorstellen[x].onderwerp + "</td>";
+                            HTMLString += "<td>" + alleVoorstellen[x].samenvatting + "</td>";
+                            HTMLString += "<td>" + alleVoorstellen[x].status + "</td>";
+                            HTMLString += "<td><button>Button</button></td><td><button>Button</button></td></tr>";
+                        }
+                    HTMLString += "</table>";
+                    console.log(HTMLString);
+                    document.getElementById("voorstelTabel").innerHTML = HTMLString;
+                }
+
+            }
+            xhr.open("GET","http://localhost:8082/getBody", true);
+            xhr.send();
+        }
+    </script>
+
+
+
+
+
+
+</head>
+<body onload="toonAanvragen()">
+    <div id="voorstelTabel"></div>
+</body>
+</html>
