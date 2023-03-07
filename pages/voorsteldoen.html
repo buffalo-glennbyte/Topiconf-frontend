@@ -30,6 +30,7 @@
             document.getElementById("surnameInput").value='';
             document.getElementById("topicInput").value='';
             document.getElementById("emailInput").value='';
+            document.getElementById("samenInput").value='';
             document.getElementById("select").value='';
         }
 
@@ -65,6 +66,12 @@
             const surname = document.getElementById("surnameInput").value;
             const topic = document.getElementById("topicInput").value;
             const mail = document.getElementById("emailInput").value;
+            const samenvat = document.getElementById("samenInput").value;
+            
+            const isValid =name&&surname&&topic&&mail&&samenvat;
+             
+            if(isValid){
+                const request = {voornaam: name, achternaam: surname, onderwerp: topic, eMail: mail, samenvatting: samenvat}
             const trackID = document.getElementById("trackSelector").value;
             const trackToLink = fetch(`http://localhost:8082/track/geefTrackPerID/${trackID}`, {
                 method: 'GET',
@@ -115,6 +122,11 @@
                 class="input" placeholder="voorbeeld@email.nl" required>
             </div>
             <div class="field" id="trackSelect">
+            </div>
+            <div class="field">
+                <input type="text" id="samenInput"
+                class="input" maxlength="140" placeholder="Samenvatting presentatie" required>
+                <label for=""></label>
             </div>
             <button onclick="addVoorstel()" class="btn">Verstuur</button>
             <div class="field">
