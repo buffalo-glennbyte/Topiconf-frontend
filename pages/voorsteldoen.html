@@ -52,7 +52,6 @@
                     }   
                     HTMLString += "</select>";
                     document.getElementById("trackSelect").innerHTML = HTMLString;
-                    console.log(HTMLString);
                 }
             }
 
@@ -65,18 +64,11 @@
             const surname = document.getElementById("surnameInput").value;
             const topic = document.getElementById("topicInput").value;
             const mail = document.getElementById("emailInput").value;
-            const trackID = document.getElementById("trackSelector").value;
-            const trackToLink = fetch(`http://localhost:8082/track/geefTrackPerID/${trackID}`, {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'}
-            })
-            console.log(trackID);
-            console.log(trackToLink);
 
-            const isValid =name&&surname&&topic&&mail&&trackToLink;
+            const isValid =name&&surname&&topic&&mail;
 
             if(isValid){
-                const request = {voornaam: name, achternaam: surname, onderwerp: topic, eMail: mail, track: trackToLink}
+                const request = {voornaam: name, achternaam: surname, onderwerp: topic, eMail: mail}
                 const currentEventId = window.location.href.split('=').pop();
                 fetch(`http://localhost:8082/evenement/voegVoorstelAanEvenementToe/${currentEvent.id}`,{
                 method: 'POST',
