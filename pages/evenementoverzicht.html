@@ -33,48 +33,48 @@
             xhr.send();
         }
 
-        function toonTracksPerEvenement(id){
+        function toonCategorieenPerEvenement(id){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 console.log(this.responseText);
-                var allTracksPerEvent = JSON.parse(this.responseText);
-                var HTMLString = "<p>Tracks voor " + name + "</p>";
+                var allCategorieenPerEvent = JSON.parse(this.responseText);
+                var HTMLString = "<p>Categorieen voor " + name + "</p>";
                 HTMLString += "<table border=1>";
                 HTMLString += "<tr><td>Naam</td> <td>Omschrijving</td></tr>"
-                for(var i = 0; i < allTracksPerEvent.length; i++){
-                    HTMLString += "<td>" + allTracksPerEvent[i].name + "</td>";
-                    HTMLString += "<td>" + allTracksPerEvent[i].description + "</td>";
-                    HTMLString += "<td><button onclick='verwijderTrack("+allTracksPerEvent[i].id+")'>Delete</button></td><tr>"
+                for(var i = 0; i < allCategorieenPerEvent.length; i++){
+                    HTMLString += "<td>" + allCategorieenPerEvent[i].name + "</td>";
+                    HTMLString += "<td>" + allCategorieenPerEvent[i].description + "</td>";
+                    HTMLString += "<td><button onclick='verwijderCategorie("+allCategorieenPerEvent[i].id+")'>Delete</button></td><tr>"
                 }                   
                 HTMLString += "</table>";
 
-                HTMLString += "<h4>Track adding form</h4>";
-                HTMLString += "Naam track: <input id='trackNaam'><br>";
-                HTMLString += "Omschrijving: <input id='trackOmschrijving'><br>";
-                HTMLString += "<button onclick='voegTrackToeAanEvenement(" + id + "); 'toonTracksPerEvenement(" + id + ")'>Add track</button>"
-                document.getElementById("trackTable").innerHTML = HTMLString;                               
+                HTMLString += "<h4>Categorie adding form</h4>";
+                HTMLString += "Naam categorie: <input id='CategorieNaam'><br>";
+                HTMLString += "Omschrijving: <input id='categorieOmschrijving'><br>";
+                HTMLString += "<button onclick='voegCategorieToeAanEvenement(" + id + "); 'toonCategorieenPerEvenement(" + id + ")'>Add categorie</button>"
+                document.getElementById("categorieTable").innerHTML = HTMLString;                               
             }
-            xhr.open("GET","http://localhost:8082/evenement/geefAlleTracksPerEvenement/" + id, true);
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleCategorieenPerEvenement/" + id, true);
             xhr.send();
         }
 
-        function voegTrackToeAanEvenement(id){
+        function voegCategorieToeAanEvenement(id){
             var xhr = new XMLHttpRequest();
-            var trackToAdd = {};
-            trackToAdd.name = document.getElementById("trackNaam").value;
-            trackToAdd.description = document.getElementById("trackOmschrijving").value;
-            JSONstatement = JSON.stringify(trackToAdd);      
+            var categorieToAdd = {};
+            categorieToAdd.name = document.getElementById("categorieNaam").value;
+            categorieToAdd.description = document.getElementById("categorieOmschrijving").value;
+            JSONstatement = JSON.stringify(categorieToAdd);      
             console.log(JSONstatement);         
-            xhr.open("POST", "http://localhost:8082/evenement/voegTrackAanEvenementToe/" + id, true);          
+            xhr.open("POST", "http://localhost:8082/evenement/voegCategorieAanEvenementToe/" + id, true);          
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSONstatement);
         }
 
-        function verwijderTrack(id){
+        function verwijderCategorie(id){
             var xhr = new XMLHttpRequest();
 
 
-            xhr.open("DELETE", "http://localhost:8082/track/verwijderTrack/" + id, true);
+            xhr.open("DELETE", "http://localhost:8082/categorie/verwijderCategorie/" + id, true);
             xhr.send();
         }
 
@@ -122,7 +122,7 @@
         <nav>
             <ul>
                 <li><a class="active" href="evenementoverzicht.html">Evenementen</a></li>
-            <!--    <li><a onclick='toonTracksPerEvenement()'>Tracks</a></li>
+            <!--    <li><a onclick='toonCategorieenPerEvenement()'>Categorieen</a></li>
                 <li><a onclick='toonLocatiesPerEvenement()'>Locaties</a></li>
                 <li><a href="overzichtaanvragen.html">Aanvragen</a></li>
                 <li><a href="programma.html">Programma</a></li>  -->
