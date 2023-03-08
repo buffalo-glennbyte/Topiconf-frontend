@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spreker Omgeving</title>
+    <link rel="stylesheet" href="../styles/style.css">
+
+    <style>
+        /* 
+        ---------------------------------------------------------------
+        Header content, image / ingelogd als / profiel & uitloggen knop
+        ---------------------------------------------------------------
+        */
+        .hdr-main
+        {
+            line-height: 45px;
+            text-align: right;
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hdr-img
+        {
+            width: 10%;
+            height: 10%;
+            background-color: rgb(255, 255, 255);
+        }
+
+        .hdr-btns
+        {
+            margin-right: 30px;
+            color:white
+        }
+
+        .hdr-btns-text
+        {
+            display:inline-block;
+            margin-right: 15px;
+            font-size: medium;
+        }
+
+        .hdr-btns-btn
+        {
+            padding: 8px;
+            margin-right: 15px;
+            display: inline-block;
+            background-color: rgb(43, 82, 155);
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .hdr-btns-btn:hover
+        {
+            background-color: #3667C3;
+        }
+
+        /* 
+        ----------------------------
+        Dit is voor de Table content 
+        ----------------------------
+        */
+
+        #tbl-main
+        {
+            text-align: center;
+        }
+
+        th
+        {
+            color: gray;
+            padding-bottom: 20px;
+        }
+
+        td
+        {
+            border-top: none;
+            line-height: 40px;
+            word-wrap: break-word;
+        }
+
+        #btn-aanmaken
+        {
+            padding: 8px;
+            background-color: rgb(43, 82, 155);
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #btn-aanmaken:hover
+        {
+            background-color: #3667C3;
+        }
+
+        #tb-status
+        {
+            font-weight: bold;
+            border-radius: 10px;
+            background-color: rgb(6, 228, 17, .7);
+        }
+
+
+    </style>
+
+    <script>
+        function toonAanvragen()
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Aanvragen opgehaald");
+                    var alleVoorstellen = JSON.parse(this.responseText);
+                    var HTMLString = "<table id='tbl-main'>"
+                        + "<tr><th>Naam</th>"
+                        + "<th>Onderwerp</th>"
+                        + "<th>Samenvatting</th>"
+                        + "<th>Status</th>"
+                        + "<th><button id='btn-aanmaken'>Aanmaken</button></th></tr>"
+                        for(var x = 0; x < alleVoorstellen.length; x++){
+                            HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";
+                            HTMLString += "<td>" + alleVoorstellen[x].onderwerp + "</td>";
+                            HTMLString += "<td>" + alleVoorstellen[x].samenvatting + "</td>";
+                            HTMLString += "<td id='tb-status'>" + alleVoorstellen[x].status + "</td>";
+                            HTMLString += "<td><button>Voorstel intrekken</button></td><td><button>Voorstel aanpassen</button></td></tr>";
+                        }
+                    HTMLString += "</table>";
+                    document.getElementById("voorstelTabel").innerHTML = HTMLString;
+                }
+
+            }
+            xhr.open("GET","http://localhost:8082/getBody", true);
+            xhr.send();
+        }
+    </script>
+
+
+
+
+
+
+</head>
+<body onload="toonAanvragen()">
+    
+    <header class="hdr-main">
+        <img src="../images/TopicusLogo.png" class="hdr-img">
+        <div class="hdr-btns">
+            <p class="hdr-btns-text">Je bent ingelogd als: XYZ</p>
+            <button class="hdr-btns-btn" >Profiel</button>
+            <button class="hdr-btns-btn">Uitloggen</button>
+        </div>
+    </header>
+
+    <div id="voorstelTabel"></div>
+</body>
+</html>
