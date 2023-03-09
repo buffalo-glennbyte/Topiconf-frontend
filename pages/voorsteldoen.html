@@ -8,19 +8,21 @@
     
     <script>
         let currentEvent;
-
+//Dont  Repear Yourself
         window.onload = function() {
         const response = fetch("http://localhost:8082/evenement/alleEvenementen", {
             method: "GET",
             headers: {'Content-Type': 'application/json'},
             }).then((response) => response.json()).then((data)=>{
                 data.forEach((element) => {
-                const option = document.createElement("option");
-                const button = document.getElementById("sendBtn");
-                option.innerHTML = element.naam;
-                option.value = element.id;
-                button.onclick = () => {addVoorstel();}
-                document.getElementById("select").append(option);
+                    const option = document.createElement("option");
+                    option.innerHTML = element.naam;
+                    option.value = element.id;
+
+                    const button = document.getElementById("sendBtn");
+                    button.onclick = () => {addVoorstel();}
+                
+                    document.getElementById("select").append(option);
                 });
             })
         }        
