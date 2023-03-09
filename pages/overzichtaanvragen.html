@@ -47,7 +47,7 @@
                       headers: {'Content-Type': 'application/json'},
                       body: JSON.stringify({
                       id:o.id ,
-                      naam: o.naam,
+                      naam: o.achternaam,
                       voornaam:o.voornaam,
                       onderwerp:o.onderwerp,
                       eMail:o. eMail,
@@ -82,8 +82,8 @@
                  data.forEach(data => {
                  const html =`
                         <div class="request" data-id='${data.id}' id='request${data.id}'>
-                        <div class="data "><p>Naam:<span class = 'name'> ${data.naam}</span></p></div>
-                            <div class="data "><p>Achternaam: <span class = 'surname'>${data.voornaam}</span></p></div>
+                        <div class="data "><p>Naam:<span class = 'name'> ${data.voornaam}</span></p></div>
+                            <div class="data "><p>Achternaam: <span class = 'surname'>${data.achternaam}</span></p></div>
                             <div class="data "><p>Onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
                             <div class="data "><p>E-mail: <a class = 'email' href="mailto:${data.eMail}">${data.eMail}</a></p></div>
                             <div class="buttons">
@@ -133,7 +133,7 @@
         <div class="wrapper">
              <div class="content-buttons">
               <button class="content-btn btn" data-tabNumber="1">geaccepteerd</button>
-              <button class="content-btn btn" data-tabNumber="2">gevlagt</button>
+              <button class="content-btn btn" data-tabNumber="2">gevlagd</button>
               <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
               <button class="content-btn btn btn-active" data-tabNumber="4">ongemarkeerd</button>
             </div>

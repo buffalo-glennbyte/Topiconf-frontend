@@ -4,63 +4,122 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Topiconf Request</title>
+    <title>Voorstel voor Presentatie</title>
     
     <script>
+        let currentEvent;
+
+        window.onload = function() {
+        const response = fetch("http://localhost:8082/evenement/alleEvenementen", {
+            method: "GET",
+            headers: {'Content-Type': 'application/json'},
+            }).then((response) => response.json()).then((data)=>{
+                data.forEach((element) => {
+                const option = document.createElement("option");
+                const button = document.getElementById("sendBtn");
+                option.innerHTML = element.naam;
+                option.value = element.id;
+                button.onclick = () => {addVoorstel();}
+                document.getElementById("select").append(option);
+                });
+            })
+        }        
+
         const clearValue = function(){
             document.getElementById("nameInput").value='';
             document.getElementById("surnameInput").value='';
             document.getElementById("topicInput").value='';
             document.getElementById("emailInput").value='';
+            document.getElementById("samenInput").value='';
+            document.getElementById("select").value='';
         }
-        function addVoorstel(){
+
+        window.onload = function(){
+            var eventid = window.location.href.split('=').pop();
+            console.log(eventid);
+            fetch(`http://localhost:8082/evenement/geefEvenement/${eventid}`).then((response)=> response.json()).then((data)=>{
+                currentEvent = data;
+                console.log(currentEvent);
+            })
+
+            var HTMLString = "";
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4){                   
+                    var allCategorieenPerEvent = JSON.parse(this.responseText);
+                    HTMLString += "<select name='categorieSelector' id='categorieSelector'>";
+                    for(var i = 0; i < allCategorieenPerEvent.length; i++){
+                        HTMLString += "<option value=" + allCategorieenPerEvent[i].id + ">" + allCategorieenPerEvent[i].name + "</option>";  
+                    }   
+                    HTMLString += "</select>";
+                    document.getElementById("categorieSelect").innerHTML = HTMLString;
+                }
+            }
+
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleCategorieenPerEvenement/" + eventid, true);
+            xhr.send();
+        }
+
+        async function addVoorstel(){          
             const name = document.getElementById("nameInput").value;
             const surname = document.getElementById("surnameInput").value;
             const topic = document.getElementById("topicInput").value;
             const mail = document.getElementById("emailInput").value;
-
-            const isValid =name&&surname&&topic&&mail;
-
+            const samenvat = document.getElementById("samenInput").value;
+            const categorieid = document.getElementById("categorieSelector").value;
+            console.log(categorieid);
+            
+            const isValid =name&&surname&&topic&&mail&&samenvat;
+             
             if(isValid){
-
-                const request = {voornaam: name, achternaam: surname, onderwerp: topic, eMail: mail}
-                fetch("http://localhost:8082/evenement/voegVoorstelAanEvenementToe/3",{
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(request)
-            })
-            .then((response) => alert("Voorstel is succesvol verstuurd"))
-            clearValue();  
+                const request = {voornaam: name, achternaam: surname, onderwerp: topic, eMail: mail, samenvatting: samenvat}
+                fetch(`http://localhost:8082/voorstel/voorstelOpslaan?categorieid=${categorieid}`, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(request)
+                } )
+                .then((response) => alert("Voorstel is succesvol verstuurd"))
+                console.log(JSON.stringify(request));
+                clearValue();  
+            }
         }
-    }
 
     </script>
     <link rel="stylesheet" href="../styles/style.css">
 </head>
 <body>
     <div class="wrapper">
-        <form class="request_window">
+        <form id="form" class="request_window">
+            <h1 class="form_title">Stuur je voorstel in!</h1>
             <div class="field">
                 <input type="text" id="nameInput"
                 class="input" placeholder="Voornaam" required>
-                <label for=""></label>
             </div>
             <div class="field">
                 <input type="text" id="surnameInput"
                 class="input" placeholder="Achternaam" required>
-                <label for=""></label>
             </div>
             <div class="field">
                 <input type="text" id="topicInput"
                 class="input" placeholder="Onderwerp presentatie" required>
-                <label for=""></label>
             </div>
             <div class="field">
                 <input type="email" pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" id="emailInput"
                 class="input" placeholder="voorbeeld@email.nl" required>
+            </div>
+            <div class="field" id="categorieSelect">
+            </div>
+            <div class="field">
+                <input type="text" id="samenInput"
+                class="input" maxlength="140" placeholder="Samenvatting presentatie" required>
                 <label for=""></label>
             </div>
             <button onclick="addVoorstel()" class="btn">Verstuur</button>
+            <!-- <div class="field">
+                <select class="input" name="id" id="select" required>
+                    <option value="" selected disabled hidden>Selecteer evenement</option>
+                </select>
+            </div> -->
         </form>
     </div>
 </body>
