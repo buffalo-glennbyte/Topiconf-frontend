@@ -22,6 +22,7 @@
 
 .hdr-btns-text
 {
+    color: black;
     display:inline-block;
     margin-right: 15px;
     font-size: medium;
@@ -41,5 +42,10 @@
 .hdr-btns-btn:hover
 {
     background-color: #3667C3;
+}
+
+.hdr-btns-btn:active
+{
+    font-size: small;
 }
 

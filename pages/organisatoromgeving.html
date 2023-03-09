@@ -8,6 +8,68 @@
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/style.css">
 
+
+    <style>
+        main
+        {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .aside
+        {
+            background-color: bisque;
+        }
+
+
+        .btn-event
+        {
+            padding: 8px;
+            background-color: rgb(43, 82, 155);
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .btn-event:hover
+        {
+            background-color: #3667C3;
+        }
+
+        .btn-event:active
+        {
+            font-size: small;
+        }
+
+        .main-content
+        {
+            flex-basis: 100%;
+        }
+
+
+        .tbl-main
+        {
+            text-align: center;
+        }
+
+        th
+        {
+            color: gray;
+            padding-bottom: 20px;
+        }
+
+        td
+        {
+            border-top: none;
+            line-height: 20px;
+            word-wrap: break-word;
+            padding-bottom: 10px;
+        }
+    </style>
+
+
+
     <script>
         function toonAanvragen()
         {
@@ -23,16 +85,17 @@
                         for(var x = 0; x < evenementen.length; x++){
                             HTMLString += "<tr><td>" + evenementen[x].naam + "</td>";
                             HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
-                            HTMLString += "<td>" + evenementen[x].samenvatting + "</td>";
-                            HTMLString += "<td id='tb-status'>" + evenementen[x].status + "</td>";
-                            HTMLString += "<td><button>Voorstel intrekken</button></td><td><button>Voorstel aanpassen</button></td></tr>";
+                            HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
+                                + "</br>"
+                                + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
+                            HTMLString += "<td><button>Voorstel intrekken</button></td></tr>";
                         }
                     HTMLString += "</table>";
                     document.getElementById("evenementTabel").innerHTML = HTMLString;
                 }
 
             }
-            xhr.open("GET","http://localhost:8082/getBody", true);
+            xhr.open("GET","http://localhost:8082/evenement/alleEvenementen", true);
             xhr.send();
         }
     </script>
@@ -50,8 +113,8 @@
     </header>
 
     <main>
-        <aside class="btn-aside">
-            <button>Evenementen</button>
+        <aside class="aside">
+            <button class="btn-event">Evenementen</button>
         </aside>
 
         <div class="main-content">

@@ -18,7 +18,8 @@ header {
 }
 
   body{
-    background-color: #3a4448;
+    background-color: white;
+    /*background-color: #3a4448;*/
     /* background: linear-gradient(45deg, rgba(36,47,52,1) 0%, rgba(80,89,93,1) 25%,rgba(80,89,93,1) 75%, rgba(36,47,52,1) 100%); */
     overflow: hidden;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
