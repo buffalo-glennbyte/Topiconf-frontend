@@ -68,11 +68,13 @@
                     var HTMLString = "<table id='tbl-main'>"
                         + "<tr><th>Naam</th>"
                         + "<th>Onderwerp</th>"
-                        + "<th>Samenvatting</th>"
+                        + "<th>Beschrijving</th>"
                         + "<th>Status</th>"
+                        + "<th></th>"
                         + "<th><button id='btn-aanmaken'>Aanmaken</button></th></tr>"
                         for(var x = 0; x < alleVoorstellen.length; x++){
-                            HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";
+                            // HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";
+                            HTMLString += "<tr><td>" + alleVoorstellen[x].naam + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].onderwerp + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].samenvatting + "</td>";
                             HTMLString += "<td id='tb-status'>" + alleVoorstellen[x].status + "</td>";
@@ -83,15 +85,10 @@
                 }
 
             }
-            xhr.open("GET","http://localhost:8082/getBody", true);
+            xhr.open("GET","http://localhost:8082/voorstel/geefAlleVoorstellen", true)
             xhr.send();
         }
     </script>
-
-
-
-
-
 
 </head>
 <body onload="toonAanvragen()">
