@@ -11,6 +11,14 @@
 
 
     <script>
+
+        
+        function test()
+        {
+            console.log("Dit werkt");
+            window.location.href = "./sprekeromgeving.html";
+        }
+
         function toonEvenementen()
         {
             var xhr = new XMLHttpRequest();
@@ -24,7 +32,7 @@
                         + "<th>Datum</th>"
                         + "<th><button id='btn-aanmaken'>Evenement Aanmaken</button></th></tr>"
                         for(var x = 0; x < evenementen.length; x++){
-                            HTMLString += "<tr><td>" + evenementen[x].naam + "</td>";
+                            HTMLString += "<tr onClick='test()' class='tbl-row-data'><td>" + evenementen[x].naam + "</td>";
                             HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
                             HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
                                 + "</br>"
