@@ -5,9 +5,123 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organisator Omgeving</title>
+    <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/style.css">
+
+
+    <style>
+        main
+        {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .aside
+        {
+            background-color: bisque;
+        }
+
+
+        .btn-event
+        {
+            padding: 8px;
+            background-color: rgb(43, 82, 155);
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .btn-event:hover
+        {
+            background-color: #3667C3;
+        }
+
+        .btn-event:active
+        {
+            font-size: small;
+        }
+
+        .main-content
+        {
+            flex-basis: 100%;
+        }
+
+
+        .tbl-main
+        {
+            text-align: center;
+        }
+
+        th
+        {
+            color: gray;
+            padding-bottom: 20px;
+        }
+
+        td
+        {
+            border-top: none;
+            line-height: 20px;
+            word-wrap: break-word;
+            padding-bottom: 10px;
+        }
+    </style>
+
+
+
+    <script>
+        function toonAanvragen()
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Aanvragen opgehaald");
+                    var evenementen = JSON.parse(this.responseText);
+                    var HTMLString = "<table id='tbl-main'>"
+                        + "<tr><th>Naam</th>"
+                        + "<th>Omschrijving</th>"
+                        + "<th>Datum</th></tr>"
+                        for(var x = 0; x < evenementen.length; x++){
+                            HTMLString += "<tr><td>" + evenementen[x].naam + "</td>";
+                            HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
+                            HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
+                                + "</br>"
+                                + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
+                            HTMLString += "<td><button>Voorstel intrekken</button></td></tr>";
+                        }
+                    HTMLString += "</table>";
+                    document.getElementById("evenementTabel").innerHTML = HTMLString;
+                }
+
+            }
+            xhr.open("GET","http://localhost:8082/evenement/alleEvenementen", true);
+            xhr.send();
+        }
+    </script>
+
+
 </head>
-<body>
-    
+<body onload="toonAanvragen()">
+    <header class="hdr-main">
+        <img src="../images/TopicusLogo.png" class="hdr-img">
+        <div class="hdr-btns">
+            <p class="hdr-btns-text">Je bent ingelogd als: XYZ</p>
+            <button class="hdr-btns-btn" >Profiel</button>
+            <button class="hdr-btns-btn">Uitloggen</button>
+        </div>
+    </header>
+
+    <main>
+        <aside class="aside">
+            <button class="btn-event">Evenementen</button>
+        </aside>
+
+        <div class="main-content">
+            <div id="evenementTabel"></div>
+        </div>
+    </main>
+
+
 </body>
 </html>
