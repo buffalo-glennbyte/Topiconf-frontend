@@ -13,14 +13,13 @@
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    console.log("Locaties opgehaald");
-                    var allLocations = JSON.parse(this.responseText);
+                    var alleLocaties = JSON.parse(this.responseText);
                     var eindString = "<table class=table><tr><th>Naam</th><th>Omschrijving</th><th>Capaciteit</th>";
-                        for(var x = 0; x < allLocations.length; x++){
-                            eindString += "<tr><td>" + allLocations[x].name + "</td>";
-                            eindString += "<td>" + allLocations[x].description + "</td>";
-                            eindString += "<td>" + allLocations[x].capacity + "</td>";
-                            eindString += "<td><button class='tableBtn' onclick='deleteLocatie("+allLocations[x].id+")'>Delete</button></td></tr>";
+                        for(var x = 0; x < alleLocaties.length; x++){
+                            eindString += "<tr><td>" + alleLocaties[x].name + "</td>";
+                            eindString += "<td>" + alleLocaties[x].description + "</td>";
+                            eindString += "<td>" + alleLocaties[x].capacity + "</td>";
+                            eindString += "<td><button class='tableBtn' onclick='verwijderLocatie("+alleLocaties[x].id+")'>Verwijder</button></td></tr>";
                         }
                     eindString += "</table>";
                     document.getElementById("locatieTabel").innerHTML = eindString;
@@ -31,7 +30,7 @@
             xhr.send();
         }
 
-        function deleteLocatie(id){
+        function verwijderLocatie(id){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){

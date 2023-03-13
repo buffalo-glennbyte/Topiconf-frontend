@@ -7,21 +7,18 @@
     <title>Voorstel voor Presentatie</title>
 
     <script>
-      let currentEvent;
+      let huidigEvenement;
       window.onload = function () {
         var evenement = window.location.href.split("=").pop();
-        console.log(evenement);
         const response = fetch(
-          `http://localhost:8082/evenement/geefEvenement?e=${evenement}`,
-          {
+          `http://localhost:8082/evenement/geefEvenementPerNaam?e=${evenement}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
           }
         )
           .then((response) => response.json())
           .then((data) => {
-            currentEvent = data[0];
-            console.log(data[0]);
+            huidigEvenement = data[0];
           });
       };
 
@@ -34,7 +31,6 @@
       };
 
       async function addVoorstel() {
-        console.log(currentEvent);
         const name = document.getElementById("nameInput").value;
         const surname = document.getElementById("surnameInput").value;
         const topic = document.getElementById("topicInput").value;
@@ -52,7 +48,8 @@
             samenvatting: samenvat,
           };
           fetch(
-            `http://localhost:8082/evenement/voorstelEnSpreker/postBody/${currentEvent.id}`,
+            // deze klopt niet
+            `http://localhost:8082/evenement/voorstelEnSpreker/postBody/${huidigEvenement.id}`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
