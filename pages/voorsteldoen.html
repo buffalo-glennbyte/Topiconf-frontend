@@ -1,90 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Voorstel voor Presentatie</title>
-    
+
     <script>
+      let currentEvent;
+      window.onload = function () {
+        var evenement = window.location.href.split("=").pop();
+        console.log(evenement);
+        const response = fetch(
+          `http://localhost:8082/evenement/geefEvenement?e=${evenement}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            currentEvent = data[0];
+            console.log(data[0]);
+          });
+      };
 
-        let currentEvent;
-        window.onload = function() {
-            var evenement = window.location.href.split('=').pop();
-            console.log(evenement);
-            const response = fetch(`http://localhost:8082/evenement/geefEvenement?e=${evenement}`, {
-                method: "GET",
-                headers: {'Content-Type': 'application/json'},
-                })
-            .then((response) => response.json())
-            .then((data)=>{ 
-                currentEvent = data[0];
-                console.log(data[0]);
-            })
-        } 
+      const clearValue = function () {
+        document.getElementById("nameInput").value = "";
+        document.getElementById("surnameInput").value = "";
+        document.getElementById("topicInput").value = "";
+        document.getElementById("emailInput").value = "";
+        document.getElementById("samenInput").value = "";
+      };
 
-        const clearValue = function(){
-            document.getElementById("nameInput").value='';
-            document.getElementById("surnameInput").value='';
-            document.getElementById("topicInput").value='';
-            document.getElementById("emailInput").value='';
-            document.getElementById("samenInput").value='';
-        }
+      async function addVoorstel() {
+        console.log(currentEvent);
+        const name = document.getElementById("nameInput").value;
+        const surname = document.getElementById("surnameInput").value;
+        const topic = document.getElementById("topicInput").value;
+        const mail = document.getElementById("emailInput").value;
+        const samenvat = document.getElementById("samenInput").value;
 
-        async function addVoorstel(){       
-            console.log(currentEvent);   
-            const name = document.getElementById("nameInput").value;
-            const surname = document.getElementById("surnameInput").value;
-            const topic = document.getElementById("topicInput").value;
-            const mail = document.getElementById("emailInput").value;
-            const samenvat = document.getElementById("samenInput").value;
-            
-            const isValid =name&&surname&&topic&&mail&&samenvat;
-             
-            if(isValid){
-               
-                const request = {voornaam: name, achternaam: surname, onderwerp: topic, eMail: mail, samenvatting: samenvat}
-                fetch(`http://localhost:8082/evenement/voegVoorstelAanEvenementToe/${currentEvent.id}`,{
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(request)
-                } )
-                .then((response) => alert("Voorstel is succesvol verstuurd"))
-                console.log(JSON.stringify(request));
-                clearValue();  
+        const isValid = name && surname && topic && mail && samenvat;
+
+        if (isValid) {
+          const request = {
+            voornaam: name,
+            achternaam: surname,
+            onderwerp: topic,
+            eMail: mail,
+            samenvatting: samenvat,
+          };
+          fetch(
+            `http://localhost:8082/evenement/voorstelEnSpreker/postBody/${currentEvent.id}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(request),
             }
+          ).then((response) => alert("Voorstel is succesvol verstuurd"));
+          console.log(JSON.stringify(request));
+          clearValue();
         }
-
+      }
     </script>
-    <link rel="stylesheet" href="../styles/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../styles/style.css" />
+  </head>
+  <body>
     <div class="wrapper">
-        <form id="form" class="request_window">
-            <h1 class="form_title">Stuur je voorstel in!</h1>
-            <div class="field">
-                <input type="text" id="nameInput"
-                class="input" placeholder="Voornaam" required>
-            </div>
-            <div class="field">
-                <input type="text" id="surnameInput"
-                class="input" placeholder="Achternaam" required>
-            </div>
-            <div class="field">
-                <input type="text" id="topicInput"
-                class="input" placeholder="Onderwerp presentatie" required>
-            </div>
-            <div class="field">
-                <input type="email" pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" id="emailInput"
-                class="input" placeholder="voorbeeld@email.nl" required>
-            </div>
-            <div class="field">
-                <input type="text" id="samenInput"
-                class="input" maxlength="140" placeholder="Samenvatting presentatie" required>
-                <label for=""></label>
-            </div>
-            <button onclick="addVoorstel()" class="btn">Verstuur</button>
-        </form>
+      <form id="form" class="request_window">
+        <h1 class="form_title">Stuur je voorstel in!</h1>
+        <div class="field">
+          <input
+            type="text"
+            id="nameInput"
+            class="input"
+            placeholder="Voornaam"
+            required
+          />
+        </div>
+        <div class="field">
+          <input
+            type="text"
+            id="surnameInput"
+            class="input"
+            placeholder="Achternaam"
+            required
+          />
+        </div>
+        <div class="field">
+          <input
+            type="text"
+            id="topicInput"
+            class="input"
+            placeholder="Onderwerp presentatie"
+            required
+          />
+        </div>
+        <div class="field">
+          <input
+            type="email"
+            pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*"
+            id="emailInput"
+            class="input"
+            placeholder="voorbeeld@email.nl"
+            required
+          />
+        </div>
+        <div class="field">
+          <input
+            type="text"
+            id="samenInput"
+            class="input"
+            maxlength="140"
+            placeholder="Samenvatting presentatie"
+            required
+          />
+          <label for=""></label>
+        </div>
+        <button onclick="addVoorstel()" class="btn">Verstuur</button>
+      </form>
     </div>
-</body>
+  </body>
 </html>
