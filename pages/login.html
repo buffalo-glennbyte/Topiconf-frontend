@@ -13,15 +13,15 @@
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
-          var allSprekers = JSON.parse(this.responseText);
+          var alleSprekers = JSON.parse(this.responseText);
 
-          for (var x = 0; x < allSprekers.length; x++) {
-            inlog.push(allSprekers[x].email);
-            rol.push(allSprekers[x].rol);
+          for (var x = 0; x < alleSprekers.length; x++) {
+            inlog.push(alleSprekers[x].email);
+            rol.push(alleSprekers[x].rol);
           }
         }
       };
-      xhr.open("GET", "http://localhost:8082/persoon/getBody", true);
+      xhr.open("GET", "http://localhost:8082/persoon/geefAllePersonen", true);
       xhr.send();
 
       function checkPasswordAndEmail() {

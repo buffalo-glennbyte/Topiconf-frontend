@@ -16,7 +16,6 @@
         ----------------------------
         */
 
-
         #btn-aanmaken
         {
             padding: 8px;
@@ -37,17 +36,13 @@
             border-radius: 10px;
             background-color: rgb(6, 228, 17, .7);
         }
-
-
     </style>
 
     <script>
-        function toonAanvragen()
-        {
+        function toonAanvragen() {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    console.log("Aanvragen opgehaald");
                     var alleVoorstellen = JSON.parse(this.responseText);
                     var HTMLString = "<table id='tbl-main'>"
                         + "<tr><th>Naam</th>"
@@ -67,7 +62,6 @@
                     HTMLString += "</table>";
                     document.getElementById("voorstelTabel").innerHTML = HTMLString;
                 }
-
             }
             xhr.open("GET","http://localhost:8082/voorstel/geefAlleVoorstellen", true)
             xhr.send();
@@ -76,7 +70,6 @@
 
 </head>
 <body onload="toonAanvragen()">
-    
     <header class="hdr-main">
         <img src="../images/TopicusLogo.png" class="hdr-img">
         <div class="hdr-btns">
@@ -85,7 +78,6 @@
             <button class="hdr-btns-btn">Uitloggen</button>
         </div>
     </header>
-
     <div id="voorstelTabel"></div>
 </body>
 </html>
