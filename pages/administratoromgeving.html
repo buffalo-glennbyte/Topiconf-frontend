@@ -12,40 +12,27 @@
 
     <script>
 
-        setTimeout(RijenOpKlikken, 30);
+        setTimeout(RijenOpKlikken, 100);
 
         function RijenOpKlikken()
         {
+            
             const tableRows = document.querySelectorAll(".row");
             tableRows.forEach(function(element) 
             {
                 element.addEventListener("click", function(event) 
                 {
-                    console.log("ben hier");
                     if (event.target.tagName == "BUTTON") {
-                        window.location.href = ("http://www.google.nl?name=" + element.children[0].innerHTML);
+                        window.location.href = ("http://hierMoetOrganisatorToevoegenEnVerwijderen"); // Voor de knop Organisator Toevoegen/Verwijderen
+                        console.log("Dit is de naam: " + element.children[0].innerHTML);
                     } 
                     else
                     {
-                        console.log(event.target.innerHTML)
-                        console.log(element.children[0].innerHTML);
+                        window.location.href = ("http://evenementDetailsPageMoetHierKomen?e=" + element.children[0].innerHTML); // geeft de naam van het event mee.
                     }
-                        alert("Je hebt verdomme geklikt!!");
                 });
             });
-        }
-            const doeiets = function() {
-            alert("gij hebt geklikt");
-        }        
-
-        // function test()
-        // {
-        //     let qqq = document.getElementsByClassName("tbl-row-data");
-        //     console.log(qqq);
-        //     window.location.href = "./sprekeromgeving.html";
-
-        //     // const krijgEvenementNaam = document.getElementsByClassName("tbl-row-data");
-        // }
+        } 
 
         
         function toonEvenementen() {
@@ -65,7 +52,7 @@
                             HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
                                 + "</br>"
                                 + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
-                            HTMLString += "<td><button onClick='doeiets()'>Organisator Toevoegen/Verwijderen</button></td></tr>";
+                            HTMLString += "<td><button>Organisator Toevoegen/Verwijderen</button></td></tr>";
                         }
                     HTMLString += "</table>";
                     document.getElementById("evenementTabel").innerHTML = HTMLString;

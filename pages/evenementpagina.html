@@ -58,7 +58,7 @@
                     HTMLString += "<h4>Categorie toevoegen</h4>";
                     HTMLString += "Naam categorie: <input id='categorieNaam'><br>";
                     HTMLString += "Omschrijving: <input id='categorieOmschrijving'><br>";
-                    HTMLString += "<button onclick='toonCategoriePerEvenement(" + huidigEvenement.id + ")'>Toevoegen</button>"
+                    HTMLString += "<button onclick='voegCategorieToeAanEvenement(" + huidigEvenement.id + ")'>Toevoegen</button>"
                     document.getElementById("innerTable").innerHTML = HTMLString;     
                 }                          
             }
@@ -81,7 +81,7 @@
                         HTMLString += "<td><button onclick='verwijderLocatie("+allLocationsPerEvent[i].id+")'>Delete</button></td><tr>"
                     }                   
                     HTMLString += "</table>";
-                    HTMLString += "<h4>Track adding form</h4>";
+                    HTMLString += "<h4>Locatie Toevoegen</h4>";
                     HTMLString += "Naam locatie: <input id='locatieNaam'><br>";
                     HTMLString += "Omschrijving: <input id='locatieOmschrijving'><br>";
                     HTMLString += "Capaciteit: <input id='locatieCapaciteit'><br>";
@@ -93,7 +93,7 @@
             xhr.send();
         }
 
-        function voegTrackToeAanEvenement(id){
+        function voegCategorieToeAanEvenement(id){
             var xhr = new XMLHttpRequest();
             var toetevoegenCategorie = {};
             toetevoegenCategorie.name = document.getElementById("categorieNaam").value;
