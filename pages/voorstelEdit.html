@@ -39,10 +39,10 @@
 
     <script>
         function laadGeselecteerdVoorstel() {
-            var idGeselecteerdVoorstel = localStorage.getItem("geselecteerdVoorstel");
-            localStorage.clear(); // Clean the localStorage
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            console.log(id); 
         }
-        
     </script>
 
 </head>
