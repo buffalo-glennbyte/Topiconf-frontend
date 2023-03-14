@@ -7,17 +7,16 @@
     <meta name="login to system" content="login" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>
+      let data;
       var inlog = [];
-      var rol = [];
 
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
           var alleSprekers = JSON.parse(this.responseText);
-
+          data = alleSprekers;
           for (var x = 0; x < alleSprekers.length; x++) {
             inlog.push(alleSprekers[x].email);
-            rol.push(alleSprekers[x].rol);
           }
         }
       };
@@ -27,15 +26,16 @@
       function checkPasswordAndEmail() {
         var username = document.getElementById("emaiInput").value;
         var password = document.getElementById("passwordInput").value;
+        let check = data.filter((user) => user.email == username);
 
-        console.log(inlog);
+        // filter, map en reduce
         if (inlog.includes(username) & (password == "ww")) {
-          if (rol.includes("s")) {
+          if (check[0].rol == "s") {
             location.href = "sprekeromgeving.html";
-          } else if (rol.includes("o")) {
+          } else if (check[0].rol == "o") {
             location.href = "evenementoverzicht.html";
-          } else if (rol.includes("a")) {
-            //hier komt admin
+          } else if (check[0].rol == "a") {
+            location.href = "administratoromgeving.html";
           } else {
             alert("er ging iets fout");
           }
