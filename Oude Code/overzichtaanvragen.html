@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="../styles/overzichtStyle.css">
     <script>
-        
 
 
        function addListenerToContentButtons(){
+
         document.querySelectorAll(".content-btn").forEach((btn)=>{
             btn.addEventListener("click", function(e){
                 document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
@@ -58,7 +58,10 @@
                       status : action})
                 }).then(element=> refresh());
                 })
-            }))}
+                .then(element=> refresh());
+                })
+            )};
+        
 
         function clear(){ 
             document.querySelector(".requestList--5").innerHTML='';
@@ -76,6 +79,7 @@
         function toonAanvragen(){
                 
              fetch("http://localhost:8082/voorstel/geefAlleVoorstellen")
+
              .then((request)=>request.json())
              .then((request)=>{
                  const [...data] =request;
@@ -112,15 +116,13 @@
                  if(data.status === "afgewezen"){
                     list_3.insertAdjacentHTML("afterbegin",html);
                  }
-                 if(data.status === "ingetrokken"){
+                 if(data.status === "intrekken"){
                     list_5.insertAdjacentHTML("afterbegin",html);
                  }
                  });
              })
              .then(()=>addListenersToActionButtons());
         }
-                
-  
     </script>
 </head>
 

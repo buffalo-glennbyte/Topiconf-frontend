@@ -118,15 +118,10 @@
     </style>
 
     <script>
-        function getBackendIP(){
-            return "20.23.114.237:8082";
-        }
-
-        function showLocaties(){
+        function toonLocaties(){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    console.log(this.responseText);
                     var alleLocaties = JSON.parse(this.responseText);
                     var HTMLString = "<table border=1>";
                     HTMLString += "<tr><td>ID</td> <td>Naam</td> <td>Omschrijving</td> <td>Capacitiet</td><td> </td></b></tr>"
@@ -141,38 +136,34 @@
                     document.getElementById("locatieTabel").innerHTML = HTMLString;
                 }
             }
-            console.log("hallo!");
-            xhr.open("GET","http://" + getBackendIP() + "/locatie/geefAlleLocaties", true);
+            xhr.open("GET","http://localhost:8082/locatie/geefAlleLocaties", true);
             xhr.send();
         }
 
-        function addLocatie(){
-            var locatieToAdd = {};
-            locatieToAdd.name = document.getElementById("locatieName").value;
-            locatieToAdd.capacity = document.getElementById("locationCapacity").value;
-            locatieToAdd.description = document.getElementById("locatieDescription").value;
+        function voegLocatieToe(){
+            var toetevoegenLocatie = {};
+            toetevoegenLocatie.name = document.getElementById("locatieName").value;
+            toetevoegenLocatie.capacity = document.getElementById("locationCapacity").value;
+            toetevoegenLocatie.description = document.getElementById("locatieDescription").value;
 
-            if(locatieToAdd.name.length > 26) {
+            if(toetevoegenLocatie.name.length > 26) {
                 alert("Ingevoerde naam is te lang")
-            } else if(locatieToAdd.description.length > 46) {
+            } else if(toetevoegenLocatie.description.length > 46) {
                 alert("Ingevoerde omschrijving is te lang")
-            } else if(locatieToAdd.capacity.length > 26) {
+            } else if(toetevoegenLocatie.capacity.length > 26) {
                 alert("Ingevoerde Capaciteit is te lang")
             } else {
-                var JSONcall = JSON.stringify(locatieToAdd);
+                var JSONcall = JSON.stringify(toetevoegenLocatie);
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     console.log(JSONcall);
                 }
             }
-            xhr.open("POST","http://" + getBackendIP() + "/locatie/voegLocatieToe", true);
+            xhr.open("POST","http://localhost:8082/locatie/slaLocatieOp", true);
             xhr.setRequestHeader("Content-Type", "application/json")
             xhr.send(JSONcall);
             }
-
-
-
 
             // Reset input fields after sending
             document.getElementById("locatieName").value = "";
@@ -181,7 +172,7 @@
         }
 
         function editLocatie(){
-            
+            //To be created
         }
 
         function deleteLocatie(id){
@@ -191,7 +182,7 @@
 
                 }
             }
-            xhr.open("DELETE","http://" + getBackendIP() + "/locatie/verwijderLocatie/" + id, true);
+            xhr.open("DELETE","http://localhost:8082/locatie/verwijderLocatie/" + id, true);
             xhr.send();
         }
     </script>
@@ -213,10 +204,10 @@
                 <input type="text" id="locationCapacity" class="input" placeholder="Max. Capaciteit">
             </div>
             <div style="text-align: center;">
-                <button  class="btn" onclick="addLocatie()">Voeg Toe</button>
+                <button  class="btn" onclick="voegLocatieToe()">Voeg Toe</button>
             </div>
             <div style="text-align: center;">
-                <button  class="btn" onclick="showLocaties()">Alle Locaties</button>
+                <button  class="btn" onclick="toonLocaties()">Alle Locaties</button>
             </div>
             <br><br><br>
             <div id="locatieTabel"></div>

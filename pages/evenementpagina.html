@@ -32,37 +32,37 @@
     </style>
 
     <script> 
-        let currentEvent;
+        let huidigEvenement;
         window.onload = function(){
-            var eventid = window.location.href.split('=').pop();
-            fetch(`http://localhost:8082/evenement/geefEvenement/${eventid}`).then((response)=> response.json()).then((data)=>{
-            currentEvent = data;
-            document.getElementById("evenementTitel").innerHTML = currentEvent.naam;
+            var evenementId = window.location.href.split('=').pop();
+            fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
+            huidigEvenement = data;
+            document.getElementById("evenementTitel").innerHTML = huidigEvenement.naam;
         })}
             
-        function toonTracksPerEvenement(){
+        function toonCategoriePerEvenement(){
             document.querySelector(".voorstelTabel").classList.remove("visible");   
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    var allTracksPerEvent = JSON.parse(this.responseText);
+                    var allCategoriesPerEvent = JSON.parse(this.responseText);
                     HTMLString = "<table border=1>";
                     HTMLString += "<tr><th>Naam</th> <th>Omschrijving</th></tr>"
-                    for(var i = 0; i < allTracksPerEvent.length; i++){
-                        HTMLString += "<td>" + allTracksPerEvent[i].name + "</td>";
-                        HTMLString += "<td>" + allTracksPerEvent[i].description + "</td>";
-                        HTMLString += "<td><button onclick='verwijderTrack("+allTracksPerEvent[i].id+")'>Delete</button></td><tr>"
+                    for(var i = 0; i < allCategoriesPerEvent.length; i++){
+                        HTMLString += "<td>" + allCategoriesPerEvent[i].name + "</td>";
+                        HTMLString += "<td>" + allCategoriesPerEvent[i].description + "</td>";
+                        HTMLString += "<td><button onclick='verwijderCategorie("+allCategoriesPerEvent[i].id+")'>Delete</button></td><tr>"
                     }                   
                     HTMLString += "</table>";
 
-                    HTMLString += "<h4>Track adding form</h4>";
-                    HTMLString += "Naam track: <input id='trackNaam'><br>";
-                    HTMLString += "Omschrijving: <input id='trackOmschrijving'><br>";
-                    HTMLString += "<button onclick='voegTrackToeAanEvenement(" + currentEvent.id + ")'>Add track</button>"
+                    HTMLString += "<h4>Categorie toevoegen</h4>";
+                    HTMLString += "Naam categorie: <input id='categorieNaam'><br>";
+                    HTMLString += "Omschrijving: <input id='categorieOmschrijving'><br>";
+                    HTMLString += "<button onclick='voegCategorieToeAanEvenement(" + huidigEvenement.id + ")'>Toevoegen</button>"
                     document.getElementById("innerTable").innerHTML = HTMLString;     
                 }                          
             }
-            xhr.open("GET","http://localhost:8082/evenement/geefAlleTracksPerEvenement/" + currentEvent.id, true);
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleCategorieenPerEvenement/" + huidigEvenement.id, true);
             xhr.send();
         }
 
@@ -81,47 +81,46 @@
                         HTMLString += "<td><button onclick='verwijderLocatie("+allLocationsPerEvent[i].id+")'>Delete</button></td><tr>"
                     }                   
                     HTMLString += "</table>";
-
-                    HTMLString += "<h4>Track adding form</h4>";
+                    HTMLString += "<h4>Locatie Toevoegen</h4>";
                     HTMLString += "Naam locatie: <input id='locatieNaam'><br>";
                     HTMLString += "Omschrijving: <input id='locatieOmschrijving'><br>";
                     HTMLString += "Capaciteit: <input id='locatieCapaciteit'><br>";
-                    HTMLString += "<button onclick='voegLocatieToeAanEvenement(" + currentEvent.id + ")'>Add location</button>"
+                    HTMLString += "<button onclick='voegLocatieToeAanEvenement(" + huidigEvenement.id + ")'>Add location</button>"
                     document.getElementById("innerTable").innerHTML = HTMLString;    
                 }                                          
             }
-            xhr.open("GET","http://localhost:8082/evenement/geefAlleLocatiesPerEvenement/" + currentEvent.id, true);
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleLocatiesPerEvenement/" + huidigEvenement.id, true);
             xhr.send();
         }
 
-        function voegTrackToeAanEvenement(id){
+        function voegCategorieToeAanEvenement(id){
             var xhr = new XMLHttpRequest();
-            var trackToAdd = {};
-            trackToAdd.name = document.getElementById("trackNaam").value;
-            trackToAdd.description = document.getElementById("trackOmschrijving").value;
-            JSONstatement = JSON.stringify(trackToAdd);      
+            var toetevoegenCategorie = {};
+            toetevoegenCategorie.name = document.getElementById("categorieNaam").value;
+            toetevoegenCategorie.description = document.getElementById("categorieOmschrijving").value;
+            JSONstatement = JSON.stringify(toetevoegenCategorie);      
             console.log(JSONstatement);         
-            xhr.open("POST", "http://localhost:8082/evenement/voegTrackAanEvenementToe/" + id, true);          
+            xhr.open("POST", "http://localhost:8082/evenement/voegCategorieAanEvenementToe/" + id, true);          
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSONstatement);
         }
 
         function voegLocatieToeAanEvenement(id){
             var xhr = new XMLHttpRequest();
-            var locationToAdd = {};
-            locationToAdd.name = document.getElementById("locatieNaam").value;
-            locationToAdd.description = document.getElementById("locatieOmschrijving").value;
-            locationToAdd.capacity = document.getElementById("locatieCapaciteit").value;
-            JSONstatement = JSON.stringify(locationToAdd);      
+            var toetevoegenLocatie = {};
+            toetevoegenLocatie.name = document.getElementById("locatieNaam").value;
+            toetevoegenLocatie.description = document.getElementById("locatieOmschrijving").value;
+            toetevoegenLocatie.capacity = document.getElementById("locatieCapaciteit").value;
+            JSONstatement = JSON.stringify(toetevoegenLocatie);      
             console.log(JSONstatement);         
             xhr.open("POST", "http://localhost:8082/evenement/voegLocatieAanEvenementToe/" + id, true);          
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSONstatement);
         }
 
-        function verwijderTrack(id){
+        function verwijderCategorie(id){
             var xhr = new XMLHttpRequest();
-            xhr.open("DELETE", "http://localhost:8082/track/verwijderTrack/" + id, true);
+            xhr.open("DELETE", "http://localhost:8082/track/verwijderCategorie/" + id, true);
             xhr.send();
         }
 
@@ -132,47 +131,50 @@
         }
 
         function addListenerToContentButtons(){
-        document.querySelectorAll(".content-btn").forEach((btn)=>{
-            btn.addEventListener("click", function(e){
-                document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
-            btn.classList.remove("btn-active");
-            e.target.classList.add("btn-active");
-            const target= e.target.dataset.tabnumber;
-            document.querySelector(".requestList--1").classList.remove("visible");
-            document.querySelector(".requestList--2").classList.remove("visible");
-            document.querySelector(".requestList--3").classList.remove("visible");
-            document.querySelector(".requestList--4").classList.remove("visible");
-            document.querySelector(`.requestList--${target}`).classList.add("visible");
-        })})
+            document.querySelectorAll(".content-btn").forEach((btn)=>{
+                btn.addEventListener("click", function(e){
+                    document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
+                    btn.classList.remove("btn-active");
+                    e.target.classList.add("btn-active");
+                    const target= e.target.dataset.tabnumber;
+                    document.querySelector(".requestList--1").classList.remove("visible");
+                    document.querySelector(".requestList--2").classList.remove("visible");
+                    document.querySelector(".requestList--3").classList.remove("visible");
+                    document.querySelector(".requestList--4").classList.remove("visible");
+                    document.querySelector(`.requestList--${target}`).classList.add("visible");
+                })
+            })
        }
 
         function addListenersToActionButtons(){
-                 document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
-                 const target =e.target;
-                 const action = target.dataset.action;
-                 const parent = target.closest('.request');
-                 const name = document.querySelector(".name").textContent;
-                 const surname = document.querySelector(".surname").textContent;
-                 const topic = document.querySelector(".topic").textContent;
-                 const email = document.querySelector(".email").textContent;
-                 parent.classList.add(action);
+            document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
+                const target = e.target;
+                const action = target.dataset.action;
+                const parent = target.closest('.request');
+                const name = document.querySelector(".name").textContent;
+                const surname = document.querySelector(".surname").textContent;
+                const topic = document.querySelector(".topic").textContent;
+                const email = document.querySelector(".email").textContent;
+                parent.classList.add(action);
 
                 fetch(`http://localhost:8082/getElement/${parent.dataset.id}`).then((element)=>element.json()).then((obj)=>{
-                   const o = obj;
-                   console.log(o)
-                  fetch(`http://localhost:8082/updateElementStatus/${parent.dataset.id}`,
-                      {method: "PUT",
-                      headers: {'Content-Type': 'application/json'},
-                      body: JSON.stringify({
-                      id:o.id,
-                      voornaam: o.voornaam,
-                      achternaam:o.achternaam,
-                      onderwerp:o.onderwerp,
-                      eMail:o. eMail,
-                      status : action})
-                }).then(element=> refresh());
+                    const o = obj;
+                    fetch(`http://localhost:8082/updateElementStatus/${parent.dataset.id}`,{
+                        method: "PUT",
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            id:o.id,
+                            voornaam: o.voornaam,
+                            achternaam:o.achternaam,
+                            onderwerp:o.onderwerp,
+                            eMail:o. eMail,
+                            status : action
+                        })
+                    })
+                    .then(element => refresh());
                 })
-            }))}
+            }))
+        }
 
         function clear(){ 
             document.querySelector(".requestList--4").innerHTML='';
@@ -189,7 +191,7 @@
         function toonVoorstellenPerEvenement(){
             document.getElementById("innerTable").innerHTML = "";
             document.querySelector(".voorstelTabel").classList.add("visible");     
-             fetch("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + currentEvent.id)
+             fetch("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + huidigEvenement.id)
              .then((request)=>request.json())
              .then((request)=>{
                  const [...data] =request;
@@ -255,7 +257,7 @@
         <nav>
             <ul>
                 <li><a class="active" href="evenementoverzicht.html">Evenementen</a></li>
-                <li><a onclick="toonTracksPerEvenement()">Tracks</a></li>
+                <li><a onclick="toonCategoriePerEvenement()">Categorieën</a></li>
                 <li><a onclick="toonLocatiesPerEvenement()">Locaties</a></li>
                 <li><a onclick="refresh()">Voorstellen</a></li>
                 <li><a href="programma.html">Programma</a></li>
