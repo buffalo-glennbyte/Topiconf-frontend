@@ -93,13 +93,10 @@
 
         function voorstelBewerken(id)
         {
-            var retrievedData;
-            fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${id}`).then((response)=>response.json()).then((data)=>{this.retrievedData = data;})
-            localStorage.setItem("geselecteerdVoorstel" , JSON.stringify(this.retrievedData.id));
 
-            window.open("mijnVoorsteldEdit.html");
+            window.open("voorstelEdit.html/" + id)
+
         }
-
 
     </script>
 
