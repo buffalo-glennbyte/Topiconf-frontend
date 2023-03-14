@@ -10,12 +10,12 @@
     <script>
         function toonAlles(id)
         {
-            toonAanvragenVanDitEvenement(id);
+            geefAlleVoorstellenPerEvenement(id);
             toonLocaties();
         }
 
 
-        function toonAanvragenVanDitEvenement(id)
+        function geefAlleVoorstellenPerEvenement(id)
         {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
@@ -40,7 +40,7 @@
                 }
 
             }
-            xhr.open("GET","http://localhost:8082/evenement/alleEvenementen/" + id , true);
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + id , true);
             xhr.send();
         }
 

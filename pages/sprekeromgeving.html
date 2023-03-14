@@ -7,6 +7,7 @@
     <title>Spreker Omgeving</title>
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/tableStyling.css">
 
     <style>
         /* 
@@ -14,24 +15,6 @@
         Dit is voor de Table content 
         ----------------------------
         */
-
-        #tbl-main
-        {
-            text-align: center;
-        }
-
-        th
-        {
-            color: gray;
-            padding-bottom: 20px;
-        }
-
-        td
-        {
-            border-top: none;
-            line-height: 40px;
-            word-wrap: break-word;
-        }
 
         #btn-aanmaken
         {
@@ -53,17 +36,13 @@
             border-radius: 10px;
             background-color: rgb(6, 228, 17, .7);
         }
-
-
     </style>
 
     <script>
-        function toonAanvragen()
-        {
+        function toonAanvragen() {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    console.log("Aanvragen opgehaald");
                     var alleVoorstellen = JSON.parse(this.responseText);
                     var HTMLString = "<table id='tbl-main'>"
                         + "<tr><th>Naam</th>"
@@ -73,7 +52,7 @@
                         + "<th></th>"
                         + "<th><button id='btn-aanmaken'>Aanmaken</button></th></tr>"
                         for(var x = 0; x < alleVoorstellen.length; x++){
-                            //HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";
+                            //HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";   <- Is deze nog nodig? (Voorstel.class heeft geen voornaam achternaam fields)
                             HTMLString += "<tr><td>" + alleVoorstellen[x].naam + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].onderwerp + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].samenvatting + "</td>";
@@ -83,7 +62,6 @@
                     HTMLString += "</table>";
                     document.getElementById("voorstelTabel").innerHTML = HTMLString;
                 }
-
             }
             xhr.open("GET","http://localhost:8082/voorstel/geefAlleVoorstellen", true)
             xhr.send();
@@ -92,7 +70,6 @@
 
 </head>
 <body onload="toonAanvragen()">
-    
     <header class="hdr-main">
         <img src="../images/TopicusLogo.png" class="hdr-img">
         <div class="hdr-btns">
@@ -101,7 +78,6 @@
             <button class="hdr-btns-btn">Uitloggen</button>
         </div>
     </header>
-
     <div id="voorstelTabel"></div>
 </body>
 </html>

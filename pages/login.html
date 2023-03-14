@@ -7,27 +7,37 @@
     <meta name="login to system" content="login" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>
+      var inlog = [];
+      var rol = [];
+
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (this.readyState == 4) {
+          var alleSprekers = JSON.parse(this.responseText);
+
+          for (var x = 0; x < alleSprekers.length; x++) {
+            inlog.push(alleSprekers[x].email);
+            rol.push(alleSprekers[x].rol);
+          }
+        }
+      };
+      xhr.open("GET", "http://localhost:8082/persoon/geefAllePersonen", true);
+      xhr.send();
+
       function checkPasswordAndEmail() {
         var username = document.getElementById("emaiInput").value;
         var password = document.getElementById("passwordInput").value;
-        var rol = "";
-        if (username == "testspreker") {
-          rol = "spreker";
-        } else if (username == "testorganisator") {
-          rol = "organisator";
-        } else {
-        }
 
-        if (
-          (username == "testspreker") & (password == "ww") ||
-          (username == "testorganisator") & (password == "www")
-        ) {
-          if (rol == "spreker") {
+        console.log(inlog);
+        if (inlog.includes(username) & (password == "ww")) {
+          if (rol.includes("s")) {
             location.href = "sprekeromgeving.html";
-          } else if (rol == "organisator") {
+          } else if (rol.includes("o")) {
             location.href = "evenementoverzicht.html";
+          } else if (rol.includes("a")) {
+            //hier komt admin
           } else {
-            alert("fout");
+            alert("er ging iets fout");
           }
         } else {
           alert("wachtwoord of email incorrect");

@@ -29,7 +29,7 @@
                     document.getElementById("alleEvenementenTabel").innerHTML = eindString;
                 }
             }
-            xhr.open("GET","http://localhost:8082/evenement/alleEvenementen", true);
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true);
             xhr.send();
         }
 
@@ -60,10 +60,10 @@
 
         function voegCategorieToeAanEvenement(id){
             var xhr = new XMLHttpRequest();
-            var categorieToAdd = {};
-            categorieToAdd.name = document.getElementById("categorieNaam").value;
-            categorieToAdd.description = document.getElementById("categorieOmschrijving").value;
-            JSONstatement = JSON.stringify(categorieToAdd);      
+            var toeTeVoegenCategorie = {};
+            toeTeVoegenCategorie.name = document.getElementById("categorieNaam").value;
+            toeTeVoegenCategorie.description = document.getElementById("categorieOmschrijving").value;
+            JSONstatement = JSON.stringify(toeTeVoegenCategorie);      
             console.log(JSONstatement);         
             xhr.open("POST", "http://localhost:8082/evenement/voegCategorieAanEvenementToe/" + id, true);          
             xhr.setRequestHeader("Content-Type", "application/json");
@@ -93,7 +93,7 @@
                 }
             }
 
-            xhr.open("GET", "http://localhost:8082/evenement/alleEvenementen/" +EVENTID, true);
+            xhr.open("GET", "http://localhost:8082/evenement/geefAlleEvenementen/" +EVENTID, true);
             xhr.send();
         }
 
@@ -109,7 +109,7 @@
                     console.log("Event verwijderd");
                 }
             }
-            xhr.open("DELETE","http://localhost:8082/evenement/verwijderEvent/" + EVENTID, true);
+            xhr.open("DELETE","http://localhost:8082/evenement/verwijderEvenement/" + EVENTID, true);
             xhr.send();
         }
     </script>
@@ -122,10 +122,6 @@
         <nav>
             <ul>
                 <li><a class="active" href="evenementoverzicht.html">Evenementen</a></li>
-            <!--    <li><a onclick='toonCategorieenPerEvenement()'>Categorieen</a></li>
-                <li><a onclick='toonLocatiesPerEvenement()'>Locaties</a></li>
-                <li><a href="overzichtaanvragen.html">Aanvragen</a></li>
-                <li><a href="programma.html">Programma</a></li>  -->
               </ul>
         </nav>
     </header>
