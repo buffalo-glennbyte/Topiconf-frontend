@@ -42,11 +42,11 @@
                  const email = document.querySelector(".email").textContent;
                  parent.classList.add(action);
 
-                fetch(`http://localhost:8082/voorstel/getVoorstelById/${parent.dataset.id}`).then((result)=>
+                fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${parent.dataset.id}`).then((result)=>
                  result.json()).then((obj)=>{
                    const o = obj;
                    
-                  fetch(`http://localhost:8082/voorstel/updateElementStatus/${parent.dataset.id}`,
+                  fetch(`http://localhost:8082/voorstel/updateVoorstel/${parent.dataset.id}`,
                       {method: "PUT",
                       headers: {'Content-Type': 'application/json'},
                       body: JSON.stringify({
