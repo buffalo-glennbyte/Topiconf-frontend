@@ -38,6 +38,7 @@
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
             huidigEvenement = data;
             document.getElementById("evenementTitel").innerHTML = huidigEvenement.naam;
+            console.log(huidigEvenement);
         })}
             
         function toonCategoriePerEvenement(){
@@ -190,7 +191,8 @@
         
         function toonVoorstellenPerEvenement(){
             document.getElementById("innerTable").innerHTML = "";
-            document.querySelector(".voorstelTabel").classList.add("visible");     
+            document.querySelector(".voorstelTabel").classList.add("visible");   
+            console.log("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + huidigEvenement.id);  
              fetch("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + huidigEvenement.id)
              .then((request)=>request.json())
              .then((request)=>{
@@ -204,7 +206,7 @@
                             <button class="content-btn btn" data-tabNumber="1">geaccepteerd</button>
                             <button class="content-btn btn" data-tabNumber="2">gevlagt</button>
                             <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
-                            <button class="content-btn btn btn-active" data-tabNumber="4">ongemarkeerd</button>
+                            <button class="content-btn btn btn-active" data-tabNumber="4">ongezien</button>
                         </div>
                         <button class="btn" type="submit" value="Submit" form="markeerVoorstel">Definitief Geaccepteerd</button>
                         <button class="btn" type="submit" value="Submit" form="markeerVoorstel">Definitief Afgewezen</button>
@@ -229,11 +231,11 @@
                                 <div class="actionBtn green" data-action="geaccepteerd"></div>
                                 <div class="actionBtn yellow" data-action="gemarkeerd"></div>
                                 <div class="actionBtn delete" data-action="afgewezen"></div>
-                                <div class="actionBtn unmarked" data-action="ongemarkeerd"></div>
+                                <div class="actionBtn unmarked" data-action="ongezien"></div>
                             </div>
                         </div>`;
 
-                 if(data.status === "ongemarkeerd"){
+                 if(data.status === "ongezien"){
                     list_4.insertAdjacentHTML("afterbegin",html);
                  }
                  else if(data.status === "geaccepteerd"){
