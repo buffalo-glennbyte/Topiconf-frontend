@@ -14,7 +14,7 @@
             box-sizing: border-box;
         }
         .row {
-            height: 650px;
+            height: 400px;
             margin-left: 20%;
             margin-right: 20%;
         }
@@ -56,8 +56,18 @@
         }
     </style>
 
+    <script>
+        function laadGeselecteerdVoorstel() {
+            var idGeselecteerdVoorstel = localStorage.getItem("geselecteerdVoorstel");
+            
+
+            localStorage.clear(); // Clean the localStorage
+        }
+        
+    </script>
+
 </head>
-<body onload="toonAanvragen()">
+<body onload="laadGeselecteerdVoorstel()">
 
     <header class="hdr-main">
         <img src="../images/TopicusLogo.png" class="hdr-img">
@@ -74,7 +84,7 @@
                 <div style="padding-left: 10px;"><h1>Sprekers</h1></div>
                 <div class="flexColumn">
                     <div><h2>Naam: </h2></div>
-                    <div><input type="text" placeholder="Naam"></div>
+                    <div><input type="text" placeholder="Naam" id="naam"></div>
                 </div>
                 <div class="flexColumn">
                     <div><h2>Email: </h2></div>
@@ -158,6 +168,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div style="float: right;">
+            <button>Klik</button>
         </div>
 </body>
 </html>
