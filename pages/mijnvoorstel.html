@@ -7,61 +7,42 @@
     <title>Mijn Voorstel</title>
     <link rel="stylesheet" href="../styles/style.css">
 
-
     <script>
-
-        function toonVoorstellen()
-        {
+        function toonVoorstellen() {
             var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function()
-            {
-                if(this.readyState == 4)
-                {
+            xhr.onreadystatechange = function() {
+                if(this.readyState == 4) {
                     var alleVoorstellen = JSON.parse(this.responseText);
                     var HTMLString = "<table border=1>";
                     HTMLString += "<tr><th>Onderwerp</th> <th>Status</th></tr>"
-                    for(var i = 0; i < alleVoorstellen.length; i++){
+                    for(var i = 0; i < alleVoorstellen.length; i++) {
                         HTMLString += "<tr><td id='onderwerp "+alleVoorstellen[i].id + "' contenteditable='true'> "+ alleVoorstellen[i].onderwerp +"</td>";
                         HTMLString += "<td>" + alleVoorstellen[i].status + "</td>";
                         HTMLString += `<td><button onclick="wijzigVoorstel('${alleVoorstellen[i].id}', '${alleVoorstellen[i].voornaam}', '${alleVoorstellen[i].achternaam}', '${alleVoorstellen[i].email}', '${alleVoorstellen[i].status}')">wijzig onderwerp</button></td></tr>`
                     }
                     HTMLString += "</table>";
-
                     document.getElementById("voorstelTable").innerHTML = HTMLString;
                 }                        
             }
-            xhr.open("GET","http://localhost:8082/getBody", true);
+            xhr.open("GET","http://localhost:8082/voorstel/geefAlleVoorstellen", true);
             xhr.send();
         }
 
-        function wijzigVoorstel(identifier, voornaam, achternaam, Email, Status)
-        {
+        function wijzigVoorstel(identifier, voornaam, achternaam, Email, Status) {
             console.log("Binnen wijzigVoorstel()");
             var JSONStatement;
             var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function()
-            {
-               
+            xhr.onreadystatechange = function() {
                 var wijzigingVersturen = {id: identifier, voornaam: voornaam, achternaam: achternaam, email: Email, status: Status, onderwerp:document.getElementById("onderwerp " + identifier).textContent};
-
-                
                 JSONStatement = JSON.stringify(wijzigingVersturen);
                 console.log("JSON statement: "+JSONStatement);
             }
-            xhr.open("POST", "http://localhost:8082/postBody", true);
+            xhr.open("POST", "http://localhost:8082/voorstel/slaVoorstelOp", true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSONStatement);
-            
         }
-
-
     </script>
-
-
-
-
 </head>
-
 
 <body onload="toonVoorstellen()">
     <header>
