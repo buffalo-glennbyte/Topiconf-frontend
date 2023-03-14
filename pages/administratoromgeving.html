@@ -47,8 +47,8 @@
         //     // const krijgEvenementNaam = document.getElementsByClassName("tbl-row-data");
         // }
 
-        function toonEvenementen()
-        {
+        
+        function toonEvenementen() {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -72,13 +72,11 @@
                 }
 
             }
-            xhr.open("GET","http://localhost:8082/evenement/alleEvenementen", true)
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true)
             xhr.send();
 
         }
     </script>
-
-
 </head>
 <body onload="toonEvenementen()">
     <header class="hdr-main">
@@ -89,7 +87,6 @@
             <button class="hdr-btns-btn">Uitloggen</button>
         </div>
     </header>
-
     <div class="main-content">
         <div id="evenementTabel"></div>
     </div>
