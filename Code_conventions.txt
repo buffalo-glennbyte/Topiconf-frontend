@@ -1,0 +1,78 @@
+Code conventions
+
+Backend
+
+1. We gebruiken volledige namen.
+
+2. De naam moet duidelijk omschrijven wat de methode doet.
+	Dus: 
+	public void voegVoorstelToeAanEvenement() {}
+
+	Dus niet:
+	public void doeIets() {}
+
+3. Mocht je grote lappen code hebben die op eerste zicht niet duidelijk zijn voorzie deze dan van een comment die kort samenvattend omschrijft wat de code doet.
+	
+4. Voor leesbaarheid: enters (lege lines) tussen methoden.
+	
+	Dus: 
+	public void voegVoorstelToeAanEvenement() {}
+	//	lege line
+	public void voegCategorieToeAanEvenement() {}
+	//	lege line
+	public void voegToeAanEvenement() {}
+	//	lege line
+	public void voegVoorstelToeAanEvenement() {}
+	//	lege line
+
+5. Alle variabelen en methodenamen in het nederlands. GEEN STEENKOLENENGELS.
+ 	Dus: 
+	-	geefPersoon() {}
+	
+	niet: 
+	-	givePersoon() {}
+
+
+6. Endpoint mapping. De endpoint url begint altijd met de klassenaam.
+	Dus: 	
+	@crossOririn
+	@PostMapping("persoon/voegPersoonToe/{parameters}")
+	public void voegPersoonToe(@RequestBody Persoon p) {
+		// legit code 
+	}
+
+7. Methodenamen voor CRUD doen we op de volgende manier:
+	Klassenaam zoals hieronder genoemd is een referentie naar de entiteit. 
+
+	GET		=	geefKlassenaam
+	PUT		= 	updateKlassenaam
+	DELETE	=	verwijderKlassenaam
+	POST		=	slaKlassenaamOp
+
+8. Indentation, alles binnen een codeblock heeft een indent.
+
+	const bagger = document.getElementById("bagger");
+	bagger.forEach((element) => function() {
+		//eerste indent.
+		console.log(element);
+		element.addEventListener("click", function() {
+			// Nog een indent.
+		});
+	})
+
+9. Codeblock
+	
+	zo wel: 
+	public void voegPersoonToe(@RequestBody Persoon p) {
+		// legit code 
+	}
+
+	zo niet: 
+	public void voegPersoonToe(@RequestBody Persoon p) { // legit code }
+
+10. 	Altijd {} gebruiken. Geen onlines zonder {}
+11.	Fields altijd bovenaan in de klasse.
+12.	Methoden op volgorde van de fields toevoegen.
+13.	CSS graag met "-" tussen twee woorden.
+
+	

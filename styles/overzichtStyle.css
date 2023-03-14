@@ -5,10 +5,11 @@ body{
     background-color: var(--white-color);
     display: flex;
     border: 1px solid var(--secondary-color);
-    width: 60rem;
     padding: 1.6rem 3.2rem;
     border-radius: 9px;
     justify-content: space-between;
+    align-items: center;
+    width:100%;
   }
   .wrapper, .content{
     display: flex;
@@ -21,14 +22,12 @@ body{
   }
   
   .actionBtn{
-    padding: 1.6rem;
+    padding: 0.8rem 1.6rem;
+    border: none;
     border-radius: 999rem;
   }
   .green{
     background-color: #09ee2f;
-  }
-  .yellow{
-    background-color: #f0fc08;
   }
   .delete{
     background-color: #f20202;
@@ -45,6 +44,7 @@ body{
     transform: translateY(-1rem);
     background-color: var(--hover);
   }
+  .requestList--5,
   .requestList--4,
   .requestList--3,
   .requestList--2,
@@ -53,6 +53,7 @@ body{
     flex-direction: column;
     gap: 1.6rem;
     display: none;
+    width:80%;
   }
   .voorstelTabel {
     display: none;
