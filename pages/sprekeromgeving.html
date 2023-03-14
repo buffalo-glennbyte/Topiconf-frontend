@@ -49,15 +49,14 @@
                         + "<th>Onderwerp</th>"
                         + "<th>Beschrijving</th>"
                         + "<th>Status</th>"
-                        + "<th></th>"
                         + "<th><button id='btn-aanmaken'>Aanmaken</button></th></tr>"
                         for(var x = 0; x < alleVoorstellen.length; x++){
                             //HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";   <- Is deze nog nodig? (Voorstel.class heeft geen voornaam achternaam fields)
-                            HTMLString += "<tr><td>" + alleVoorstellen[x].naam + "</td>";
+                            HTMLString += "<tr class='row'><td>" + alleVoorstellen[x].naam + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].onderwerp + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].samenvatting + "</td>";
                             HTMLString += "<td id='tb-status'>" + alleVoorstellen[x].status + "</td>";
-                            HTMLString += "<td><button>Voorstel intrekken</button></td><td><button>Voorstel aanpassen</button></td></tr>";
+                            HTMLString += "<td><button onClick='voorstelIntrekken(" + alleVoorstellen[x].id + ")'>Voorstel intrekken</button><button>Voorstel aanpassen</button></td></tr>";
                         }
                     HTMLString += "</table>";
                     document.getElementById("voorstelTabel").innerHTML = HTMLString;
@@ -66,6 +65,15 @@
             xhr.open("GET","http://localhost:8082/voorstel/geefAlleVoorstellen", true)
             xhr.send();
         }
+
+
+        function voorstelIntrekken(id)
+        {
+            console.log("het werkt");
+            console.log("id: " + id);
+        }
+
+
     </script>
 
 </head>
