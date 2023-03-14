@@ -39,6 +39,9 @@
     </style>
 
     <script>
+        function kleurWijzigenOpBasisVanStatus(){
+            const tbStatus = document.querySelector()
+        }
         function toonAanvragen() {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
@@ -71,6 +74,23 @@
         {
             console.log("het werkt");
             console.log("id: " + id);
+            fetch(`http://localhost:8082/voorstel/getVoorstelById/${id}`)
+            .then((response)=>response.json())
+            .then((data)=>{
+                const d = data;
+                fetch(`http://localhost:8082/voorstel/updateElementStatus/${id}`,
+                    {method: "PUT",
+                      headers: {'Content-Type': 'application/json'},
+                      body: JSON.stringify({
+                      id:d.id ,
+                      naam: d.achternaam,
+                      voornaam:d.voornaam,
+                      onderwerp:d.onderwerp,
+                      eMail:d. eMail,
+                      status : "intrekken"})
+                    });
+            });
+            
         }
 
 
