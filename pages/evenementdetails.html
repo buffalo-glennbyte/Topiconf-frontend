@@ -16,8 +16,7 @@
             var evenementId = window.location.href.split('=').pop();
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
             huidigEvenement = data;
-            //document.getElementById("evenementTitel").innerHTML = huidigEvenement.naam;
-            console.log(huidigEvenement);
+            
             toonEvenementenDetails()
         })}
 
@@ -27,8 +26,6 @@
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     var evenementen = JSON.parse(this.responseText);
-                    console.log(this.responseText);
-                    console.log(evenementen.length);
                     var HTMLString = "<table id='tbl-main'>"
                         + "<tr><th>Naam</th>"
                         + "<th>Omschrijving</th>"
@@ -45,7 +42,6 @@
                 }
 
             }
-            console.log(huidigEvenement);
             xhr.open("GET","http://localhost:8082/evenement/geefEvenementPerId/"  + huidigEvenement.id, true)
             xhr.send();
 
