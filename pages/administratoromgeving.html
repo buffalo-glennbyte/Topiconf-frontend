@@ -7,10 +7,40 @@
     <title>Administrator Omgeving</title>
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/tableStyling.css">
 
 
+    <script>
+        function toonEvenementen() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Aanvragen opgehaald");
+                    var evenementen = JSON.parse(this.responseText);
+                    var HTMLString = "<table id='tbl-main'>"
+                        + "<tr><th>Naam</th>"
+                        + "<th>Omschrijving</th>"
+                        + "<th>Datum</th>"
+                        + "<th><button id='btn-aanmaken'>Evenement Aanmaken</button></th></tr>"
+                        for(var x = 0; x < evenementen.length; x++){
+                            HTMLString += "<tr><td>" + evenementen[x].naam + "</td>";
+                            HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
+                            HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
+                                + "</br>"
+                                + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
+                            HTMLString += "<td><button>Organisator Toevoegen/Verwijderen</button></td></tr>";
+                        }
+                    HTMLString += "</table>";
+                    document.getElementById("evenementTabel").innerHTML = HTMLString;
+                }
+
+            }
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true)
+            xhr.send();
+        }
+    </script>
 </head>
-<body>
+<body onload="toonEvenementen()">
     <header class="hdr-main">
         <img src="../images/TopicusLogo.png" class="hdr-img">
         <div class="hdr-btns">
@@ -19,5 +49,8 @@
             <button class="hdr-btns-btn">Uitloggen</button>
         </div>
     </header>
+    <div class="main-content">
+        <div id="evenementTabel"></div>
+    </div>
 </body>
 </html>

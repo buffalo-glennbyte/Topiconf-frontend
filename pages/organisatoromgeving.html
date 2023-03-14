@@ -7,7 +7,7 @@
     <title>Organisator Omgeving</title>
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/style.css">
-
+    <link rel="stylesheet" href="../styles/tableStyling.css">
 
     <style>
         main
@@ -46,37 +46,12 @@
         {
             flex-basis: 100%;
         }
-
-
-        .tbl-main
-        {
-            text-align: center;
-        }
-
-        th
-        {
-            color: gray;
-            padding-bottom: 20px;
-        }
-
-        td
-        {
-            border-top: none;
-            line-height: 20px;
-            word-wrap: break-word;
-            padding-bottom: 10px;
-        }
     </style>
-
-
-
     <script>
-        function toonAanvragen()
-        {
+        function toonAanvragen() {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    console.log("Aanvragen opgehaald");
                     var evenementen = JSON.parse(this.responseText);
                     var HTMLString = "<table id='tbl-main'>"
                         + "<tr><th>Naam</th>"
@@ -93,35 +68,30 @@
                     HTMLString += "</table>";
                     document.getElementById("evenementTabel").innerHTML = HTMLString;
                 }
-
             }
-            xhr.open("GET","http://localhost:8082/evenement/alleEvenementen", true);
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true);
             xhr.send();
         }
     </script>
 
-
 </head>
-<body onload="toonAanvragen()">
-    <header class="hdr-main">
-        <img src="../images/TopicusLogo.png" class="hdr-img">
-        <div class="hdr-btns">
-            <p class="hdr-btns-text">Je bent ingelogd als: XYZ</p>
-            <button class="hdr-btns-btn" >Profiel</button>
-            <button class="hdr-btns-btn">Uitloggen</button>
-        </div>
-    </header>
+    <body onload="toonAanvragen()">
+        <header class="hdr-main">
+            <img src="../images/TopicusLogo.png" class="hdr-img">
+            <div class="hdr-btns">
+                <p class="hdr-btns-text">Je bent ingelogd als: XYZ</p>
+                <button class="hdr-btns-btn" >Profiel</button>
+                <button class="hdr-btns-btn">Uitloggen</button>
+            </div>
+        </header>
+        <main>
+            <aside class="aside">
+                <button class="btn-event">Evenementen</button>
+            </aside>
 
-    <main>
-        <aside class="aside">
-            <button class="btn-event">Evenementen</button>
-        </aside>
-
-        <div class="main-content">
-            <div id="evenementTabel"></div>
-        </div>
-    </main>
-
-
-</body>
+            <div class="main-content">
+                <div id="evenementTabel"></div>
+            </div>
+        </main>
+    </body>
 </html>
