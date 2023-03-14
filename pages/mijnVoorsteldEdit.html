@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mijn Voorstel Edit</title>
+    <link rel="stylesheet" href="../styles/header.css">
+    <link rel="stylesheet" href="../styles/style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Create three equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 33.33%;
+        }
+
+        .flexVertical {
+            display: flex;
+            flex-direction: column;
+            border: 3px solid red;
+            min-height: 450px;
+            align-items: flex-start;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        div {
+            border: 2px solid purple;
+            width: 100%;
+        }
+
+        input {
+            text-align: center;
+            min-width: 100%;
+            min-height: 30px;
+        }
+
+    </style>
+
+</head>
+<body onload="toonAanvragen()">
+
+    <header class="hdr-main">
+        <img src="../images/TopicusLogo.png" class="hdr-img">
+        <div class="hdr-btns">
+            <p class="hdr-btns-text">Je bent ingelogd als: XYZ</p>
+            <button class="hdr-btns-btn" >Profiel</button>
+            <button class="hdr-btns-btn">Uitloggen</button>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="column">
+            <div class="flexVertical">
+                <h2>Sprekers</h2>
+                <div>            
+                    <label for="">Naam</label>
+                    <br>
+                    <input type="text" placeholder="Jonas Schmetterling"></input>
+                </div>
+                <div>            
+                    <label for="">E-Mail</label>
+                    <br>
+                    <input type="text" placeholder="email@mailme.cor"></input>
+                </div>
+                <div>  
+                    <div>
+                        <label for="voorNaam">Voornaam: </label>
+                        <input type="text" placeholder="Voornaam">
+                    </div>              
+                    <div>
+                        <label for="achterNaam">Achternaam: </label>
+                        <input type="text" placeholder="Achternaam">
+                    </div>
+                    <div>
+                        <label for="e-mail">E-Mail: </label>
+                        <input type="text" placeholder="Example@example.com">
+                    </div>
+                    <br>
+                    <button>Toevoegen</button>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="flexVertical">
+                <h2>Presentatie</h2>
+                <div>            
+                    <label for="naamInvoerveld">Onderwerp</label>
+                    <input type="text"></input>
+                </div>
+                <div>            
+                    <label for="emailInvoerveld">Beschrijving</label>
+                    <input type="text"></input>
+                </div>
+                <div>  
+                    <div>
+                        <label for="voorNaam">Tijdsduur: </label>
+                        <input type="text" placeholder="Voornaam">
+                    </div>              
+                    <div>
+                        <label for="achterNaam">Max. Bezoekers: </label>
+                        <input type="text" placeholder="Achternaam">
+                    </div>
+                    <div>
+                        <label for="e-mail">Catagorie: </label>
+                        <input type="text" placeholder="Example@example.com">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="flexVertical">
+                <h2>Status</h2>
+                <div>            
+                    <label for="">label1</label>
+                    <input type="text"></input>
+                </div>
+                <div>            
+                    <label for="">label2</label>
+                    <input type="text"></input>
+                </div>
+                <div>            
+                    <label for="">label3</label>
+                    <input type="text"></input>
+                </div>
+                <div>  
+                    <div>
+                        <label for="voorNaam">Voornaam: </label>
+                        <input type="text" placeholder="Voornaam">
+                    </div>              
+                    <div>
+                        <label for="achterNaam">Achternaam: </label>
+                        <input type="text" placeholder="Achternaam">
+                    </div>
+                    <div>
+                        <label for="e-mail">E-Mail: </label>
+                        <input type="text" placeholder="Example@example.com">
+                    </div>
+                    <br>
+                    <button>Toevoegen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
