@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mijn Voorstel Edit</title>
+    <link rel="stylesheet" href="../styles/header.css">
+    <link rel="stylesheet" href="../styles/style.css">
+
+    <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      gap: 10px;
+      padding: 10px;
+    }
+    
+    .grid-container > div {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    table, th, td {
+        border: none;
+    }
+
+    td {
+        display: flex;
+        flex-direction: row;
+    }
+
+    label {
+        width: 105px;
+    }
+
+    </style>
+
+    <script>
+        function laadGeselecteerdVoorstel() {
+            var idGeselecteerdVoorstel = localStorage.getItem("geselecteerdVoorstel");
+            localStorage.clear(); // Clean the localStorage
+        }
+        
+    </script>
+
+</head>
+<body onload="laadGeselecteerdVoorstel()">
+
+    <header class="hdr-main">
+        <img src="../images/TopicusLogo.png" class="hdr-img">
+        <div class="hdr-btns">
+            <p class="hdr-btns-text">Je bent ingelogd als: XYZ</p>
+            <button class="hdr-btns-btn" >Profiel</button>
+            <button class="hdr-btns-btn">Uitloggen</button>
+        </div>
+    </header>
+
+
+    <div class="grid-container">
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <h3>Sprekers</h3>
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Naam">Naam: </label>
+                        <input type="text" placeholder="John">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Email">Email:</label>
+                        <input type="text" placeholder="John@email.com">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <h3>Presentatie</h3>
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Naam">Onderwerp: </label>
+                        <input type="text" placeholder="John">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Email">Beschrijving:</label>
+                        <input type="text" placeholder="John@email.com">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <h3>Status</h3>
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            hallo
+                        </div>
+                        <div>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>  
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <h5>Voeg spreker toe</h5>
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Naam">Voornaam: </label>
+                        <input type="text" placeholder="John">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Email">Achternaam</label>
+                        <input type="text" placeholder="John@email.com">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Email">Email:</label>
+                        <input type="text" placeholder="John@email.com">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <h5>Details</h5>
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Naam">Tijdsduur: </label>
+                        <input type="text" placeholder="John">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Email">Max. Bezetting:</label>
+                        <input type="text" placeholder="John@email.com">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Email">Catagorie:</label>
+                        <input type="text" placeholder="John@email.com">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <h5>Benodigdheden</h5>
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <select name="BenodigdhedenDropDown" id="BenodigdhedenDropDown">
+                                <option value="None">None</option>
+                                <option value="Beamer">Beamer</option>
+                                <option value="RookMachine">Rookmachine</option>
+                                <option value="Flipperkast">Flipperkast</option>
+                            </select>
+                        </div>
+                        <div>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+      </div>
+</body>
+</html>
