@@ -11,8 +11,31 @@
 
 
     <script>
-        function toonEvenementen()
+
+        setTimeout(RijenOpKlikken, 100);
+
+        function RijenOpKlikken()
         {
+            
+            const tableRows = document.querySelectorAll(".row");
+            tableRows.forEach(function(element) 
+            {
+                element.addEventListener("click", function(event) 
+                {
+                    if (event.target.tagName == "BUTTON") {
+                        window.location.href = ("http://hierMoetOrganisatorToevoegenEnVerwijderen"); // Voor de knop Organisator Toevoegen/Verwijderen
+                        console.log("Dit is de naam: " + element.children[0].innerHTML);
+                    } 
+                    else
+                    {
+                        window.location.href = ("http://evenementDetailsPageMoetHierKomen?e=" + element.children[0].innerHTML); // geeft de naam van het event mee.
+                    }
+                });
+            });
+        } 
+
+        
+        function toonEvenementen() {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -24,7 +47,7 @@
                         + "<th>Datum</th>"
                         + "<th><button id='btn-aanmaken'>Evenement Aanmaken</button></th></tr>"
                         for(var x = 0; x < evenementen.length; x++){
-                            HTMLString += "<tr><td>" + evenementen[x].naam + "</td>";
+                            HTMLString += "<tr class='row'><td>" + evenementen[x].naam + "</td>";
                             HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
                             HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
                                 + "</br>"
@@ -36,12 +59,11 @@
                 }
 
             }
-            xhr.open("GET","http://localhost:8082/evenement/alleEvenementen", true)
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true)
             xhr.send();
+
         }
     </script>
-
-
 </head>
 <body onload="toonEvenementen()">
     <header class="hdr-main">
@@ -52,7 +74,6 @@
             <button class="hdr-btns-btn">Uitloggen</button>
         </div>
     </header>
-
     <div class="main-content">
         <div id="evenementTabel"></div>
     </div>

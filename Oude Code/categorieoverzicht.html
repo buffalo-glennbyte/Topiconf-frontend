@@ -23,7 +23,7 @@
                         HTMLString += "<td>" + alleCategorieen[i].name + "</td>";
                         HTMLString += "<td>" + alleCategorieen[i].description + "</td>";
                         // HTMLString += "<td><button onclick='editCategorie()'>Edit</button></td>";
-                        HTMLString += "<td><button class='tableBtn' onclick='deleteCategorie("+alleCategorieen[i].id+")'>Delete</button></td></tr>"
+                        HTMLString += "<td><button class='tableBtn' onclick='verwijderCategorie("+alleCategorieen[i].id+")'>Delete</button></td></tr>"
                     }
                     HTMLString += "</table>";
                     document.getElementById("categoriesTable").innerHTML = HTMLString;
@@ -34,7 +34,7 @@
             xhr.send();
         }
 
-        function deleteCategorie(id){
+        function verwijderCategorie(id){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -52,7 +52,7 @@
 
 </head>
 
-<body onload="showCategories()">
+<body onload="toonCategories()">
     <header>
         <h1 class="title">Categories</h1>
         <nav>
@@ -67,7 +67,7 @@
     </header>
     <main>
         <div class="wrapper">
-            <button class="btn" onclick="showCategories()">Vernieuwen</button>
+            <button class="btn" onclick="toonCategories()">Vernieuwen</button>
             <div class="request" id="categoriesTable"></div>
         </div>
     </main>

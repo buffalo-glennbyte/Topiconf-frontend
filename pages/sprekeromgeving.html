@@ -16,7 +16,6 @@
         ----------------------------
         */
 
-
         #btn-aanmaken
         {
             padding: 8px;
@@ -37,46 +36,64 @@
             border-radius: 10px;
             background-color: rgb(6, 228, 17, .7);
         }
-
-
     </style>
 
     <script>
-        function toonAanvragen()
-        {
+        function toonAanvragen() {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    console.log("Aanvragen opgehaald");
                     var alleVoorstellen = JSON.parse(this.responseText);
                     var HTMLString = "<table id='tbl-main'>"
                         + "<tr><th>Naam</th>"
                         + "<th>Onderwerp</th>"
                         + "<th>Beschrijving</th>"
                         + "<th>Status</th>"
-                        + "<th></th>"
                         + "<th><button id='btn-aanmaken'>Aanmaken</button></th></tr>"
                         for(var x = 0; x < alleVoorstellen.length; x++){
                             //HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";   <- Is deze nog nodig? (Voorstel.class heeft geen voornaam achternaam fields)
-                            HTMLString += "<tr><td>" + alleVoorstellen[x].naam + "</td>";
+                            HTMLString += "<tr class='row'><td>" + alleVoorstellen[x].naam + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].onderwerp + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].samenvatting + "</td>";
                             HTMLString += "<td id='tb-status'>" + alleVoorstellen[x].status + "</td>";
-                            HTMLString += "<td><button>Voorstel intrekken</button></td><td><button>Voorstel aanpassen</button></td></tr>";
+                            HTMLString += "<td><button onClick='voorstelIntrekken(" + alleVoorstellen[x].id + ")'>Voorstel intrekken</button><button>Voorstel aanpassen</button></td></tr>";
                         }
                     HTMLString += "</table>";
                     document.getElementById("voorstelTabel").innerHTML = HTMLString;
                 }
-
             }
             xhr.open("GET","http://localhost:8082/voorstel/geefAlleVoorstellen", true)
             xhr.send();
         }
+
+
+        function voorstelIntrekken(id)
+        {
+            console.log("het werkt");
+            console.log("id: " + id);
+            fetch(`http://localhost:8082/voorstel/getVoorstelById/${id}`)
+            .then((response)=>response.json())
+            .then((data)=>{
+                const d = data;
+                fetch(`http://localhost:8082/voorstel/updateElementStatus/${id}`,
+                    {method: "PUT",
+                      headers: {'Content-Type': 'application/json'},
+                      body: JSON.stringify({
+                      id:d.id ,
+                      naam: d.achternaam,
+                      voornaam:d.voornaam,
+                      onderwerp:d.onderwerp,
+                      eMail:d. eMail,
+                      status : "intrekken"})
+                    });
+            });
+        }
+
+
     </script>
 
 </head>
 <body onload="toonAanvragen()">
-    
     <header class="hdr-main">
         <img src="../images/TopicusLogo.png" class="hdr-img">
         <div class="hdr-btns">
@@ -85,7 +102,6 @@
             <button class="hdr-btns-btn">Uitloggen</button>
         </div>
     </header>
-
     <div id="voorstelTabel"></div>
 </body>
 </html>

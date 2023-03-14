@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="../styles/overzichtStyle.css">
     <script>
-        
 
 
        function addListenerToContentButtons(){
+<<<<<<< HEAD:pages/overzichtaanvragen.html
         document.querySelectorAll(".content-btn").forEach((btn)=>{
             btn.addEventListener("click", function(e){
                 document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
@@ -57,8 +57,55 @@
                       eMail:o. eMail,
                       status : action})
                 }).then(element=> refresh());
+=======
+            document.querySelectorAll(".content-btn").forEach((btn)=>{
+                btn.addEventListener("click", function(e){
+                    document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
+                    btn.classList.remove("btn-active");
+                    e.target.classList.add("btn-active");
+                    const target= e.target.dataset.tabnumber;
+                    document.querySelector(".requestList--1").classList.remove("visible");
+                    document.querySelector(".requestList--2").classList.remove("visible");
+                    document.querySelector(".requestList--3").classList.remove("visible");
+                    document.querySelector(".requestList--4").classList.remove("visible");
+                    document.querySelector(`.requestList--${target}`).classList.add("visible");
                 })
-            }))}
+            })
+       }
+
+        function addListenersToActionButtons(){
+            document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
+            const target =e.target;
+            const action = target.dataset.action;
+            const parent = target.closest('.request');
+            const name = document.querySelector(".name").textContent;
+            const surname = document.querySelector(".surname").textContent;
+            const topic = document.querySelector(".topic").textContent;
+            const email = document.querySelector(".email").textContent;
+            parent.classList.add(action);
+
+            // deze klopt niet
+            fetch(`http://localhost:8082/getElement/${parent.dataset.id}`).then((element)=>element.json()).then((obj)=>{
+                const o = obj;
+                console.log(o)
+                //deze klopt niet
+                fetch(`http://localhost:8082/updateElementStatus/${parent.dataset.id}`,{
+                    method: "PUT",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify ({
+                        id:o.id ,
+                        naam: o.achternaam,
+                        voornaam:o.voornaam,
+                        onderwerp:o.onderwerp,
+                        eMail:o. eMail,
+                        status : action
+                    })
+>>>>>>> e7952e6ed973f75c460e6dff1a5c34f0d44dd7a1:Oude Code/overzichtaanvragen.html
+                })
+                .then(element=> refresh());
+                })
+            }))
+        }
 
         function clear(){ 
             document.querySelector(".requestList--5").innerHTML='';
@@ -74,8 +121,12 @@
         }
         
         function toonAanvragen(){
+<<<<<<< HEAD:pages/overzichtaanvragen.html
                 
              fetch("http://localhost:8082/voorstel/geefAlleVoorstellen")
+=======
+             fetch("http://localhost:8082/getBody")
+>>>>>>> e7952e6ed973f75c460e6dff1a5c34f0d44dd7a1:Oude Code/overzichtaanvragen.html
              .then((request)=>request.json())
              .then((request)=>{
                  const [...data] =request;
@@ -112,15 +163,13 @@
                  if(data.status === "afgewezen"){
                     list_3.insertAdjacentHTML("afterbegin",html);
                  }
-                 if(data.status === "intrekken"){
+                 if(data.status === "ingetrokken"){
                     list_5.insertAdjacentHTML("afterbegin",html);
                  }
                  });
              })
              .then(()=>addListenersToActionButtons());
         }
-                
-  
     </script>
 </head>
 
