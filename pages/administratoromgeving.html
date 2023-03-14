@@ -11,6 +11,7 @@
 
 
     <script>
+        let evenementenID = new Map();
 
         setTimeout(RijenOpKlikken, 100);
 
@@ -28,7 +29,19 @@
                     } 
                     else
                     {
-                        window.location.href = ("http://evenementDetailsPageMoetHierKomen?e=" + element.children[0].innerHTML); // geeft de naam van het event mee.
+                        console.log(element.children[0].innerHTML);
+                        // als de naam van element.childeren[0].innerHTML het zelfde is als de key van evenementenID
+                        for(let [key, value] of evenementenID.entries())
+                        {
+                            if(value == element.children[0].innerHTML)
+                            {
+                                // dan moeten wij de ID van dit evenement meegeven.
+                                window.location.href = ("evenementdetails.html?id=" + key); // element.children[0].innerHTML    ----   geeft de naam van het event mee.
+                            }
+                        }
+
+
+                        
                     }
                 });
             });
@@ -47,15 +60,18 @@
                         + "<th>Datum</th>"
                         + "<th><button id='btn-aanmaken'>Evenement Aanmaken</button></th></tr>"
                         for(var x = 0; x < evenementen.length; x++){
-                            HTMLString += "<tr class='row'><td>" + evenementen[x].naam + "</td>";
+                            HTMLString += "<tr class='row'><td>" + evenementen[x].naam +"</td>";
                             HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
                             HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
                                 + "</br>"
                                 + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
                             HTMLString += "<td><button>Organisator Toevoegen/Verwijderen</button></td></tr>";
+                            evenementenID.set(evenementen[x].id, evenementen[x].naam);
                         }
                     HTMLString += "</table>";
                     document.getElementById("evenementTabel").innerHTML = HTMLString;
+                    console.log("Dit is de evenmentenID map: ");
+                    console.log(evenementenID);
                 }
 
             }
