@@ -22,6 +22,22 @@
             padding: 10px;
         }
 
+        .voet-knoppen
+        {
+            padding: 8px;
+            margin-right: 15px;
+            background-color: rgb(43, 82, 155);
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+
+
+        .voet-knoppen:active
+        {
+            font-size: small;
+        }
+
     </style>
 
 
@@ -40,35 +56,13 @@
 
         
         function toonEvenementenDetails() {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function(){
-                if(this.readyState == 4){
-                    var evenementen = JSON.parse(this.responseText);
-                    var HTMLString = "<table id='tbl-main'>"
-                        + "<tr><th>Naam</th>"
-                        + "<th>Omschrijving</th>"
-                        + "<th>Datum</th></tr>";
-                        HTMLString += "<tr class='row'><td>" + evenementen.naam + "</td>";
-                        HTMLString += "<td>" + evenementen.omschrijving + "</td>";
-                        HTMLString += "<td>" + "Start: " + evenementen.beginDatumTijd 
-                                + "</br>"
-                                + "Einde: " + evenementen.eindDatumTijd + "</td></tr>";
 
-                    HTMLString += "</table>";
-                    
-                    
-                }
 
-            }
-            xhr.open("GET","http://localhost:8082/evenement/geefEvenementPerId/"  + huidigEvenement.id, true)
-            xhr.send();
-
-            console.log(huidigEvenement.beginDatumTijd);
-            document.getElementById("naam-Van-Evenement").innerHTML = huidigEvenement.naam;
+            document.getElementById("naam-Van-Evenement").innerHTML = `<i>${huidigEvenement.naam}</i>`;
             document.getElementById("omschrijving-Evenement").value = huidigEvenement.omschrijving;
             document.getElementById("begin-Datum").value = huidigEvenement.beginDatumTijd;
             document.getElementById("eind-Datum").value = huidigEvenement.eindDatumTijd;
-
+            document.getElementById("locatie-Value").innerHTML = huidigEvenement.location;
 
         }
 
@@ -115,12 +109,13 @@
     <div class="grid-container">
         <div >
             <h1>Organisators</h1>
-            <div style="height: 100px; overflow-y: scroll;">
+            <div style="width: 30em; height: 25em; overflow-y: scroll;">
                 <table>
                     <tr>
                         <td>
                             <label>Naam:</label>
                             <ul class="organisator-Lijst-Namen">
+                                <li><span class="organisator-naam">Test Naam</span></li>
                                 <li><span class="organisator-naam">Test Naam</span></li>
                                 <li><span class="organisator-naam">Test Naam</span></li>
                                 <li><span class="organisator-naam">Test Naam</span></li>
@@ -158,14 +153,17 @@
                 </tr>
                 <tr>
                     <td>
-                        <label>Naam: </label>
+                        <label><b>Naam:</b></label>
                         <label id="naam-Van-Evenement" value=""></label>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label>Omschrijving:</label>
-                        <textarea id="omschrijving-Evenement" placeholder="Hier komt de omschrijving van het evenement" style="max-width: 15em; width:15em; max-height: 15em; height:4em;"></textarea>
+                        <fieldset style="width: 18em;">
+                            <legend><b>Omschrijving</b></legend>
+                            <textarea id="omschrijving-Evenement" name="om" placeholder="Hier komt de omschrijving van het evenement" style="border:none; resize: none; max-width: 23em; width:23em; max-height: 10em; height:10em;"></textarea>
+                        </fieldset>
+                        
                     </td>
                 </tr>
             </table>
@@ -181,11 +179,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <div style="background-color: aquamarine;">
-                            Geaccepteerd
-                        </div>
-                        <div>
-
+                        <div style="height: 100px; overflow-y: scroll;">
+                            <ul>
+                                <li>Presentatie Java</li>
+                            </ul>
                         </div>
                     </td>
                 </tr>
@@ -196,7 +193,7 @@
             <table>
                 <tr>
                     <td>
-                        <label>Voeg organisator toe</label>
+                        <label><b>Voeg organisator toe</b></label>
                         <p></p>
                     </td>
                 </tr>
@@ -218,6 +215,17 @@
                 </tr>
                 
             </table>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'">Wijzigen</button>
+            <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="window.location.href='administratoromgeving.html'">Annuleren</button>
+
         </div>
 
         <div>
@@ -230,14 +238,14 @@
                 </tr>
                 <tr>
                     <td>
-                        <label>Begin Datum: </label>
-                        <input id="begin-Datum" type="text" placeholder="01/01/2000">
+                        <label><b>Begin Datum: </b></label>
+                        <input id="begin-Datum" type="datetime-local" placeholder="01/01/2000">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label>Eind Datum:</label>
-                        <input id="eind-Datum" type="text" placeholder="01/01/2000">
+                        <label><b>Eind Datum: </b></label>
+                        <input id="eind-Datum" type="datetime-local" placeholder="01/01/2000">
                     </td>
                 </tr>
             </table>
@@ -247,29 +255,15 @@
             <table>
                 <tr>
                     <td>
-                        <h4>Categorien</h4>
-                        <p></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div>
-                            <select name="BenodigdhedenDropDown" id="BenodigdhedenDropDown">
-                                <option value="None">None</option>
-                                <option value="Beamer">Beamer</option>
-                                <option value="RookMachine">Rookmachine</option>
-                                <option value="Flipperkast">Flipperkast</option>
-                            </select>
-                        </div>
-                        <div>
-                            <!-- lijst met standaard en gekozen benodigdheden -->
-                        </div>
+                        <h4>Locatie</h4>
+                        <p id="locatie-Value">Deventer park, locatie 1233 DE</p>
                     </td>
                 </tr>
             </table>
         </div>
       </div>
 
+      
 
 </body>
 </html>
