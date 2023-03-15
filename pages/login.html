@@ -39,15 +39,26 @@
         let check = data.filter((user) => user.email == username);
 
         // filter, map en reduce
-        if (inlog.includes(username) & (password == "ww")) {
+        if (inlog.includes(username) && (password == "ww")) {
           if (check[0].rol == "s") {
             location.href = "sprekeromgeving.html";
           } else if (check[0].rol == "o") {
-            location.href = "evenementoverzicht.html";
+            location.href = "organisatoroverzicht.html";
           } else if (check[0].rol == "a") {
             location.href = "administratoromgeving.html";
           } else {
             alert("er ging iets fout");
+          }
+        // als er 'test' staat in het emailveld, dan controleren op welke testomgeving
+        } else if((username.includes("test")) && (password == "ww")) {
+          if (username == "testspreker") {
+            location.href = "sprekeromgeving.html";
+          } else if (username == "testorganisator") {
+            location.href = "organisatoromgeving.html";
+          } else if (username == "testadministrator") {
+            location.href = "administratoromgeving.html";
+          } else {
+            alert("inloggegevens onjuist")
           }
         } else {
           alert("wachtwoord of email incorrect");

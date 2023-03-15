@@ -184,12 +184,13 @@
                         method: "PUT",
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({
+                            status:action,
                             id:o.id,
                             voornaam: o.voornaam,
                             achternaam:o.achternaam,
                             onderwerp:o.onderwerp,
-                            eMail:o. eMail,
-                            status : action
+                            eMail:o.eMail,
+                            veranderd: o.veranderd
                         })
                     })
                     .then(element => refresh());
@@ -243,6 +244,10 @@
                 addListenerToContentButtons();
 
 
+                data.forEach(data => {
+                const html =`
+                    <div class="request" data-id='${data.id}' id='request${data.id}'>`
+                })
                  // if element status @verander is equals true then request row gets extra class @changed
                  // elements which has this class will have changed border for red color and gets 
                  // warning icon "!" this icon can be found in overzichtStyle.css .changed::after
@@ -282,7 +287,8 @@
                 });
              })
              .then(()=>addListenersToActionButtons());
-        }
+            }
+        
     </script>
 </head>
 <body>
