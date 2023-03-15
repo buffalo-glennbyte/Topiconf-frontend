@@ -53,8 +53,7 @@
         let huidigVoorstelId;
         window.onload = function(){
             huidigVoorstelId = window.location.href.split("=").pop();
-            
-            document.getElementById("updateButton").innerHTML = `<button onclick="updateVoorstel(${huidigVoorstelId})">Update voorstel</button>`;
+
             laadGeselecteerdVoorstel(huidigVoorstelId);
             laadBenodigdheden();            
         }
@@ -93,7 +92,7 @@
                 })
         }
 
-        const updateVoorstel = function(voorstelid){
+        const slaWijzigingenInVoorstelOp = function(){
             let geupdatetVoorstel = {};
             geupdatetVoorstel.voornaam = document.getElementById("inputVoornaam").value;
             geupdatetVoorstel.achternaam = document.getElementById("inputAchternaam").value;
@@ -102,8 +101,8 @@
             geupdatetVoorstel.samenvatting = document.getElementById("inputSamenvatting").value;
             geupdatetVoorstel.tijdsduur = document.getElementById("inputTijdsduur").value;
             geupdatetVoorstel.maximaleCapaciteit = document.getElementById("inputCapaciteit").value;
-            geupdatetVoorstel.id = voorstelid;
-            geupdatetVoorstel.benodigdhedenLijst = [];
+            geupdatetVoorstel.id = huidigVoorstelId;
+            geupdatetVoorstel.benodigdhedenLijst = [{}];
             
             fetch(`http://localhost:8082/voorstel/updateVoorstel`, {
                 method: "PUT", 
