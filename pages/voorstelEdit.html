@@ -38,7 +38,28 @@
     </style>
 
     <script>
-        function laadGeselecteerdVoorstel() {
+        window.onload = function(){
+            console.log("fiets")
+            HTMLString = "";
+            fetch(`http://localhost:8082/benodigdheid/geefAlleBenodigdheden`)
+                .then((request)=> request.text())
+                .then((data)=> alleBenodigdheden = JSON.parse(data))
+                .then((alleBenodigdheden)=> {
+                    HTMLString += "<h4>Benodigdheden</h4>"
+                    HTMLString += "<select>"
+                    alleBenodigdheden.forEach((benodigdheid)=> {
+                        HTMLString += `<option name="benodigdhedenSelector" value=${benodigdheid.id}>${benodigdheid.name}</option>`
+                    })
+                    HTMLString += "</select>"
+                })
+                .then(()=> {
+                    console.log(HTMLString)
+                    document.getElementById("benodigdhedenDiv").innerHTML = HTMLString
+                })
+            laadGeselecteerdVoorstel();
+        }
+        
+        const laadGeselecteerdVoorstel = function(){
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
             console.log(id); 
@@ -46,7 +67,7 @@
     </script>
 
 </head>
-<body onload="laadGeselecteerdVoorstel()">
+<body>
 
     <header class="hdr-main">
         <img src="../images/TopicusLogo.png" class="hdr-img">
@@ -184,7 +205,7 @@
             </table>
         </div>
 
-        <div>
+        <div id="benodigdhedenDiv">
             <table>
                 <tr>
                     <td>
