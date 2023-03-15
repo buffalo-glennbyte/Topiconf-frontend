@@ -4,6 +4,7 @@
     --main-color:#F8E800;
     --white-color:#fff;
     --hover: #f1ca1e;
+    --warning-color:#e63946;
   }
 
 
@@ -90,8 +91,7 @@ header {
   }
 
 .title {
-  text-align: center;
-  color: white;
+  color: black;
 }
 
 .link {
@@ -103,15 +103,16 @@ header {
 
 /* NAVBAR */
 
-/* ul {
+ul {
   display: flex;
+  flex-direction: column;
   list-style-type: none;
   margin: 0;
   padding: 0;
   background-color: #f1f1f1;
   background-color: #3a4448;
   height: 100%;
-} */
+}
 
 li a {
   display: block;
