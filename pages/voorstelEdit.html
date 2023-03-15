@@ -74,6 +74,10 @@
             geupdateVoorstel.onderwerp = document.getElementById("inputOnderwerp").value;
             geupdateVoorstel.samenvatting = document.getElementById("inputSamenvatting").value;
             geupdateVoorstel.status = document.getElementById("statusTegel").value;
+            geupdateVoorstel.tijdsduur = document.getElementById("inputTijdsduur").value;
+            geupdateVoorstel.maximaleCapaciteit = document.getElementById("inputCapaciteit").value;
+            // geupdateVoorstel.tijdsduur = document.getElementById("inputCategorie").value;
+
             JSONstatement = JSON.stringify(geupdateVoorstel);      
             console.log(JSONstatement);         
             xhr.open("PUT", "http://localhost:8082/voorstel/updateVoorstel/" + this.voorstelID, true);          
@@ -193,16 +197,16 @@
             </div>
             <div style="height: 120px;">
                 <div class="flexRow">
-                    <label for="Voornaam">Tijdsduur: </label>
-                    <input id="inputVoornaam" type="text">
+                    <label for="tijdsduur">Tijdsduur: </label>
+                    <input id="inputTijdsduur" type="text">
                 </div>
                 <div class="flexRow">
-                    <label for="Achternaam">Max. Capaciteit: </label>
-                    <input id="inputAchternaam" type="text">
+                    <label for="MaxCapaciteit">Max. Capaciteit: </label>
+                    <input id="inputCapaciteit" type="text">
                 </div>
                 <div class="flexRow">
-                    <label for="Email">Catagorie: </label>
-                    <input id="inputEmailToevoegen" type="text">
+                    <label for="Categorie">Categorie: </label>
+                    <input id="inputCategorie" type="text">
                 </div>
             </div>
         </div>
