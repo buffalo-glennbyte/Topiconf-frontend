@@ -121,7 +121,7 @@
 
         function verwijderCategorie(id){
             var xhr = new XMLHttpRequest();
-            xhr.open("DELETE", "http://localhost:8082/track/verwijderCategorie/" + id, true);
+            xhr.open("DELETE", "http://localhost:8082/categorie/verwijderCategorie/" + id, true);
             xhr.send();
         }
 
@@ -132,20 +132,23 @@
         }
 
         function addListenerToContentButtons(){
-            document.querySelectorAll(".content-btn").forEach((btn)=>{
-                btn.addEventListener("click", function(e){
-                    document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
-                    btn.classList.remove("btn-active");
-                    e.target.classList.add("btn-active");
-                    const target= e.target.dataset.tabnumber;
-                    document.querySelector(".requestList--1").classList.remove("visible");
-                    document.querySelector(".requestList--2").classList.remove("visible");
-                    document.querySelector(".requestList--3").classList.remove("visible");
-                    document.querySelector(".requestList--4").classList.remove("visible");
-                    document.querySelector(`.requestList--${target}`).classList.add("visible");
-                })
-            })
-       }
+
+document.querySelectorAll(".content-btn").forEach((btn)=>{
+    btn.addEventListener("click", function(e){
+        document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
+    btn.classList.remove("btn-active");
+    e.target.classList.add("btn-active");
+    const target= e.target.dataset.tabnumber;
+    document.querySelector(".requestList--1").classList.remove("visible");
+    document.querySelector(".requestList--2").classList.remove("visible");
+    document.querySelector(".requestList--3").classList.remove("visible");
+    document.querySelector(".requestList--4").classList.remove("visible");
+    document.querySelector(".requestList--5").classList.remove("visible");
+
+    document.querySelector(`.requestList--${target}`).classList.add("visible");
+
+})})
+}
 
         function addListenersToActionButtons(){
             document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
@@ -158,9 +161,9 @@
                 const email = document.querySelector(".email").textContent;
                 parent.classList.add(action);
 
-                fetch(`http://localhost:8082/getElement/${parent.dataset.id}`).then((element)=>element.json()).then((obj)=>{
+                fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${parent.dataset.id}`).then((element)=>element.json()).then((obj)=>{
                     const o = obj;
-                    fetch(`http://localhost:8082/updateElementStatus/${parent.dataset.id}`,{
+                    fetch(`http://localhost:8082/voorstel/updateVoorstel/${parent.dataset.id}`,{
                         method: "PUT",
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({
@@ -178,6 +181,7 @@
         }
 
         function clear(){ 
+            document.querySelector(".requestList--5").innerHTML='';
             document.querySelector(".requestList--4").innerHTML='';
             document.querySelector(".requestList--3").innerHTML='';
             document.querySelector(".requestList--2").innerHTML='';
@@ -197,17 +201,19 @@
              .then((request)=>request.json())
              .then((request)=>{
                  const [...data] =request;
+                 const list_5 = document.querySelector(".requestList--5");
                  const list_4 = document.querySelector(".requestList--4");
                  const list_3 = document.querySelector(".requestList--3");
                  const list_2 = document.querySelector(".requestList--2");
                  const list_1 = document.querySelector(".requestList--1");
                  const htmlButtons = `
-                        <div class="content-buttons">
-                            <button class="content-btn btn" data-tabNumber="1">geaccepteerd</button>
-                            <button class="content-btn btn" data-tabNumber="2">gevlagt</button>
-                            <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
-                            <button class="content-btn btn btn-active" data-tabNumber="4">ongezien</button>
-                        </div>
+                 <div class="content-buttons">
+              <button class="content-btn btn" data-tabNumber="5">Ingetrokken</button>
+              <button class="content-btn btn" data-tabNumber="1">voorlopig Geaccepteerd</button>
+              <button class="content-btn btn" data-tabNumber="2">definitief</button>
+              <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
+              <button class="content-btn btn btn-active" data-tabNumber="4">ongezien</button>
+            </div>
                         <button class="btn" type="submit" value="Submit" form="markeerVoorstel">Definitief Geaccepteerd</button>
                         <button class="btn" type="submit" value="Submit" form="markeerVoorstel">Definitief Afgewezen</button>
                         <button onclick = "refresh()" class="btn">Vernieuwen</button>`;
@@ -218,34 +224,32 @@
                  data.forEach(data => {
                  const html =`
                         <div class="request" data-id='${data.id}' id='request${data.id}'>
-                            <div>
-                                <form id="markeerVoorstel" method="post" action="--------BACKEND MOET NOG WORDEN GEMAAKT">
-                                    <p><input type="checkbox" name="${data.id}" value="${data.id}"></p>
-                                </form>
-                            </div>
-                            <div class="data "><p>Voornaam:<span class = 'name'> ${data.voornaam}</span></p></div>
+                        <div class="data "><p>Naam:<span class = 'name'> ${data.voornaam}</span></p></div>
                             <div class="data "><p>Achternaam: <span class = 'surname'>${data.achternaam}</span></p></div>
                             <div class="data "><p>Onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
                             <div class="data "><p>E-mail: <a class = 'email' href="mailto:${data.eMail}">${data.eMail}</a></p></div>
                             <div class="buttons">
-                                <div class="actionBtn green" data-action="geaccepteerd"></div>
-                                <div class="actionBtn yellow" data-action="gemarkeerd"></div>
-                                <div class="actionBtn delete" data-action="afgewezen"></div>
-                                <div class="actionBtn unmarked" data-action="ongezien"></div>
+                                <button class="actionBtn green" data-action="voorlopigGeaccepteerd">accepteren</button>
+                                <button class="actionBtn delete" data-action="afgewezen">verwerpen</button>
+                                
+                                ${data.status==="voorlopigGeaccepteerd" ? "<button class='actionBtn' data-action ='definitief'>Fainalize</button>":""}
                             </div>
                         </div>`;
 
-                 if(data.status === "ongezien"){
+                        if(data.status === "ongezien"){
                     list_4.insertAdjacentHTML("afterbegin",html);
                  }
-                 else if(data.status === "geaccepteerd"){
+                 if(data.status === "voorlopigGeaccepteerd"){
                     list_1.insertAdjacentHTML("afterbegin",html);
                  }
-                 else if(data.status === "gemarkeerd"){
+                 if(data.status === "definitief"){
                     list_2.insertAdjacentHTML("afterbegin",html);
                  }
-                 else if(data.status === "afgewezen"){
+                 if(data.status === "afgewezen"){
                     list_3.insertAdjacentHTML("afterbegin",html);
+                 }
+                 if(data.status === "intrekken"){
+                    list_5.insertAdjacentHTML("afterbegin",html);
                  }
                  });
              })
@@ -271,6 +275,7 @@
         <div id="innerTable"></div>
         <div class="voorstelTabel wrapper">
             <div class="htmlbuttons"></div>
+            <div class="requestList--5"></div>
             <div class="requestList--4 visible"></div>
             <div class="requestList--3"></div>
             <div class="requestList--2"></div>
