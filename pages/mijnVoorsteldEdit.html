@@ -56,8 +56,25 @@
         }
     </style>
 
+    <script>
+        window.onload = function(){
+            let HTMLString = "";
+            
+            fetch(`http://localhost:8082/benodigdheid/geefAlleBenodigdheden`)
+                .then((request)=> request.text())
+                .then((data)=> alleBenodigdheden = JSON.parse(data))
+                .then((alleBenodigdheden)=> {
+                    HTMLString += "<select>";
+                    alleBenodigdheden.forEach((benodigdheid)=>{
+                        HTMLString += `<option value=${benodigdheid.id}>${benodigdheid.name}</option>`;
+                    })
+                    HTMLString += "</select>"
+                    document.getElementById("benodigdhedenSelector").innerHTML = HTMLString;
+                })
+        }
+    </script>
 </head>
-<body onload="toonAanvragen()">
+<body>
 
     <header class="hdr-main">
         <img src="../images/TopicusLogo.png" class="hdr-img">
@@ -139,8 +156,8 @@
                 </div>
                 <div class="flexRegel">
                     <div style="width: 50%;">
-                        <div style="margin: 10px;">
-                        <select name="BenodigdhedenDropDown" id="BenodigdhedenDropDown">
+                        <div style="margin: 10px;" id="benodigdhedenSelector">
+                        <select>
                             <option value="None">None</option>
                             <option value="Beamer">Beamer</option>
                             <option value="RookMachine">Rookmachine</option>
@@ -148,13 +165,8 @@
                         </select>
                     </div>
                     </div>
-                    <div style="width: 50%;">
-                        <ol>
-                            <li>RookMachine</li>
-                            <li>Beamer</li>
-                            <li>Flipperkast</li>
-                            <li>Voetbal Tafel</li>
-                        </ol>
+                    <div style="width: 50%;" id="benodigdhedenLijst">
+
                     </div>
                 </div>
             </div>
