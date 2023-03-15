@@ -11,6 +11,27 @@ body{
     align-items: center;
     width:100%;
   }
+  .request.changed{
+    border: 1px solid var(--warning-color);
+    position: relative;
+  }
+  .changed::after{
+    content: '!';
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--warning-color);
+    border-radius: 999px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white-color);
+    position:absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50% , -50%);
+  }
   .wrapper, .content{
     display: flex;
     flex-direction: column;
@@ -29,6 +50,9 @@ body{
   .green{
     background-color: #09ee2f;
   }
+  .yellow{
+    background-color: yellow;
+  }
   .delete{
     background-color: #f20202;
   }
@@ -44,6 +68,7 @@ body{
     transform: translateY(-1rem);
     background-color: var(--hover);
   }
+  .requestList--6,
   .requestList--5,
   .requestList--4,
   .requestList--3,
