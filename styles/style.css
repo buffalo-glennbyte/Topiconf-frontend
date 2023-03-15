@@ -90,7 +90,6 @@ header {
   }
 
 .title {
-  text-align: center;
   color: black;
 }
 
@@ -103,15 +102,16 @@ header {
 
 /* NAVBAR */
 
-/* ul {
+ul {
   display: flex;
+  flex-direction: column;
   list-style-type: none;
   margin: 0;
   padding: 0;
   background-color: #f1f1f1;
   background-color: #3a4448;
   height: 100%;
-} */
+}
 
 li a {
   display: block;
