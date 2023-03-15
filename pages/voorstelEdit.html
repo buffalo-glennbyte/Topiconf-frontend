@@ -129,7 +129,7 @@
                     document.getElementById("inputOnderwerp").value = geselecteerdVoorstel.onderwerp;
                     document.getElementById("inputSamenvatting").value = geselecteerdVoorstel.samenvatting;
                     document.getElementById("inputTijdsduur").value = geselecteerdVoorstel.tijdsduur;
-                    document.getElementById("inputCapaciteit").value = geselecteerdVoorstel.maxCapaciteit;
+                    document.getElementById("inputCapaciteit").value = geselecteerdVoorstel.maximaleCapaciteit;
                 })
         }
 
@@ -141,7 +141,7 @@
             geupdatetVoorstel.onderwerp = document.getElementById("inputOnderwerp").value;
             geupdatetVoorstel.samenvatting = document.getElementById("inputSamenvatting").value;
             geupdatetVoorstel.tijdsduur = document.getElementById("inputTijdsduur").value;
-            geupdatetVoorstel.maxCapaciteit = document.getElementById("inputCapaciteit").value;
+            geupdatetVoorstel.maximaleCapaciteit = document.getElementById("inputCapaciteit").value;
             geupdatetVoorstel.id = voorstelid;
             geupdatetVoorstel.benodigdhedenLijst = [];
             
@@ -152,7 +152,7 @@
                 },
                 body: JSON.stringify(geupdatetVoorstel)
             })
-            .then(()=> laadGeselecteerdVoorstel(39))
+            .then(()=> laadGeselecteerdVoorstel(huidigVoorstelId))
         }
     </script>
 
@@ -293,9 +293,6 @@
             <div id="geselecteerdeBenodigdhedenDiv">
 
             </div>
-        </div>
-        <div id="updateButton">
-
         </div>
     </div>
 
