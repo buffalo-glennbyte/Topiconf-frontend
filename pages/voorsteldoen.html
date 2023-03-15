@@ -92,7 +92,9 @@
             onderwerp: topic,
             eMail: mail,
             samenvatting: samenvat,
+            veranderd: false,
           };
+         
           fetch(
             `http://localhost:8082/evenement/voegVoorstelAanEvenementToe/${huidigEvenement.id}`,
             {
