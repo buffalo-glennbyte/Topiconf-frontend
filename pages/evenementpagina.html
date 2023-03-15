@@ -203,10 +203,11 @@
                  const list_1 = document.querySelector(".requestList--1");
                  const htmlButtons = `
                         <div class="content-buttons">
-                            <button class="content-btn btn" data-tabNumber="1">geaccepteerd</button>
-                            <button class="content-btn btn" data-tabNumber="2">gevlagt</button>
-                            <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
-                            <button class="content-btn btn btn-active" data-tabNumber="4">ongezien</button>
+                            <button class="content-btn btn btn-active" data-tabNumber="4">Ongezien</button>
+                            <button class="content-btn btn" data-tabNumber="3">Afgewezen</button>
+                            <button class="content-btn btn" data-tabNumber="2">In behandeling</button>
+                            <button class="content-btn btn" data-tabNumber="1">Voorlopig Geaccepteerd</button>
+                            <button class="content-btn btn" data-tabNumber="5">Ingetrokken</button>
                         </div>
                         <button class="btn" type="submit" value="Submit" form="markeerVoorstel">Definitief Geaccepteerd</button>
                         <button class="btn" type="submit" value="Submit" form="markeerVoorstel">Definitief Afgewezen</button>
@@ -228,8 +229,8 @@
                             <div class="data "><p>Onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
                             <div class="data "><p>E-mail: <a class = 'email' href="mailto:${data.eMail}">${data.eMail}</a></p></div>
                             <div class="buttons">
-                                <div class="actionBtn green" data-action="geaccepteerd"></div>
-                                <div class="actionBtn yellow" data-action="gemarkeerd"></div>
+                                <div class="actionBtn green" data-action="voorlopigGeaccepteerd"></div>
+                                <div class="actionBtn yellow" data-action="inBehandeling"></div>
                                 <div class="actionBtn delete" data-action="afgewezen"></div>
                                 <div class="actionBtn unmarked" data-action="ongezien"></div>
                             </div>
@@ -238,10 +239,10 @@
                  if(data.status === "ongezien"){
                     list_4.insertAdjacentHTML("afterbegin",html);
                  }
-                 else if(data.status === "geaccepteerd"){
+                 else if(data.status === "voorlopigGeaccepteerd"){
                     list_1.insertAdjacentHTML("afterbegin",html);
                  }
-                 else if(data.status === "gemarkeerd"){
+                 else if(data.status === "inBehandeling"){
                     list_2.insertAdjacentHTML("afterbegin",html);
                  }
                  else if(data.status === "afgewezen"){
