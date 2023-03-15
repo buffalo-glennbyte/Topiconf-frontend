@@ -35,6 +35,7 @@
         .btn-event:hover
         {
             background-color: #3667C3;
+            cursor: pointer;
         }
 
         .btn-event:active
@@ -45,6 +46,11 @@
         .main-content
         {
             flex-basis: 100%;
+        }
+
+        .row:hover
+        {
+            cursor: pointer;
         }
     </style>
     <script>
@@ -58,13 +64,14 @@
                         + "<th>Omschrijving</th>"
                         + "<th>Datum</th></tr>"
                         for(var x = 0; x < evenementen.length; x++){
-                            HTMLString += "<tr class='row'><td>" + evenementen[x].naam + "</td>";
+                            HTMLString += `<tr id='evenement-row' class='row' onclick='beheerEvenement(${evenementen[x].id})'>
+                                            <td>${evenementen[x].naam}</td>`;
                             HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
                             HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
                                         + "</br>"
                                         + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
                             HTMLString += `<td>
-                                            <button onclick="beheerEvenement('${evenementen[x].id}')">Beheren</button>
+                                            <button class='btn-event' onclick='beheerEvenement(${evenementen[x].id})'>Beheren</button>
                                             </td></tr>`;
                         }                        
                     HTMLString += "</table>";
