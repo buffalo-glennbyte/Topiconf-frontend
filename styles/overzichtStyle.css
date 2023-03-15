@@ -29,6 +29,9 @@ body{
   .green{
     background-color: #09ee2f;
   }
+  .yellow{
+    background-color: yellow;
+  }
   .delete{
     background-color: #f20202;
   }
@@ -44,6 +47,7 @@ body{
     transform: translateY(-1rem);
     background-color: var(--hover);
   }
+  .requestList--6,
   .requestList--5,
   .requestList--4,
   .requestList--3,
