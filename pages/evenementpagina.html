@@ -37,8 +37,8 @@
             var evenementId = window.location.href.split('=').pop();
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
             huidigEvenement = data;
-            document.getElementById("evenementTitel").innerHTML = huidigEvenement.naam;
-            console.log(huidigEvenement);
+            document.getElementById("evenementTitel").innerHTML = data.naam;
+            refresh();
         })}
             
         function toonCategoriePerEvenement(){
@@ -132,27 +132,27 @@
         }
 
         function addListenerToContentButtons(){
-
-document.querySelectorAll(".content-btn").forEach((btn)=>{
-    btn.addEventListener("click", function(e){
-        document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
-    btn.classList.remove("btn-active");
-    e.target.classList.add("btn-active");
-    const target= e.target.dataset.tabnumber;
-    document.querySelector(".requestList--1").classList.remove("visible");
-    document.querySelector(".requestList--2").classList.remove("visible");
-    document.querySelector(".requestList--3").classList.remove("visible");
-    document.querySelector(".requestList--4").classList.remove("visible");
-    document.querySelector(".requestList--5").classList.remove("visible");
-
-    document.querySelector(`.requestList--${target}`).classList.add("visible");
-
-})})
-}
+            document.querySelectorAll(".content-btn").forEach((btn)=>{
+            btn.addEventListener("click", function(e){
+                document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
+                btn.classList.remove("btn-active");
+                e.target.classList.add("btn-active");
+                const target= e.target.dataset.tabnumber;
+                console.log(target);
+                document.querySelector(".requestList--1").classList.remove("visible");
+                document.querySelector(".requestList--2").classList.remove("visible");
+                document.querySelector(".requestList--3").classList.remove("visible");
+                document.querySelector(".requestList--4").classList.remove("visible");
+                document.querySelector(".requestList--5").classList.remove("visible");
+                document.querySelector(".requestList--6").classList.remove("visible");
+                document.querySelector(`.requestList--${target}`).classList.add("visible");
+            })})
+        }
 
         function addListenersToActionButtons(){
             document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
                 const target = e.target;
+                console.log(target);
                 const action = target.dataset.action;
                 const parent = target.closest('.request');
                 const name = document.querySelector(".name").textContent;
@@ -181,6 +181,7 @@ document.querySelectorAll(".content-btn").forEach((btn)=>{
         }
 
         function clear(){ 
+            document.querySelector(".requestList--6").innerHTML='';
             document.querySelector(".requestList--5").innerHTML='';
             document.querySelector(".requestList--4").innerHTML='';
             document.querySelector(".requestList--3").innerHTML='';
@@ -195,63 +196,63 @@ document.querySelectorAll(".content-btn").forEach((btn)=>{
         
         function toonVoorstellenPerEvenement(){
             document.getElementById("innerTable").innerHTML = "";
-            document.querySelector(".voorstelTabel").classList.add("visible");   
-            console.log("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + huidigEvenement.id);  
-             fetch("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + huidigEvenement.id)
-             .then((request)=>request.json())
-             .then((request)=>{
-                 const [...data] =request;
-                 const list_5 = document.querySelector(".requestList--5");
-                 const list_4 = document.querySelector(".requestList--4");
-                 const list_3 = document.querySelector(".requestList--3");
-                 const list_2 = document.querySelector(".requestList--2");
-                 const list_1 = document.querySelector(".requestList--1");
-                 const htmlButtons = `
-                 <div class="content-buttons">
-              <button class="content-btn btn" data-tabNumber="5">Ingetrokken</button>
-              <button class="content-btn btn" data-tabNumber="1">voorlopig Geaccepteerd</button>
-              <button class="content-btn btn" data-tabNumber="2">definitief</button>
-              <button class="content-btn btn" data-tabNumber="3">afgewezen</button>
-              <button class="content-btn btn btn-active" data-tabNumber="4">ongezien</button>
-            </div>
-                        <button class="btn" type="submit" value="Submit" form="markeerVoorstel">Definitief Geaccepteerd</button>
-                        <button class="btn" type="submit" value="Submit" form="markeerVoorstel">Definitief Afgewezen</button>
-                        <button onclick = "refresh()" class="btn">Vernieuwen</button>`;
+            document.querySelector(".voorstelTabel").classList.add("visible");    
+            fetch("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + huidigEvenement.id)
+            .then((request)=>request.json())
+            .then((request)=>{
+                const [...data] =request;
+                const list_6 = document.querySelector(".requestList--6");
+                const list_5 = document.querySelector(".requestList--5");
+                const list_4 = document.querySelector(".requestList--4");
+                const list_3 = document.querySelector(".requestList--3");
+                const list_2 = document.querySelector(".requestList--2");
+                const list_1 = document.querySelector(".requestList--1");
+                const htmlButtons = `
+                <div class="content-buttons">
+                    <button class="content-btn btn btn-active" data-tabNumber="4">Ongezien</button>
+                    <button class="content-btn btn" data-tabNumber="3">Afgewezen</button>
+                    <button class="content-btn btn" data-tabNumber="6">In Behandeling</button>
+                    <button class="content-btn btn" data-tabNumber="1">Voorlopig Geaccepteerd</button>
+                    <button class="content-btn btn" data-tabNumber="5">Ingetrokken</button>
+                    <button class="content-btn btn" data-tabNumber="2">Definitief</button>
+                </div>`;
                  
-                 const buttonsElement = document.querySelector(".htmlbuttons").innerHTML = htmlButtons;
-                 addListenerToContentButtons();
+                const buttonsElement = document.querySelector(".htmlbuttons").innerHTML = htmlButtons;
+                addListenerToContentButtons();
 
-                 data.forEach(data => {
-                 const html =`
-                        <div class="request" data-id='${data.id}' id='request${data.id}'>
+                data.forEach(data => {
+                const html =`
+                    <div class="request" data-id='${data.id}' id='request${data.id}'>
                         <div class="data "><p>Naam:<span class = 'name'> ${data.voornaam}</span></p></div>
-                            <div class="data "><p>Achternaam: <span class = 'surname'>${data.achternaam}</span></p></div>
-                            <div class="data "><p>Onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
-                            <div class="data "><p>E-mail: <a class = 'email' href="mailto:${data.eMail}">${data.eMail}</a></p></div>
-                            <div class="buttons">
-                                <button class="actionBtn green" data-action="voorlopigGeaccepteerd">accepteren</button>
-                                <button class="actionBtn delete" data-action="afgewezen">verwerpen</button>
-                                
-                                ${data.status==="voorlopigGeaccepteerd" ? "<button class='actionBtn' data-action ='definitief'>Fainalize</button>":""}
-                            </div>
-                        </div>`;
-
-                        if(data.status === "ongezien"){
-                    list_4.insertAdjacentHTML("afterbegin",html);
-                 }
-                 if(data.status === "voorlopigGeaccepteerd"){
-                    list_1.insertAdjacentHTML("afterbegin",html);
-                 }
-                 if(data.status === "definitief"){
-                    list_2.insertAdjacentHTML("afterbegin",html);
-                 }
-                 if(data.status === "afgewezen"){
-                    list_3.insertAdjacentHTML("afterbegin",html);
-                 }
-                 if(data.status === "intrekken"){
-                    list_5.insertAdjacentHTML("afterbegin",html);
-                 }
-                 });
+                        <div class="data "><p>Achternaam: <span class = 'surname'>${data.achternaam}</span></p></div>
+                        <div class="data "><p>Onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
+                        <div class="data "><p>E-mail: <a class = 'email' href="mailto:${data.eMail}">${data.eMail}</a></p></div>
+                        <div class="buttons">
+                            <button class="actionBtn green" data-action="voorlopigGeaccepteerd">Accepteren</button>
+                            <button class="actionBtn yellow" data-action="inBehandeling">In Behandeling</button>
+                            <button class="actionBtn delete" data-action="afgewezen">Afwijzen</button>
+                            ${data.status==="voorlopigGeaccepteerd" ? "<button class='actionBtn' data-action ='definitief'>Definitief maken</button>":""}
+                        </div>
+                    </div>`;
+                    if(data.status === "ongezien"){
+                        list_4.insertAdjacentHTML("afterbegin",html);
+                    }
+                    if(data.status === "voorlopigGeaccepteerd"){
+                        list_1.insertAdjacentHTML("afterbegin",html);
+                    }
+                    if(data.status === "definitief"){
+                        list_2.insertAdjacentHTML("afterbegin",html);
+                    }
+                    if(data.status === "afgewezen"){
+                        list_3.insertAdjacentHTML("afterbegin",html);
+                    }
+                    if(data.status === "ingetrokken"){
+                        list_5.insertAdjacentHTML("afterbegin",html);
+                    }
+                    if(data.status === "inBehandeling"){
+                        list_6.insertAdjacentHTML("afterbegin",html);
+                    }
+                });
              })
              .then(()=>addListenersToActionButtons());
         }
@@ -262,19 +263,18 @@ document.querySelectorAll(".content-btn").forEach((btn)=>{
         <h1 class="title" id="evenementTitel"></h1>
         <nav>
             <ul>
-                <li><a class="active" href="evenementoverzicht.html">Evenementen</a></li>
                 <li><a onclick="toonCategoriePerEvenement()">Categorieën</a></li>
                 <li><a onclick="toonLocatiesPerEvenement()">Locaties</a></li>
-                <li><a onclick="refresh()">Voorstellen</a></li>
+                <li><a class="active" onclick="refresh()">Voorstellen</a></li>
                 <li><a href="programma.html">Programma</a></li>
               </ul>
         </nav>
     </header>
     <main>
-        <h1>Welkom</h1>
         <div id="innerTable"></div>
         <div class="voorstelTabel wrapper">
             <div class="htmlbuttons"></div>
+            <div class="requestList--6"></div>
             <div class="requestList--5"></div>
             <div class="requestList--4 visible"></div>
             <div class="requestList--3"></div>
@@ -282,5 +282,6 @@ document.querySelectorAll(".content-btn").forEach((btn)=>{
             <div class="requestList--1"></div>
        </div>
     </main>
+    <footer><a class="active" href="organisatoromgeving.html">Terug naar evenementen</a></footer>
 </body>
 </html>
