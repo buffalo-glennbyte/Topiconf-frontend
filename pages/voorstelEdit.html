@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="../styles/style.css">
 
     <style>
+        .is-flex{
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
     .grid-container {
       display: grid;
       grid-template-columns: auto auto auto;
@@ -38,8 +43,16 @@
     </style>
 
     <script>
+        let huidigVoorstelId;
         window.onload = function(){
-            console.log("fiets")
+            huidigVoorstelId = window.location.href.split("=").pop();
+            
+            document.getElementById("updateButton").innerHTML = `<button onclick="updateVoorstel(${huidigVoorstelId})">Update voorstel</button>`;
+            laadGeselecteerdVoorstel(huidigVoorstelId);
+            laadBenodigdheden();            
+        }
+        
+        const laadBenodigdheden = function(){
             HTMLString = "";
             fetch(`http://localhost:8082/benodigdheid/geefAlleBenodigdheden`)
                 .then((request)=> request.text())
@@ -53,16 +66,46 @@
                     HTMLString += "</select>"
                 })
                 .then(()=> {
-                    console.log(HTMLString)
                     document.getElementById("benodigdhedenDiv").innerHTML = HTMLString
                 })
-            laadGeselecteerdVoorstel();
         }
-        
-        const laadGeselecteerdVoorstel = function(){
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
-            console.log(id); 
+
+        const laadGeselecteerdVoorstel = function(voorstelid){
+            fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${huidigVoorstelId}`)
+                .then((request)=> request.text())
+                .then((data)=> geselecteerdVoorstel = JSON.parse(data))
+                .then((geselecteerdVoorstel)=>{
+                    console.log(geselecteerdVoorstel);
+                    document.getElementById("voornaamInput").value = geselecteerdVoorstel.voornaam;
+                    document.getElementById("achternaamInput").value = geselecteerdVoorstel.achternaam;
+                    document.getElementById("emailInput").value = geselecteerdVoorstel.eMail;
+                    document.getElementById("onderwerpInput").value = geselecteerdVoorstel.onderwerp;
+                    document.getElementById("samenvattingInput").value = geselecteerdVoorstel.samenvatting;
+                    document.getElementById("tijdsduurInput").value = geselecteerdVoorstel.tijdsduur;
+                    document.getElementById("capaciteitInput").value = geselecteerdVoorstel.maxCapaciteit;
+                })
+        }
+
+        const updateVoorstel = function(voorstelid){
+            let geupdatetVoorstel = {};
+            geupdatetVoorstel.voornaam = document.getElementById("voornaamInput").value;
+            geupdatetVoorstel.achternaam = document.getElementById("achternaamInput").value;
+            geupdatetVoorstel.eMail = document.getElementById("emailInput").value;
+            geupdatetVoorstel.onderwerp = document.getElementById("onderwerpInput").value;
+            geupdatetVoorstel.samenvatting = document.getElementById("samenvattingInput").value;
+            geupdatetVoorstel.tijdsduur = document.getElementById("tijdsduurInput").value;
+            geupdatetVoorstel.maxCapaciteit = document.getElementById("capaciteitInput").value;
+            geupdatetVoorstel.id = voorstelid;
+            geupdatetVoorstel.benodigdhedenLijst = [];
+            
+            fetch(`http://localhost:8082/voorstel/updateVoorstel`, {
+                method: "PUT", 
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(geupdatetVoorstel)
+            })
+            .then(()=> laadGeselecteerdVoorstel(39))
         }
     </script>
 
@@ -90,14 +133,20 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="Naam">Naam: </label>
-                        <input type="text" placeholder="John">
+                        <label for="Voornaam">Voornaam: </label>
+                        <input type="text" id="voornaamInput" placeholder="John">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Achternaam">Achternaam:</label>
+                        <input type="text" id="achternaamInput" placeholder="Marston">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label for="Email">Email:</label>
-                        <input type="text" placeholder="John@email.com">
+                        <input type="text" id="emailInput" placeholder="John@email.com">
                     </td>
                 </tr>
             </table>
@@ -113,14 +162,14 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="Naam">Onderwerp: </label>
-                        <input type="text" placeholder="Oreren over techniek">
+                        <label for="Onderwerp">Onderwerp: </label>
+                        <input type="text" id="onderwerpInput" placeholder="Oreren over techniek">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="Email">Beschrijving:</label>
-                        <input type="text" placeholder="Techniek in de brede zin van het woord bekeken  ..................">
+                        <label for="samenvatting">Korte samenvatting:</label>
+                        <input type="text" id="samenvattingInput" placeholder="Techniek in de brede zin van het woord bekeken  ..................">
                     </td>
                 </tr>
             </table>
@@ -163,7 +212,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="Email">Achternaam</label>
+                        <label for="Achternaam">Achternaam</label>
                         <input type="text" placeholder="Vogel">
                     </td>
                 </tr>
@@ -186,49 +235,35 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="Naam">Tijdsduur: </label>
-                        <input type="text" placeholder="hh:mm">
+                        <label for="Tijdsduur">Tijdsduur in minuten: </label>
+                        <input type="text" id="tijdsduurInput" placeholder="hh:mm">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="Email">Max. Bezetting:</label>
-                        <input type="text" placeholder="Max. Bezetting">
+                        <label for="Capaciteit">Max. Bezetting:</label>
+                        <input type="text" id="capaciteitInput" placeholder="Max. Bezetting">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="Email">Categorie:</label>
-                        <input type="text" placeholder="Categorie">
+                        <label for="Categorie">Categorie:</label>
+                        <input type="text" id="categorieInput" placeholder="Categorie">
                     </td>
                 </tr>
             </table>
         </div>
 
-        <div id="benodigdhedenDiv">
-            <table>
-                <tr>
-                    <td>
-                        <h4>Benodigdheden</h4>
-                        <p></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div>
-                            <select name="BenodigdhedenDropDown" id="BenodigdhedenDropDown">
-                                <option value="None">None</option>
-                                <option value="Beamer">Beamer</option>
-                                <option value="RookMachine">Rookmachine</option>
-                                <option value="Flipperkast">Flipperkast</option>
-                            </select>
-                        </div>
-                        <div>
-                            <!-- lijst met standaard en gekozen benodigdheden -->
-                        </div>
-                    </td>
-                </tr>
-            </table>
+        <div class="is-flex">
+            <div id="benodigdhedenDiv">
+
+            </div>
+            <div id="geselecteerdeBenodigdhedenDiv">
+
+            </div>
+        </div>
+        <div id="updateButton">
+
         </div>
       </div>
 </body>
