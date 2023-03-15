@@ -10,7 +10,7 @@
     <style>
         body {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
 
         }
 
@@ -40,8 +40,22 @@
             document.getElementById("evenementTitel").innerHTML = data.naam;
             refresh();
         })}
-            
+        
+        function toonProgrammaPerEvenement() {
+            document.getElementById("voorstel").classList.remove("active");
+            document.getElementById("programma").classList.remove("active");
+            document.getElementById("locatie").classList.remove("active");
+            document.getElementById("categorie").classList.remove("active");
+            document.getElementById("programma").classList.add("active");
+
+        }
+
         function toonCategoriePerEvenement(){
+            document.getElementById("voorstel").classList.remove("active");
+            document.getElementById("programma").classList.remove("active");
+            document.getElementById("locatie").classList.remove("active");
+            document.getElementById("categorie").classList.remove("active");
+            document.getElementById("categorie").classList.add("active");
             document.querySelector(".voorstelTabel").classList.remove("visible");   
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
@@ -68,6 +82,11 @@
         }
 
         function toonLocatiesPerEvenement(){
+            document.getElementById("voorstel").classList.remove("active");
+            document.getElementById("programma").classList.remove("active");
+            document.getElementById("locatie").classList.remove("active");
+            document.getElementById("categorie").classList.remove("active");
+            document.getElementById("locatie").classList.add("active");
             document.querySelector(".voorstelTabel").classList.remove("visible");   
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
@@ -138,7 +157,6 @@
                 btn.classList.remove("btn-active");
                 e.target.classList.add("btn-active");
                 const target= e.target.dataset.tabnumber;
-                console.log(target);
                 document.querySelector(".requestList--1").classList.remove("visible");
                 document.querySelector(".requestList--2").classList.remove("visible");
                 document.querySelector(".requestList--3").classList.remove("visible");
@@ -152,7 +170,6 @@
         function addListenersToActionButtons(){
             document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
                 const target = e.target;
-                console.log(target);
                 const action = target.dataset.action;
                 const parent = target.closest('.request');
                 const name = document.querySelector(".name").textContent;
@@ -196,12 +213,17 @@
         }
         
         function toonVoorstellenPerEvenement(){
+            document.getElementById("voorstel").classList.remove("active");
+            document.getElementById("programma").classList.remove("active");
+            document.getElementById("locatie").classList.remove("active");
+            document.getElementById("categorie").classList.remove("active");
+            document.getElementById("voorstel").classList.add("active");
             document.getElementById("innerTable").innerHTML = "";
             document.querySelector(".voorstelTabel").classList.add("visible");    
             fetch("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + huidigEvenement.id)
             .then((request)=>request.json())
             .then((request)=>{
-                const [...data] =request;
+                const [...data] = request;
                 const list_6 = document.querySelector(".requestList--6");
                 const list_5 = document.querySelector(".requestList--5");
                 const list_4 = document.querySelector(".requestList--4");
@@ -274,12 +296,13 @@
         <h1 class="title" id="evenementTitel"></h1>
         <nav>
             <ul>
-                <li><a onclick="toonCategoriePerEvenement()">Categorieën</a></li>
-                <li><a onclick="toonLocatiesPerEvenement()">Locaties</a></li>
-                <li><a class="active" onclick="refresh()">Voorstellen</a></li>
-                <li><a href="programma.html">Programma</a></li>
+                <li><a id="categorie" onclick="toonCategoriePerEvenement()">Categorieën</a></li>
+                <li><a id="locatie" onclick="toonLocatiesPerEvenement()">Locaties</a></li>
+                <li><a id="voorstel" class="active" onclick="refresh()">Voorstellen</a></li>
+                <li><a id="programma" onclick="toonProgrammaPerEvenement()">Programma</a></li>
               </ul>
         </nav>
+        <a href="organisatoromgeving.html">Terug naar evenementen</a>
     </header>
     <main>
         <div id="innerTable"></div>
@@ -293,6 +316,5 @@
             <div class="requestList--1"></div>
        </div>
     </main>
-    <footer><a class="active" href="organisatoromgeving.html">Terug naar evenementen</a></footer>
 </body>
 </html>
