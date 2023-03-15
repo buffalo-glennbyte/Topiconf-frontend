@@ -32,6 +32,12 @@
             border-radius: 10px;
         }
 
+
+        .voet-knoppen:active
+        {
+            font-size: small;
+        }
+
     </style>
 
 
@@ -52,7 +58,6 @@
         function toonEvenementenDetails() {
 
 
-            console.log(huidigEvenement);
             document.getElementById("naam-Van-Evenement").innerHTML = `<i>${huidigEvenement.naam}</i>`;
             document.getElementById("omschrijving-Evenement").value = huidigEvenement.omschrijving;
             document.getElementById("begin-Datum").value = huidigEvenement.beginDatumTijd;
@@ -218,8 +223,8 @@
             <br>
             <br>
 
-            <button class="voet-knoppen">Wijzigen</button>
-            <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;">Annuleren</button>
+            <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'">Wijzigen</button>
+            <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="window.location.href='administratoromgeving.html'">Annuleren</button>
 
         </div>
 
