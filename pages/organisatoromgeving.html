@@ -64,12 +64,11 @@
                         + "<th>Omschrijving</th>"
                         + "<th>Datum</th></tr>"
                         for(var x = 0; x < evenementen.length; x++){
-                            HTMLString += `<tr id='evenement-row' class='row' onclick='beheerEvenement(${evenementen[x].id})'>
+                            HTMLString += `<tr class='row' onclick='beheerEvenement(${evenementen[x].id})'>
                                             <td>${evenementen[x].naam}</td>`;
-                            HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
-                            HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
-                                        + "</br>"
-                                        + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
+                            HTMLString += `<td>${evenementen[x].omschrijving}</td>`;
+                            HTMLString += `<td>Start: ${evenementen[x].beginDatumTijd} </br>
+                                               Einde: ${evenementen[x].eindDatumTijd}</td>`;
                             HTMLString += `<td>
                                             <button class='btn-event' onclick='beheerEvenement(${evenementen[x].id})'>Beheren</button>
                                             </td></tr>`;

@@ -39,11 +39,13 @@
     </style>
 
     <script>
+        
         function toonAanvragen() {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     var alleVoorstellen = JSON.parse(this.responseText);
+                    console.log(alleVoorstellen);
                     var HTMLString = "<table id='tbl-main'>"
                         + "<tr><th>Naam</th>"
                         + "<th>Onderwerp</th>"
@@ -52,11 +54,11 @@
                         + "<th><button id='btn-aanmaken'>Aanmaken</button></th></tr>"
                         for(var x = 0; x < alleVoorstellen.length; x++){
                             //HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";   <- Is deze nog nodig? (Voorstel.class heeft geen voornaam achternaam fields)
-                            HTMLString += "<tr class='row'><td>" + alleVoorstellen[x].naam + "</td>";
+                            HTMLString += "<tr class='row'><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].onderwerp + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].samenvatting + "</td>";
                             HTMLString += "<td id='tb-status'>" + alleVoorstellen[x].status + "</td>";
-                            HTMLString += "<td><button onClick='voorstelIntrekken(" + alleVoorstellen[x].id + ")'>Voorstel intrekken</button><button>Voorstel aanpassen</button></td></tr>";
+                            HTMLString += "<td><button onClick='voorstelIntrekken(" + alleVoorstellen[x].id + ")'>Voorstel intrekken</button><button onclick='voorstelBewerken(" + alleVoorstellen[x].id + ")'>Voorstel aanpassen</button></td></tr>";
                         }
                     HTMLString += "</table>";
                     document.getElementById("voorstelTabel").innerHTML = HTMLString;
@@ -71,8 +73,31 @@
         {
             console.log("het werkt");
             console.log("id: " + id);
+            fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${id}`)
+            .then((response)=>response.json())
+            .then((data)=>{
+                const d = data;
+                fetch(`http://localhost:8082/voorstel/updateVoorstel/${id}`,
+                    {method: "PUT",
+                      headers: {'Content-Type': 'application/json'},
+                      body: JSON.stringify({
+                      id:d.id ,
+                      naam: d.achternaam,
+                      voornaam:d.voornaam,
+                      onderwerp:d.onderwerp,
+                      eMail:d. eMail,
+                      status : "intrekken"})
+                    });
+            });
+            
         }
 
+        function voorstelBewerken(id)
+        {
+
+            window.open("voorstelEdit.html/" + id)
+
+        }
 
     </script>
 
@@ -82,7 +107,7 @@
         <img src="../images/TopicusLogo.png" class="hdr-img">
         <div class="hdr-btns">
             <p class="hdr-btns-text">Je bent ingelogd als: XYZ</p>
-            <button class="hdr-btns-btn" >Profiel</button>
+            <button class="hdr-btns-btn">Profiel</button>
             <button class="hdr-btns-btn">Uitloggen</button>
         </div>
     </header>

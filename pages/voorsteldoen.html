@@ -7,20 +7,60 @@
     <title>Voorstel voor Presentatie</title>
 
     <script>
+
+
+     // before we send our request, this method checks if e mail that we wrote
+     // already exist and saves result as an boolean in @let isValid,
+     // if exist then we have message that this email is already
+     // assigned to an account, otherwise this method will call @addVorsteel() method;
+     //
+     // @method fetch       gets all people from database
+     // @const eMailInput   stores email that we wrote as a string
+     // @const people       holds all data from @method fetch
+     // @let isValid        is true when program dont find any duplicates in database, and false otherwise
+
+      function checkingIfeMailExist(){
+        const eMailInput = document.querySelector("#emailInput").value;
+       fetch(`http://localhost:8082/persoon/geefAllePersonen`)
+        .then((response)=> response.json())
+        .then((data)=>{
+
+          const [...people]= data;
+          console.log(data);
+          let isValid = true;
+
+          people.forEach(person => {
+            isValid = (person.email === eMailInput ? false: true);
+            if(!isValid) return;
+          })
+
+          if(isValid) addVoorstel();
+          else alert("This e mail already exist");
+        })
+      };
+
+
+
+
+
+
+
       let huidigEvenement;
       window.onload = function () {
         var evenement = window.location.href.split("=").pop();
         const response = fetch(
-          `http://localhost:8082/evenement/geefEvenementPerNaam?e=${evenement}`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
+          `http://localhost:8082/evenement/geefEvenementPerNaam?e=${evenement}`
         )
           .then((response) => response.json())
           .then((data) => {
             huidigEvenement = data[0];
           });
       };
+
+
+
+
+
 
       const clearValue = function () {
         document.getElementById("nameInput").value = "";
@@ -29,6 +69,12 @@
         document.getElementById("emailInput").value = "";
         document.getElementById("samenInput").value = "";
       };
+
+
+
+
+
+
 
       async function addVoorstel() {
         const name = document.getElementById("nameInput").value;
@@ -48,8 +94,7 @@
             samenvatting: samenvat,
           };
           fetch(
-            // deze klopt niet
-            `http://localhost:8082/evenement/voorstelEnSpreker/postBody/${huidigEvenement.id}`,
+            `http://localhost:8082/evenement/voegVoorstelAanEvenementToe/${huidigEvenement.id}`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -60,6 +105,10 @@
           clearValue();
         }
       }
+
+
+
+
     </script>
     <link rel="stylesheet" href="../styles/style.css" />
   </head>
@@ -115,7 +164,7 @@
           />
           <label for=""></label>
         </div>
-        <button onclick="addVoorstel()" class="btn">Verstuur</button>
+        <button onclick="checkingIfeMailExist()" class="btn">Verstuur</button>
       </form>
     </div>
   </body>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evenement Details</title>
+    <link rel="stylesheet" href="../styles/header.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/tableStyling.css">
+
+    <script>
+        // pakt de 'id' uit de URL
+        let huidigEvenement;
+        window.onload = function(){
+            var evenementId = window.location.href.split('=').pop();
+            fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
+            huidigEvenement = data;
+            
+            toonEvenementenDetails()
+        })}
+
+        
+        function toonEvenementenDetails() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    var evenementen = JSON.parse(this.responseText);
+                    var HTMLString = "<table id='tbl-main'>"
+                        + "<tr><th>Naam</th>"
+                        + "<th>Omschrijving</th>"
+                        + "<th>Datum</th></tr>";
+                        HTMLString += "<tr class='row'><td>" + evenementen.naam + "</td>";
+                        HTMLString += "<td>" + evenementen.omschrijving + "</td>";
+                        HTMLString += "<td>" + "Start: " + evenementen.beginDatumTijd 
+                                + "</br>"
+                                + "Einde: " + evenementen.eindDatumTijd + "</td></tr>";
+
+                    HTMLString += "</table>";
+                    document.getElementById("evenementTabel").innerHTML = HTMLString;
+                    
+                }
+
+            }
+            xhr.open("GET","http://localhost:8082/evenement/geefEvenementPerId/"  + huidigEvenement.id, true)
+            xhr.send();
+
+        }
+
+    </script>
+
+    
+</head>
+<body >
+    <header class="hdr-main">
+        <img src="../images/TopicusLogo.png" class="hdr-img">
+        <div class="hdr-btns">
+            <p class="hdr-btns-text">Je bent ingelogd als: XYZ</p>
+            <button class="hdr-btns-btn" >Profiel</button>
+            <button class="hdr-btns-btn">Uitloggen</button>
+        </div>
+    </header>
+    <div class="main-content">
+        <div id="evenementTabel"></div>
+    </div>
+</body>
+</html>
