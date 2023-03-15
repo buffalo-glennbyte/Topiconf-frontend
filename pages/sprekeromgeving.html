@@ -45,6 +45,7 @@
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     var alleVoorstellen = JSON.parse(this.responseText);
+                    console.log(alleVoorstellen);
                     var HTMLString = "<table id='tbl-main'>"
                         + "<tr><th>Naam</th>"
                         + "<th>Onderwerp</th>"
@@ -52,6 +53,7 @@
                         + "<th>Status</th>"
                         + "<th><button id='btn-aanmaken'>Aanmaken</button></th></tr>"
                         for(var x = 0; x < alleVoorstellen.length; x++){
+
                             HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].onderwerp + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].samenvatting + "</td>";
@@ -80,11 +82,11 @@
                       headers: {'Content-Type': 'application/json'},
                       body: JSON.stringify({
                       id:d.id ,
-                      naam: d.achternaam,
+                      achternaam: d.achternaam,
                       voornaam:d.voornaam,
                       onderwerp:d.onderwerp,
                       eMail:d. eMail,
-                      status : "intrekken"})
+                      status : "ingetrokken"})
                     });
             });
         }
