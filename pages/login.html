@@ -7,6 +7,16 @@
     <meta name="login to system" content="login" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>
+      window.onload = function() {
+        var submitButton = document.getElementById("submit");
+        document.body.addEventListener("keypress", function(event) {
+          if (event.key === "Enter") {
+          event.preventDefault();
+          document.getElementById("submit").click();
+          }
+        });
+      }
+
       let data;
       var inlog = [];
 
@@ -48,8 +58,8 @@
   </head>
   <body>
     <div class="wrapper">
-      <form class="request_window">
-        <h1 class="title">Login</h1>
+      <div class="request_window">
+        <h1 class="windowtitle">Login</h1>
         <div class="field">
           <input
             type="email"
@@ -81,6 +91,7 @@
         </button>
 
         <input
+          id="submit"
           style="margin: 1%"
           type="button"
           class="btn"
@@ -88,7 +99,7 @@
           name="submit"
           onclick="checkPasswordAndEmail()"
         />
-      </form>
+      </div>
     </div>
   </body>
 </html>
