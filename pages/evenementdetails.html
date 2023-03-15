@@ -63,6 +63,13 @@
             xhr.open("GET","http://localhost:8082/evenement/geefEvenementPerId/"  + huidigEvenement.id, true)
             xhr.send();
 
+            console.log(huidigEvenement.beginDatumTijd);
+            document.getElementById("naam-Van-Evenement").innerHTML = huidigEvenement.naam;
+            document.getElementById("omschrijving-Evenement").value = huidigEvenement.omschrijving;
+            document.getElementById("begin-Datum").value = huidigEvenement.beginDatumTijd;
+            document.getElementById("eind-Datum").value = huidigEvenement.eindDatumTijd;
+
+
         }
 
         function voegNieuweOrganisatorToe()
@@ -115,16 +122,28 @@
                             <label>Naam:</label>
                             <ul class="organisator-Lijst-Namen">
                                 <li><span class="organisator-naam">Test Naam</span></li>
+                                <li><span class="organisator-naam">Test Naam</span></li>
+                                <li><span class="organisator-naam">Test Naam</span></li>
+                                <li><span class="organisator-naam">Test Naam</span></li>
+                                <li><span class="organisator-naam">Test Naam</span></li>
+                                <li><span class="organisator-naam">Test Naam</span></li>
+                                <li><span class="organisator-naam">Test Naam</span></li>
                             </ul>
                         </td>
                         <td>
                             <label>Email:</label>
                             <ul class="organisator-Lijst-Email">
-                                <li><span class="organisator-Email">Test email</span></li>                                
+                                <li><span class="organisator-Email">Test email</span></li>              
+                                <li><span class="organisator-Email">Test email</span></li>                     
+                                <li><span class="organisator-Email">Test email</span></li>   
+                                <li><span class="organisator-Email">Test email</span></li>   
+                                <li><span class="organisator-Email">Test email</span></li>   
+                                <li><span class="organisator-Email">Test email</span></li>   
+                                <li><span class="organisator-Email">Test email</span></li>   
+                                <li><span class="organisator-Email">Test email</span></li>   
                             </ul>
                         </td>
                     </tr>
-                    
                 </table>
             </div>
         </div>
@@ -139,14 +158,14 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="Naam">Onderwerp: </label>
-                        <input type="text" placeholder="Oreren over techniek">
+                        <label>Naam: </label>
+                        <label id="naam-Van-Evenement" value=""></label>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="Email">Beschrijving:</label>
-                        <input type="text" placeholder="Techniek in de brede zin van het woord bekeken  ..................">
+                        <label>Omschrijving:</label>
+                        <textarea id="omschrijving-Evenement" placeholder="Hier komt de omschrijving van het evenement" style="max-width: 15em; width:15em; max-height: 15em; height:4em;"></textarea>
                     </td>
                 </tr>
             </table>
@@ -205,26 +224,20 @@
             <table>
                 <tr>
                     <td>
-                        <h4>Organisators</h4>
+                        <h4>Datum & Tijd</h4>
                         <p></p>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="Naam">Tijdsduur: </label>
-                        <input type="text" placeholder="hh:mm">
+                        <label>Begin Datum: </label>
+                        <input id="begin-Datum" type="text" placeholder="01/01/2000">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="Email">Max. Bezetting:</label>
-                        <input type="text" placeholder="Max. Bezetting">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="Email">Categorie:</label>
-                        <input type="text" placeholder="Categorie">
+                        <label>Eind Datum:</label>
+                        <input id="eind-Datum" type="text" placeholder="01/01/2000">
                     </td>
                 </tr>
             </table>
