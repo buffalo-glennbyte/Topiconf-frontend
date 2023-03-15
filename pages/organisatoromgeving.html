@@ -48,7 +48,7 @@
         }
     </style>
     <script>
-        function toonAanvragen() {
+        function toonEvenementen() {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -61,10 +61,12 @@
                             HTMLString += "<tr class='row'><td>" + evenementen[x].naam + "</td>";
                             HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
                             HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
-                                + "</br>"
-                                + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
-                            HTMLString += "<td><button>Voorstel intrekken</button></td></tr>";
-                        }
+                                        + "</br>"
+                                        + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
+                            HTMLString += `<td>
+                                            <button onclick="beheerEvenement('${evenementen[x].id}')">Beheren</button>
+                                            </td></tr>`;
+                        }                        
                     HTMLString += "</table>";
                     document.getElementById("evenementTabel").innerHTML = HTMLString;
                 }
@@ -72,10 +74,14 @@
             xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true);
             xhr.send();
         }
+
+        function beheerEvenement(id) {
+            window.location.href = `evenementpagina.html?id=${id}`;
+        }
     </script>
 
 </head>
-    <body onload="toonAanvragen()">
+    <body onload="toonEvenementen()">
         <header class="hdr-main">
             <img src="../images/TopicusLogo.png" class="hdr-img">
             <div class="hdr-btns">
