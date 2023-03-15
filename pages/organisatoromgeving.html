@@ -35,6 +35,7 @@
         .btn-event:hover
         {
             background-color: #3667C3;
+            cursor: pointer;
         }
 
         .btn-event:active
@@ -46,9 +47,14 @@
         {
             flex-basis: 100%;
         }
+
+        .row:hover
+        {
+            cursor: pointer;
+        }
     </style>
     <script>
-        function toonAanvragen() {
+        function toonEvenementen() {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -58,13 +64,15 @@
                         + "<th>Omschrijving</th>"
                         + "<th>Datum</th></tr>"
                         for(var x = 0; x < evenementen.length; x++){
-                            HTMLString += "<tr class='row'><td>" + evenementen[x].naam + "</td>";
-                            HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
-                            HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
-                                + "</br>"
-                                + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
-                            HTMLString += "<td><button>Naar Evenement</button></td></tr>";
-                        }
+                            HTMLString += `<tr class='row' onclick='beheerEvenement(${evenementen[x].id})'>
+                                            <td>${evenementen[x].naam}</td>`;
+                            HTMLString += `<td>${evenementen[x].omschrijving}</td>`;
+                            HTMLString += `<td>Start: ${evenementen[x].beginDatumTijd} </br>
+                                               Einde: ${evenementen[x].eindDatumTijd}</td>`;
+                            HTMLString += `<td>
+                                            <button class='btn-event' onclick='beheerEvenement(${evenementen[x].id})'>Beheren</button>
+                                            </td></tr>`;
+                        }                        
                     HTMLString += "</table>";
                     document.getElementById("evenementTabel").innerHTML = HTMLString;
                 }
@@ -72,10 +80,14 @@
             xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true);
             xhr.send();
         }
+
+        function beheerEvenement(id) {
+            window.location.href = `evenementpagina.html?id=${id}`;
+        }
     </script>
 
 </head>
-    <body onload="toonAanvragen()">
+    <body onload="toonEvenementen()">
         <header class="hdr-main">
             <img src="../images/TopicusLogo.png" class="hdr-img">
             <div class="hdr-btns">

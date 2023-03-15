@@ -32,13 +32,20 @@
         border: none;
     }
 
+    .flexRow {
+        display: flex;
+        flex-direction: row;
+        margin: 5px;
+    }
+
     td {
         display: flex;
         flex-direction: row;
     }
 
     label {
-        width: 130px;
+        width: 6.3em;
+        font-size: larger;
     }
     </style>
 
@@ -76,25 +83,25 @@
                 .then((data)=> geselecteerdVoorstel = JSON.parse(data))
                 .then((geselecteerdVoorstel)=>{
                     console.log(geselecteerdVoorstel);
-                    document.getElementById("voornaamInput").value = geselecteerdVoorstel.voornaam;
-                    document.getElementById("achternaamInput").value = geselecteerdVoorstel.achternaam;
-                    document.getElementById("emailInput").value = geselecteerdVoorstel.eMail;
-                    document.getElementById("onderwerpInput").value = geselecteerdVoorstel.onderwerp;
-                    document.getElementById("samenvattingInput").value = geselecteerdVoorstel.samenvatting;
-                    document.getElementById("tijdsduurInput").value = geselecteerdVoorstel.tijdsduur;
-                    document.getElementById("capaciteitInput").value = geselecteerdVoorstel.maxCapaciteit;
+                    document.getElementById("inputVoornaam").value = geselecteerdVoorstel.voornaam;
+                    document.getElementById("inputAchternaam").value = geselecteerdVoorstel.achternaam;
+                    document.getElementById("inputEmail").value = geselecteerdVoorstel.eMail;
+                    document.getElementById("inputOnderwerp").value = geselecteerdVoorstel.onderwerp;
+                    document.getElementById("inputSamenvatting").value = geselecteerdVoorstel.samenvatting;
+                    document.getElementById("inputTijdsduur").value = geselecteerdVoorstel.tijdsduur;
+                    document.getElementById("inputCapaciteit").value = geselecteerdVoorstel.maxCapaciteit;
                 })
         }
 
         const updateVoorstel = function(voorstelid){
             let geupdatetVoorstel = {};
-            geupdatetVoorstel.voornaam = document.getElementById("voornaamInput").value;
-            geupdatetVoorstel.achternaam = document.getElementById("achternaamInput").value;
-            geupdatetVoorstel.eMail = document.getElementById("emailInput").value;
-            geupdatetVoorstel.onderwerp = document.getElementById("onderwerpInput").value;
-            geupdatetVoorstel.samenvatting = document.getElementById("samenvattingInput").value;
-            geupdatetVoorstel.tijdsduur = document.getElementById("tijdsduurInput").value;
-            geupdatetVoorstel.maxCapaciteit = document.getElementById("capaciteitInput").value;
+            geupdatetVoorstel.voornaam = document.getElementById("inputVoornaam").value;
+            geupdatetVoorstel.achternaam = document.getElementById("inputAchternaam").value;
+            geupdatetVoorstel.eMail = document.getElementById("inputEmail").value;
+            geupdatetVoorstel.onderwerp = document.getElementById("inputOnderwerp").value;
+            geupdatetVoorstel.samenvatting = document.getElementById("inputSamenvatting").value;
+            geupdatetVoorstel.tijdsduur = document.getElementById("inputTijdsduur").value;
+            geupdatetVoorstel.maxCapaciteit = document.getElementById("inputCapaciteit").value;
             geupdatetVoorstel.id = voorstelid;
             geupdatetVoorstel.benodigdhedenLijst = [];
             
@@ -121,32 +128,31 @@
         </div>
     </header>
 
-
     <div class="grid-container">
         <div>
             <table>
                 <tr>
                     <td>
-                        <h3>Sprekers</h3>
+                        <h3>Spreker</h3>
                         <p></p>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label for="Voornaam">Voornaam: </label>
-                        <input type="text" id="voornaamInput" placeholder="John">
+                        <input type="text" id="inputVoornaam" placeholder="John">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label for="Achternaam">Achternaam:</label>
-                        <input type="text" id="achternaamInput" placeholder="Marston">
+                        <input type="text" id="inputAchternaam" placeholder="Marston">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label for="Email">Email:</label>
-                        <input type="text" id="emailInput" placeholder="John@email.com">
+                        <input type="text" id="inputEmail" type="text" placeholder="John@email.com">
                     </td>
                 </tr>
             </table>
@@ -163,13 +169,13 @@
                 <tr>
                     <td>
                         <label for="Onderwerp">Onderwerp: </label>
-                        <input type="text" id="onderwerpInput" placeholder="Oreren over techniek">
+                        <input id="inputOnderwerp" type="text">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="samenvatting">Korte samenvatting:</label>
-                        <input type="text" id="samenvattingInput" placeholder="Techniek in de brede zin van het woord bekeken  ..................">
+                        <label for="Samenvatting">Beschrijving:</label>
+                        <textarea name="Samenvatting" id="inputSamenvatting" cols="21" rows="5"></textarea>
                     </td>
                 </tr>
             </table>
@@ -185,11 +191,11 @@
                 </tr>
                 <tr>
                     <td>
-                        <div style="background-color: aquamarine;">
-                            Geaccepteerd
+                        <div>
+                            <input id="statusTegel" type="text" style="background-color: aquamarine; width:60px; text-align: center;">
                         </div>
                         <div>
-
+                            <!-- Dummy division voor de uitlijning-->
                         </div>
                     </td>
                 </tr>
@@ -197,61 +203,47 @@
         </div> 
 
         <div>
-            <table>
-                <tr>
-                    <td>
-                        <h4>Voeg spreker toe</h4>
-                        <p></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="Naam">Voornaam: </label>
-                        <input type="text" placeholder="John">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="Achternaam">Achternaam</label>
-                        <input type="text" placeholder="Vogel">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="Email">Email:</label>
-                        <input type="text" placeholder="JohnVogel@email.com">
-                    </td>
-                </tr>
-            </table>
+            <div class="flexRow">
+                <h2>Voeg spreker toe</h2>
+                <p></p>
+            </div>
+            <div style="border: 1px solid slategrey; width: 300px; height: 120px; border-radius: 3px;">
+                <div class="flexRow">
+                    <label for="Voornaam">Voornaam: </label>
+                    <input id="inputVoornaamNieuweSpreker" type="text" style="float: right;">
+                </div>
+                <div class="flexRow">
+                    <label for="Achternaam">Achternaam</label>
+                    <input id="inputAchternaamNieuweSpreker" type="text">
+                </div>
+                <div class="flexRow">
+                    <label for="Email">Email:</label>
+                    <input id="inputEmailNieuweSpreker" type="text">
+                </div>
+                <div style="float: right; margin-right: 5px;">
+                    <button>Toevoegen</button>
+                </div>
+            </div>
         </div>
 
         <div>
-            <table>
-                <tr>
-                    <td>
-                        <h4>Details</h4>
-                        <p></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="Tijdsduur">Tijdsduur in minuten: </label>
-                        <input type="text" id="tijdsduurInput" placeholder="hh:mm">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="Capaciteit">Max. Bezetting:</label>
-                        <input type="text" id="capaciteitInput" placeholder="Max. Bezetting">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="Categorie">Categorie:</label>
-                        <input type="text" id="categorieInput" placeholder="Categorie">
-                    </td>
-                </tr>
-            </table>
+            <div class="flexRow" style="height: 4em;">
+                <!-- Deze div wordt gebruikt om het veld midden onder op de pagina uit te lijnen met naastgelegen blok -->
+            </div>
+            <div style="height: 120px;">
+                <div class="flexRow">
+                    <label for="tijdsduur">Tijdsduur: </label>
+                    <input id="inputTijdsduur" type="text">
+                </div>
+                <div class="flexRow">
+                    <label for="MaxCapaciteit">Max. Capaciteit: </label>
+                    <input id="inputCapaciteit" type="text">
+                </div>
+                <div class="flexRow">
+                    <label for="Categorie">Categorie: </label>
+                    <input id="inputCategorie" type="text">
+                </div>
+            </div>
         </div>
 
         <div class="is-flex">
@@ -265,6 +257,12 @@
         <div id="updateButton">
 
         </div>
-      </div>
+    </div>
+
+    <div style="margin-top: 5em; margin-left: 20em;">
+        <button onclick="slaWijzigingenInVoorstelOp()">Bevestigen</button>
+        <button>Cancel</button>
+    </div>
+
 </body>
 </html>

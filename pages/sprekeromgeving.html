@@ -53,8 +53,7 @@
                         + "<th>Status</th>"
                         + "<th><button id='btn-aanmaken'>Aanmaken</button></th></tr>"
                         for(var x = 0; x < alleVoorstellen.length; x++){
-                            //HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";   <- Is deze nog nodig? (Voorstel.class heeft geen voornaam achternaam fields)
-                            HTMLString += "<tr class='row'><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";
+                            HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].onderwerp + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].samenvatting + "</td>";
                             HTMLString += "<td id='tb-status'>" + alleVoorstellen[x].status + "</td>";
@@ -82,21 +81,18 @@
                       headers: {'Content-Type': 'application/json'},
                       body: JSON.stringify({
                       id:d.id ,
-                      naam: d.achternaam,
+                      achternaam: d.achternaam,
                       voornaam:d.voornaam,
                       onderwerp:d.onderwerp,
                       eMail:d. eMail,
-                      status : "intrekken"})
+                      status : "ingetrokken"})
                     });
             });
-            
         }
 
         function voorstelBewerken(id)
         {
-
-            window.open("voorstelEdit.html/" + id)
-
+            window.open(`voorstelEdit.html?v=${id}`)
         }
 
     </script>
