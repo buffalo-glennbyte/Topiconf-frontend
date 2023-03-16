@@ -102,7 +102,7 @@
             geupdatetVoorstel.tijdsduur = document.getElementById("inputTijdsduur").value;
             geupdatetVoorstel.maximaleCapaciteit = document.getElementById("inputCapaciteit").value;
             geupdatetVoorstel.id = huidigVoorstelId;
-            geupdatetVoorstel.benodigdhedenLijst = [{}];
+            geupdatetVoorstel.benodigdhedenLijst = [];
             
             fetch(`http://localhost:8082/voorstel/updateVoorstel`, {
                 method: "PUT", 
