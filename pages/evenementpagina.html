@@ -166,6 +166,21 @@
 
 
 
+        // this function celect all request elements with class "changed"
+        // and places them into to "requestList--7" element
+        // this method is used at the end of
+
+        // @veranderdContainer holds ".requestList--7" element where changed requests will appear
+        function gewijzigdeAanvragenVrplaatsen(){
+            const veranderdContainer = document.querySelector(".requestList--7"); 
+            
+            document.querySelectorAll(".changed").forEach(element=>{
+                veranderdContainer.insertAdjacentElement("afterbegin",element);
+            })
+        }
+ 
+   
+
 
 
         // this method set active button based on his property data-tabNumber
@@ -186,6 +201,8 @@
      
 
 
+
+
         function addListenerToContentButtons(){
             document.querySelectorAll(".content-btn").forEach((btn)=>{
             btn.addEventListener("click", function(e){
@@ -200,12 +217,11 @@
                 document.querySelector(".requestList--4").classList.remove("visible");
                 document.querySelector(".requestList--5").classList.remove("visible");
                 document.querySelector(".requestList--6").classList.remove("visible");
+                document.querySelector(".requestList--7").classList.remove("visible");
                 document.querySelector(`.requestList--${target}`).classList.add("visible");
             })
         })
         }
-
-
 
 
 
@@ -221,20 +237,20 @@
                 const topic = document.querySelector(".topic").textContent;
                 const email = document.querySelector(".email").textContent;
                 parent.classList.add(action);
-
+                
                 fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${parent.dataset.id}`).then((element)=>element.json()).then((obj)=>{
                     const o = obj;
                     fetch(`http://localhost:8082/voorstel/updateVoorstel/${parent.dataset.id}`,{
                         method: "PUT",
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({
-                            status:action,
+                            status: btn.classList.contains("marker")? o.status: action,
                             id:o.id,
                             voornaam: o.voornaam,
                             achternaam:o.achternaam,
                             onderwerp:o.onderwerp,
                             eMail:o.eMail,
-                            veranderd: o.veranderd
+                            veranderd: btn.classList.contains("marker")? false : o.veranderd
                         })
                     })
                     .then(element => refresh());
@@ -249,6 +265,7 @@
 
 
         function clear(){ 
+            document.querySelector(".requestList--7").innerHTML='';
             document.querySelector(".requestList--6").innerHTML='';
             document.querySelector(".requestList--5").innerHTML='';
             document.querySelector(".requestList--4").innerHTML='';
@@ -261,17 +278,11 @@
 
 
 
-
-
-
         function refresh(){
             clear();
             toonVoorstellenPerEvenement();  
         }
         
-
-
-
 
 
 
@@ -304,6 +315,7 @@
                     <button class="content-btn btn" data-tabNumber="1">Voorlopig Geaccepteerd</button>
                     <button class="content-btn btn" data-tabNumber="5">Ingetrokken</button>
                     <button class="content-btn btn" data-tabNumber="2">Definitief</button>
+                    <button class="content-btn btn" data-tabNumber="7">Veranderd</button>
                 </div>`;
                 const buttonsElement = document.querySelector(".htmlbuttons").innerHTML = htmlButtons;
                 addListenerToContentButtons();
@@ -311,21 +323,21 @@
                  // if element status @verander is equals true then request row gets extra class @changed
                  // elements which has this class will have changed border for red color and gets 
                  // warning icon "!" this icon can be found in overzichtStyle.css .changed::after
-
                  data.forEach(data => {
                  const html =`
                         <div class="request ${data.veranderd===true? 'changed':''}" data-id='${data.id}' id='request${data.id}'>
 
-                        <div class="data "><p>Naam:<span class = 'name'> ${data.voornaam}</span></p></div>
-                        <div class="data "><p>Achternaam: <span class = 'surname'>${data.achternaam}</span></p></div>
-                        <div class="data "><p>Onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
-                        <div class="data "><p>E-mail: <a class = 'email' href="mailto:${data.eMail}">${data.eMail}</a></p></div>
-                        <div class="buttons">
+                          <div class="data "><p>Naam:<span class = 'name'> ${data.voornaam}</span></p></div>
+                          <div class="data "><p>Achternaam: <span class = 'surname'>${data.achternaam}</span></p></div>
+                          <div class="data "><p>Onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
+                          <div class="data "><p>E-mail: <a class = 'email' href="mailto:${data.eMail}">${data.eMail}</a></p></div>
+                          <div class="buttons">
                             <button class="actionBtn green" data-action="voorlopigGeaccepteerd">Accepteren</button>
                             <button class="actionBtn yellow" data-action="inBehandeling">In Behandeling</button>
                             <button class="actionBtn delete" data-action="afgewezen">Afwijzen</button>
                             ${data.status==="voorlopigGeaccepteerd" ? "<button class='actionBtn' data-action ='definitief'>Definitief maken</button>":""}
-                        </div>
+                         </div>
+                         ${data.veranderd===true ? "<div class='marker actionBtn'>!</div>":""}
                     </div>`;
                     if(data.status === "ongezien"){
                         list_4.insertAdjacentHTML("afterbegin",html);
@@ -350,11 +362,10 @@
              .then(()=>{
                 addListenersToActionButtons();
                 setActiveButton(localStorage.getItem("active"));
+                gewijzigdeAanvragenVrplaatsen();
             });
             }
         
-
-
 
     </script>
 </head>
@@ -381,6 +392,7 @@
             <div class="requestList--3"></div>
             <div class="requestList--2"></div>
             <div class="requestList--1"></div>
+            <div class="requestList--7"></div>
        </div>
     </main>
 </body>
