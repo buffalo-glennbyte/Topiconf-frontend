@@ -88,22 +88,54 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      width: 500px;
-      height: fit-content;
+      width: 400px;
+      height: 500px;
       padding: 20px;
       background-color: #FFFFFF;
       border-radius: 20px;
       box-shadow: 0 0 20px 0 #999
     }
+    .inlog-wrapper-title {
+      font-size: 4rem;
+      margin-bottom: 50px;
+    }
     .inlog-wrapper-input{
       padding: 1rem;
-      width: 60%;
-      font-size: 1.8rem;
+      width: 50%;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
     }
     .inlog-wrapper-label {
-      font-size: 2em;
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      align-self: center;
+    }
+    .inlog-wrapper-btn {
+      padding: 15px;
+      width: 40%;
+      background-color: white;
+      font-weight: 700;
+      font-size: 2rem;
+      cursor: pointer;
+      border-radius: 5px;
+      border: none;
+      transition: all 300ms;
+      text-decoration: none;
+    }
+    .inlog-wrapper-btn:hover {
+      background-color: #d3d3d3;
     }
 
+    .submit {
+      background-color: #246BA0;
+      color: white;
+      margin-bottom: 5px;
+    }
+
+    .submit:hover {
+      background-color: #143a57;
+    }
     </style>
   </head>
   <body>
@@ -119,7 +151,7 @@
             class="inlog-wrapper-input"
             placeholder="voorbeeld@email.nl"
             required
-          />
+            />
           <label class="inlog-wrapper-label" for="password">Wachtwoord:</label>
           <input
             type="password"
@@ -129,9 +161,10 @@
             placeholder="Voer uw wachtwoord in"
             function="checkpassword()"
             required
-          />
-            <button class="btn" onclick="terugNaarIndex()">Terug</button>
-            <button id="submit" class="btn" onclick="checkPasswordAndEmail()">Log in</button>
+            />
+            <button id="submit" class="inlog-wrapper-btn submit" onclick="checkPasswordAndEmail()">Log in</button>
+            <button class="inlog-wrapper-btn"  onclick="terugNaarIndex()">Terug</button>
+ 
       </div>
     </main>
   </body>

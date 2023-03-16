@@ -7,8 +7,6 @@
     <title>Voorstel voor Presentatie</title>
 
     <script>
-
-
      // before we send our request, this method checks if e mail that we wrote
      // already exist and saves result as an boolean in @let isValid,
      // if exist then we have message that this email is already
@@ -39,12 +37,6 @@
         })
       };
 
-
-
-
-
-
-
       let huidigEvenement;
       window.onload = function () {
         var evenement = window.location.href.split("=").pop();
@@ -57,11 +49,6 @@
           });
       };
 
-
-
-
-
-
       const clearValue = function () {
         document.getElementById("nameInput").value = "";
         document.getElementById("surnameInput").value = "";
@@ -69,12 +56,6 @@
         document.getElementById("emailInput").value = "";
         document.getElementById("samenInput").value = "";
       };
-
-
-
-
-
-
 
       async function addVoorstel() {
         const name = document.getElementById("nameInput").value;
@@ -109,66 +90,136 @@
         }
       }
 
-
-
-
     </script>
+    <style>
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #D9D9D9;
+    }
+    .voorstel-wrapper{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 600px;
+      height: 800px;
+      padding: 20px;
+      background-color: #FFFFFF;
+      border-radius: 20px;
+      box-shadow: 0 0 20px 0 #999
+    }
+    .voorstel-wrapper-title {
+      font-size: 4rem;
+      margin-bottom: 50px;
+    }
+    .voorstel-wrapper-input{
+      padding: 1rem;
+      width: 50%;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+    #samenInput {
+      height: 120px;
+      text-align: left;
+      margin-bottom: 1px;
+    }
+    .voorstel-wrapper-label {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      align-self: center;
+    }
+    .voorstel-wrapper-btn {
+      padding: 15px;
+      width: 40%;
+      background-color: white;
+      font-weight: 700;
+      font-size: 2rem;
+      cursor: pointer;
+      border-radius: 5px;
+      border: none;
+      transition: all 300ms;
+      text-decoration: none;
+    }
+    .voorstel-wrapper-btn:hover {
+      background-color: #d3d3d3;
+    }
+
+    .submit {
+      background-color: #246BA0;
+      color: white;
+      margin-bottom: 5px;
+    }
+
+    .submit:hover {
+      background-color: #143a57;
+    }
+
+    .bottomtext {
+      font-style: italic;
+    }
+
+    </style>
     <link rel="stylesheet" href="../styles/style.css" />
   </head>
   <body>
-    <div class="wrapper">
-      <div id="form" class="request_window">
-        <h1 class="form_title">Stuur je voorstel in!</h1>
-        <div class="field">
-          <input
-            type="text"
-            id="nameInput"
-            class="input"
-            placeholder="Voornaam"
-            required
-          />
-        </div>
-        <div class="field">
-          <input
-            type="text"
-            id="surnameInput"
-            class="input"
-            placeholder="Achternaam"
-            required
-          />
-        </div>
-        <div class="field">
-          <input
-            type="text"
-            id="topicInput"
-            class="input"
-            placeholder="Onderwerp presentatie"
-            required
-          />
-        </div>
-        <div class="field">
-          <input
-            type="email"
-            pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*"
-            id="emailInput"
-            class="input"
-            placeholder="voorbeeld@email.nl"
-            required
-          />
-        </div>
-        <div class="field">
-          <input
-            type="text"
-            id="samenInput"
-            class="input"
-            maxlength="140"
-            placeholder="Samenvatting presentatie"
-            required
-          />
-          <label for=""></label>
-        </div>
-        <button onclick="checkingIfeMailExist()" class="btn">Verstuur</button>
+    <main>
+      <div id="form" class="voorstel-wrapper">
+        <h1 class="voorstel-wrapper-title">Voorstel Indienen</h1>
+        <label class="voorstel-wrapper-label" for="voornaam">Voornaam:</label>
+        <input
+          type="text"
+          id="nameInput"
+          name="voornaam"
+          class="voorstel-wrapper-input"
+          placeholder="Voornaam"
+          required
+        />
+        <label class="voorstel-wrapper-label" for="achternaam">Achternaam:</label>
+        <input
+          type="text"
+          id="surnameInput"
+          name="achternaam"
+          class="voorstel-wrapper-input"
+          placeholder="Achternaam"
+          required
+        />
+        <label class="voorstel-wrapper-label" for="onderwerp">Onderwerp:</label>
+        <input
+          type="text"
+          id="topicInput"
+          name="onderwerp"
+          class="voorstel-wrapper-input"
+          placeholder="Onderwerp presentatie"
+          required
+        />
+        <label class="voorstel-wrapper-label" for="email">E-mail:</label>
+        <input
+          type="email"
+          pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*"
+          id="emailInput"
+          name="email"
+          class="voorstel-wrapper-input"
+          placeholder="voorbeeld@email.nl"
+          required
+        />
+        <label class="voorstel-wrapper-label" for="samenvatting">Samenvatting:</label>
+        <input
+          type="text"
+          id="samenInput"
+          name="samenvatting"
+          class="voorstel-wrapper-input"
+          maxlength="140"
+          placeholder="Samenvatting van het voorstel..."
+          required
+        />
+        <p class="bottomtext">*maximaal 140 karakters</p>
+        <button onclick="checkingIfeMailExist()" class="voorstel-wrapper-btn submit">Verstuur</button>
+        <button class="voorstel-wrapper-btn"  onclick="location.href = 'index.html';">Terug</button>
       </div>
-    </div>
+    </main>
   </body>
 </html>
