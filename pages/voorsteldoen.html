@@ -105,6 +105,7 @@
           ).then((response) => alert("Voorstel is succesvol verstuurd"));
           console.log(JSON.stringify(request));
           clearValue();
+          location.href=`index.html?e=${encodeURI(huidigEvenement.naam)}`;
         }
       }
 
@@ -116,7 +117,7 @@
   </head>
   <body>
     <div class="wrapper">
-      <form id="form" class="request_window">
+      <div id="form" class="request_window">
         <h1 class="form_title">Stuur je voorstel in!</h1>
         <div class="field">
           <input
@@ -167,7 +168,7 @@
           <label for=""></label>
         </div>
         <button onclick="checkingIfeMailExist()" class="btn">Verstuur</button>
-      </form>
+      </div>
     </div>
   </body>
 </html>
