@@ -8,16 +8,44 @@
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="../styles/tableStyling.css">
+    <link rel="stylesheet" href="../styles/DrieTafelStyling.css">
 
+    <style>
+        #evenement-Aanmaken-Container
+        {
+            visibility: hidden;
+        }
+
+        .voet-knoppen
+        {
+            padding: 8px;
+            margin-right: 15px;
+            background-color: rgb(43, 82, 155);
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+
+
+        .voet-knoppen:active
+        {
+            font-size: small;
+        }
+
+        .header-Text-Evenement-Aanmaken-Container
+        {
+            color: gray;
+        }
+
+    </style>
 
     <script>
         let evenementenID = new Map();
 
-        setTimeout(RijenOpKlikken, 100);
+        setTimeout(RijenOpKlikken, 500);
 
         function RijenOpKlikken()
-        {
-            
+        { 
             const tableRows = document.querySelectorAll(".row");
             tableRows.forEach(function(element) 
             {
@@ -27,21 +55,30 @@
                         window.location.href = ("http://hierMoetOrganisatorToevoegenEnVerwijderen"); // Voor de knop Organisator Toevoegen/Verwijderen
                         console.log("Dit is de naam: " + element.children[0].innerHTML);
                     } 
-                    else
+                    else if(event.target.tagName == "INPUT")
                     {
-                        console.log(element.children[0].innerHTML);
-                        // als de naam van element.childeren[0].innerHTML het zelfde is als de value van evenementenID
                         for(let [key, value] of evenementenID.entries())
                         {
+                            // checkt of de namen gelijk zijn van het evenement
+                            if(value == element.children[0].innerHTML)
+                            {
+                                var xhr = new XMLHttpRequest();
+                                xhr.open("DELETE", "http://localhost:8082/evenement/verwijderEvenement/" + key, true);
+                                xhr.send();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for(let [key, value] of evenementenID.entries())
+                        {
+                            // checkt of de namen gelijk zijn van het evenement
                             if(value == element.children[0].innerHTML)
                             {
                                 // dan moeten wij de ID van dit evenement meegeven.
                                 window.location.href = ("evenementdetails.html?id=" + key); // element.children[0].innerHTML    ----   geeft de naam van het event mee.
                             }
                         }
-
-
-                        
                     }
                 });
             });
@@ -58,20 +95,18 @@
                         + "<tr><th>Naam</th>"
                         + "<th>Omschrijving</th>"
                         + "<th>Datum</th>"
-                        + "<th><button id='btn-aanmaken'>Evenement Aanmaken</button></th></tr>"
+                        + "<th><button id='btn-aanmaken' onclick='evenementAanmaken()'>Evenement Aanmaken</button></th></tr>"
                         for(var x = 0; x < evenementen.length; x++){
                             HTMLString += "<tr class='row'><td>" + evenementen[x].naam +"</td>";
                             HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
                             HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
                                 + "</br>"
                                 + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
-                            HTMLString += "<td><button>Organisator Toevoegen/Verwijderen</button></td></tr>";
+                            HTMLString += "<td><input type='button' value='Verwijder' style='margin-right: 20px;'></input><button>Organisator Toevoegen/Verwijderen</button></td></tr>";
                             evenementenID.set(evenementen[x].id, evenementen[x].naam);
                         }
                     HTMLString += "</table>";
-                    document.getElementById("evenementTabel").innerHTML = HTMLString;
-                    console.log("Dit is de evenmentenID map: ");
-                    console.log(evenementenID);
+                    document.getElementById("alleEvenementenTabel").innerHTML = HTMLString;
                 }
 
             }
@@ -79,6 +114,55 @@
             xhr.send();
 
         }
+
+
+        function evenementAanmaken()
+        {
+            let evenementTafel = document.getElementById("alleEvenementenTabel");
+            evenementTafel.style.visibility = "hidden";
+            evenementTafel.style.display = "none";
+
+            let evenementAanmakenTafel = document.getElementById("evenement-Aanmaken-Container");
+            evenementAanmakenTafel.style.visibility = "visible"
+            evenementAanmakenTafel.style.display = "block";
+        }
+
+        function terugNaarOverzicht()
+        {
+            let evenementTafel = document.getElementById("alleEvenementenTabel");
+            evenementTafel.style.visibility = "visible";
+            evenementTafel.style.display = "block";
+
+            let evenementAanmakenTafel = document.getElementById("evenement-Aanmaken-Container");
+            evenementAanmakenTafel.style.visibility = "hidden"
+            evenementAanmakenTafel.style.display = "none"
+        }
+
+        function slaNieuwEvenementOp()
+        {
+            nieuwEvenement.naam = document.getElementById("organisatorNaam").value;
+            nieuwEvenement.omschrijving = document.getElementById("organisatorAchterNaam").value;
+            nieuwEvenement.beginDatumTijd = document.getElementById("").value;
+            nieuwEvenement.eindDatumTijd = document.getElementById("").value;
+
+            var EvenementJSON = JSON.stringify(nieuwEvenement);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Evenement aangemaakt");
+                }
+            }
+            xhr.open("POST","http://localhost:8082/evenement/slaEvenementOp", true);
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(EvenementJSON);
+            naamEvenement.value = null;
+            omschrijvingEvenement.value = null;
+            beginDatumTijdEvenement.value = null;
+            eindDatumTijdEvenement.value = null;
+            alert("Evenement toegevoegd");
+        }
+
+
     </script>
 </head>
 <body onload="toonEvenementen()">
@@ -90,8 +174,153 @@
             <button class="hdr-btns-btn">Uitloggen</button>
         </div>
     </header>
-    <div class="main-content">
-        <div id="evenementTabel"></div>
+
+    <div id="tafel-content">
+        <div id="alleEvenementenTabel"></div>
+
+
+        <div id="evenement-Aanmaken-Container">
+            <div class="grid-container">
+                <div >
+                    <h1 class="header-Text-Evenement-Aanmaken-Container">Organisators</h1>
+                    <div style="width: 30em; height: 25em; overflow-y: scroll;">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>Naam:</label>
+                                    <ul class="organisator-Lijst-Namen">
+                                        <li><span class="organisator-naam">Test Naam</span></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <label>Email:</label>
+                                    <ul class="organisator-Lijst-Email">
+                                        <li><span class="organisator-Email">Test email</span></li>  
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+        
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <h3 class="header-Text-Evenement-Aanmaken-Container">Evenement</h3>
+                                <p></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label><b>Naam:</b></label>
+                                <input type="text" id="naam-Van-Evenement" value="naam van het evenement"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <fieldset style="width: 18em;">
+                                    <legend><b>Omschrijving</b></legend>
+                                    <textarea id="omschrijving-Evenement" name="om" placeholder="Hier komt de omschrijving van het evenement" style="border:none; resize: none; max-width: 23em; width:23em; max-height: 10em; height:10em;"></textarea>
+                                </fieldset>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <h3 class="header-Text-Evenement-Aanmaken-Container">Categorieen</h3>
+                                <p></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="height: 100px; overflow-y: scroll;">
+                                    <ul>
+                                        <li>Presentatie Java</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div> 
+        
+                <div>
+                    <table>
+                        
+                        <tr>
+                            <td>
+                                <fieldset>
+                                    <legend class="header-Text-Evenement-Aanmaken-Container"><b>Voeg Organisator Toe</b></legend>
+                                    <form >
+                                        <br>
+                                        <label for="voornaam">Voornaam: </label>
+                                        <input type="text" id="organisatorNaam" name="voornaam" placeholder="Type hier een voornaam">
+                                        <br>
+                                        <label for="achternaam">Achternaam</label>
+                                        <input type="text" id="organisatorAchterNaam" name="achternaam" placeholder="Type hier een achternaam">
+                                        <br>
+                                        <label for="email">e-mail</label>
+                                        <input type="e" id="organisatorEmail" name="email" placeholder="Type hier een e-mail">
+                                    </form>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        
+                    </table>
+        
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+        
+                    <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="slaNieuwEvenementOp">Opslaan</button>
+                    <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="terugNaarOverzicht()">Annuleren</button>
+        
+                </div>
+        
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4 class="header-Text-Evenement-Aanmaken-Container">Datum & Tijd</h4>
+                                <p></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label><b>Begin Datum: </b></label>
+                                <input id="begin-Datum" type="datetime-local" placeholder="01/01/2000">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label><b>Eind Datum: </b></label>
+                                <input id="eind-Datum" type="datetime-local" placeholder="01/01/2000">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4 class="header-Text-Evenement-Aanmaken-Container">Locatie</h4>
+                                <p id="locatie-Value">Deventer park, locatie 1233 DE</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+              </div>
     </div>
+
+    
 </body>
 </html>
