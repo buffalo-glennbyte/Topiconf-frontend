@@ -45,22 +45,22 @@
         // filter, map en reduce
         if (inlog.includes(username) && (password == "ww")) {
           if (check[0].rol == "s") {
-            location.href = `sprekeromgeving.html?e=${huidigEvenementNaam}`;
+            location.href = `sprekeromgeving.html?e=${encodeURI(huidigEvenementNaam)}`;
           } else if (check[0].rol == "o") {
-            location.href = `organisatoromgeving.html?e=${huidigEvenementNaam}`;
+            location.href = `organisatoromgeving.html?e=${encodeURI(huidigEvenementNaam)}`;
           } else if (check[0].rol == "a") {
-            location.href = `administratoromgeving.html?e=${huidigEvenementNaam}`;
+            location.href = `administratoromgeving.html?e=${encodeURI(huidigEvenementNaam)}`;
           } else {
             alert("er ging iets fout");
           }
         // als er 'test' staat in het emailveld, dan controleren op welke testomgeving
         } else if((username.includes("test")) && (password == "ww")) {
           if (username == "testspreker") {
-            location.href = `sprekeromgeving.html?e=${huidigEvenementNaam}`;
+            location.href = `sprekeromgeving.html?e=${encodeURI(huidigEvenementNaam)}`;
           } else if (username == "testorganisator") {
-            location.href = `organisatoromgeving.html?e=${huidigEvenementNaam}`;
+            location.href = `organisatoromgeving.html?e=${encodeURI(huidigEvenementNaam)}`;
           } else if (username == "testadministrator") {
-            location.href = `administratoromgeving.html?e=${huidigEvenementNaam}`;
+            location.href = `administratoromgeving.html?e=${encodeURI(huidigEvenementNaam)}`;
           } else {
             alert("inloggegevens onjuist")
           }
@@ -70,7 +70,7 @@
       }
 
       function terugNaarIndex() {
-        window.location.href = `index.html?e=${huidigEvenementNaam}`;
+        window.location.href = `index.html?e=${encodeURI(huidigEvenementNaam)}`;
       }
 
     </script>
