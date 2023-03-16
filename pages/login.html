@@ -67,41 +67,60 @@
     </script>
     <link rel="stylesheet" href="../styles/style.css" />
     <style>
-    .inlog-wrapper{
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100vh;
-      width: 130rem;
+      background-color: #D9D9D9;
+    }
+    .inlog-wrapper{
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin: 0 auto 0 auto;
+      width: 500px;
+      height: fit-content;
+      padding: 20px;
+      background-color: #FFFFFF;
+      border-radius: 20px;
+      box-shadow: 0 0 20px 0 #999
     }
+    .inlog-wrapper-input{
+      padding: 1rem;
+      width: 60%;
+      font-size: 1.8rem;
+    }
+    .inlog-wrapper-label {
+      font-size: 2em;
+    }
+
     </style>
   </head>
   <body>
-    <main class="inlog-wrapper">
-      <div class="request_window">
-        <h1 class="windowtitle">Login</h1>
-        <div class="field">
+    <main>
+      <div class="inlog-wrapper">
+        <h1 class="inlog-wrapper-title">Login</h1>
+          <label class="inlog-wrapper-label" for="email">Gebruikersnaam:</label>
           <input
             type="email"
             pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*"
             id="emaiInput"
-            class="input"
-            placeholder="example@email.nl"
+            name="email"
+            class="inlog-wrapper-input"
+            placeholder="voorbeeld@email.nl"
             required
           />
-        </div>
-        <div class="field">
+          <label class="inlog-wrapper-label" for="password">Wachtwoord:</label>
           <input
             type="password"
             id="passwordInput"
-            class="input"
-            placeholder="wachtwoord"
+            name="password"
+            class="inlog-wrapper-input"
+            placeholder="Voer uw wachtwoord in"
             function="checkpassword()"
             required
           />
-        </div>
             <button class="btn" onclick="location.href = 'index.html';">Terug</button>
             <button id="submit" class="btn" onclick="checkPasswordAndEmail()">Log in</button>
       </div>
