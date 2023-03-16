@@ -33,6 +33,19 @@
 
     <script> 
         let huidigEvenement;
+
+
+
+        // value stored in localStorage is used in method @setActiveButton() 
+        // where based this value we will set an active button
+        // also value in localStorage will be changed in method @addListenerToContentButtons()
+        // the value type should be string 
+
+        // @'active'   is the key to the value
+        // @'4'        is the actual value
+        localStorage.setItem("active","4");
+
+
         window.onload = function(){
             var evenementId = window.location.href.split('=').pop();
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
@@ -150,13 +163,37 @@
             xhr.send();
         }
 
+
+
+
+
+
+        // this method set active button based on his property data-tabNumber
+        // if data-tabNumber value of any content button match the value
+        // currently hold in localStorage, then this button become active
+        // and gets class "btn-active"
+        //this method is used on the end of @toonVoorstellenPerEvenement() method
+
+        // @activeNumber   takes value from localStorage("active")
+        const setActiveButton = function(activeNumber){
+            document.querySelectorAll(".content-btn").forEach(currentBtn=>{
+                currentBtn.classList.remove("btn-active")
+                if(currentBtn.dataset.tabnumber===activeNumber){
+                    currentBtn.classList.add("btn-active")
+                }
+            })
+        } 
+     
+
+
         function addListenerToContentButtons(){
             document.querySelectorAll(".content-btn").forEach((btn)=>{
             btn.addEventListener("click", function(e){
                 document.querySelectorAll(".content-btn").forEach((btn)=> btn.classList.remove("btn-active"))
-                btn.classList.remove("btn-active");
                 e.target.classList.add("btn-active");
                 const target= e.target.dataset.tabnumber;
+                // in the line below we change value in localStorage
+                localStorage.setItem("active",target);
                 document.querySelector(".requestList--1").classList.remove("visible");
                 document.querySelector(".requestList--2").classList.remove("visible");
                 document.querySelector(".requestList--3").classList.remove("visible");
@@ -164,8 +201,15 @@
                 document.querySelector(".requestList--5").classList.remove("visible");
                 document.querySelector(".requestList--6").classList.remove("visible");
                 document.querySelector(`.requestList--${target}`).classList.add("visible");
-            })})
+            })
+        })
         }
+
+
+
+
+
+
 
         function addListenersToActionButtons(){
             document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
@@ -198,6 +242,12 @@
             }))
         }
 
+
+
+
+
+
+
         function clear(){ 
             document.querySelector(".requestList--6").innerHTML='';
             document.querySelector(".requestList--5").innerHTML='';
@@ -207,19 +257,35 @@
             document.querySelector(".requestList--1").innerHTML='';
         }
 
+
+
+
+
+
+
+
         function refresh(){
             clear();
-            toonVoorstellenPerEvenement();
+            toonVoorstellenPerEvenement();  
         }
         
+
+
+
+
+
+
+        
         function toonVoorstellenPerEvenement(){
+
             document.getElementById("voorstel").classList.remove("active");
             document.getElementById("programma").classList.remove("active");
             document.getElementById("locatie").classList.remove("active");
             document.getElementById("categorie").classList.remove("active");
             document.getElementById("voorstel").classList.add("active");
             document.getElementById("innerTable").innerHTML = "";
-            document.querySelector(".voorstelTabel").classList.add("visible");    
+            document.querySelector(".voorstelTabel").classList.add("visible");  
+
             fetch("http://localhost:8082/evenement/geefAlleVoorstellenPerEvenement/" + huidigEvenement.id)
             .then((request)=>request.json())
             .then((request)=>{
@@ -232,25 +298,20 @@
                 const list_1 = document.querySelector(".requestList--1");
                 const htmlButtons = `
                 <div class="content-buttons">
-                    <button class="content-btn btn btn-active" data-tabNumber="4">Ongezien</button>
+                    <button class="content-btn btn btn-active"  data-tabNumber="4">Ongezien</button>
                     <button class="content-btn btn" data-tabNumber="3">Afgewezen</button>
                     <button class="content-btn btn" data-tabNumber="6">In Behandeling</button>
                     <button class="content-btn btn" data-tabNumber="1">Voorlopig Geaccepteerd</button>
                     <button class="content-btn btn" data-tabNumber="5">Ingetrokken</button>
                     <button class="content-btn btn" data-tabNumber="2">Definitief</button>
                 </div>`;
-                 
                 const buttonsElement = document.querySelector(".htmlbuttons").innerHTML = htmlButtons;
                 addListenerToContentButtons();
 
-
-                data.forEach(data => {
-                const html =`
-                    <div class="request" data-id='${data.id}' id='request${data.id}'>`
-                })
                  // if element status @verander is equals true then request row gets extra class @changed
                  // elements which has this class will have changed border for red color and gets 
                  // warning icon "!" this icon can be found in overzichtStyle.css .changed::after
+
                  data.forEach(data => {
                  const html =`
                         <div class="request ${data.veranderd===true? 'changed':''}" data-id='${data.id}' id='request${data.id}'>
@@ -286,9 +347,15 @@
                     }
                 });
              })
-             .then(()=>addListenersToActionButtons());
+             .then(()=>{
+                addListenersToActionButtons();
+                setActiveButton(localStorage.getItem("active"));
+            });
             }
         
+
+
+
     </script>
 </head>
 <body>
