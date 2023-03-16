@@ -8,8 +8,17 @@
             currentEvenement = evenement;
             const link = document.getElementById("deelnemerbtn");
             link.href = `voorsteldoen.html?e=${evenement}`
-            document.getElementById("inhoudTitel").innerHTML = evenement;
-            document.getElementById("detailTitel").innerHTML = `Details van ${evenement}`;
+            if (evenement.substring(0, 4) == "http") {
+                document.getElementById("inhoudTitel").innerHTML = "Titel van een Evenement";
+                document.getElementById("detailTitel").innerHTML = "Details van een Evenement";
+                document.getElementById("detailTekst").innerHTML = "Je bent iets vergeten... hint: ?e={NaamVanJouEvenement}";
+                
+            } else {
+                document.getElementById("inhoudTitel").innerHTML = evenement;
+                document.getElementById("detailTitel").innerHTML = `Details van ${evenement}`;
+                document.getElementById("detailTekst").innerHTML = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, aliquam itaque. Velit quisquam, sint vitae cum odio ducimus voluptates, animi, id aperiam qui ullam aspernatur quibusdam totam inventore excepturi repudiandae!";
+            }
+
         }
     </script>
     <style>
@@ -106,7 +115,7 @@
         <main class="landingpage-wrapper">
             <div class="landingpage-inhoud">
                 <div class="landingpage-inhoud-text">
-                    <h1 id="inhoudTitel" class="landingpage-inhoud-title">Titel van een Evenement</h1>
+                    <h1 id="inhoudTitel" class="landingpage-inhoud-title"></h1>
                 </div>
                 <img class="landingpage-inhoud-image" src="../images/conferentie.jpg" width="200px" >
             </div>
@@ -116,8 +125,8 @@
             </div>
             <div class="landingpage-side">
                 <div class="landingpage-side-text">
-                    <h1 id="detailTitel" class="landingpage-side-title">Details van een Evenement</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, aliquam itaque. Velit quisquam, sint vitae cum odio ducimus voluptates, animi, id aperiam qui ullam aspernatur quibusdam totam inventore excepturi repudiandae!</p>
+                    <h1 id="detailTitel" class="landingpage-side-title"></h1>
+                    <p id="detailTekst"></p>
                 </div>
             </div>
         </main>

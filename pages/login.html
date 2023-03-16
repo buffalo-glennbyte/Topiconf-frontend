@@ -66,9 +66,20 @@
       }
     </script>
     <link rel="stylesheet" href="../styles/style.css" />
+    <style>
+    .inlog-wrapper{
+      height: 100vh;
+      width: 130rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 0 auto;
+    }
+    </style>
   </head>
   <body>
-    <div class="wrapper">
+    <main class="inlog-wrapper">
       <div class="request_window">
         <h1 class="windowtitle">Login</h1>
         <div class="field">
@@ -80,7 +91,6 @@
             placeholder="example@email.nl"
             required
           />
-          <label for=""></label>
         </div>
         <div class="field">
           <input
@@ -91,26 +101,10 @@
             function="checkpassword()"
             required
           />
-          <label for=""></label>
         </div>
-        <button
-          style="margin: 1%"
-          onclick="location.href = 'index.html';"
-          class="btn"
-        >
-          Terug
-        </button>
-
-        <input
-          id="submit"
-          style="margin: 1%"
-          type="button"
-          class="btn"
-          value="Log in"
-          name="submit"
-          onclick="checkPasswordAndEmail()"
-        />
+            <button class="btn" onclick="location.href = 'index.html';">Terug</button>
+            <button id="submit" class="btn" onclick="checkPasswordAndEmail()">Log in</button>
       </div>
-    </div>
+    </main>
   </body>
 </html>
