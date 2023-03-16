@@ -90,6 +90,10 @@
         }
       }
 
+      function terugNaarIndex() {
+        window.location.href = `index.html?e=${encodeURI(huidigEvenement.naam)}`;
+      }
+
     </script>
     <style>
     main {
@@ -218,7 +222,7 @@
         />
         <p class="bottomtext">*maximaal 140 karakters</p>
         <button onclick="checkingIfeMailExist()" class="voorstel-wrapper-btn submit">Verstuur</button>
-        <button class="voorstel-wrapper-btn"  onclick="location.href = 'index.html';">Terug</button>
+        <button class="voorstel-wrapper-btn"  onclick="terugNaarIndex()">Terug</button>
       </div>
     </main>
   </body>
