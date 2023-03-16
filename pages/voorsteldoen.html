@@ -19,25 +19,25 @@
      // @const people       holds all data from @method fetch
      // @let isValid        is true when program dont find any duplicates in database, and false otherwise
 
-      function checkingIfeMailExist(){
-        const eMailInput = document.querySelector("#emailInput").value;
-       fetch(`http://localhost:8082/persoon/geefAllePersonen`)
-        .then((response)=> response.json())
-        .then((data)=>{
+      // function checkingIfeMailExist(){
+      //   const eMailInput = document.querySelector("#emailInput").value;
+      //  fetch(`http://localhost:8082/persoon/geefAllePersonen`)
+      //   .then((response)=> response.json())
+      //   .then((data)=>{
 
-          const [...people]= data;
-          console.log(data);
-          let isValid = true;
+      //     const [...people]= data;
+      //     console.log(data);
+      //     let isValid = true;
 
-          people.forEach(person => {
-            isValid = (person.email === eMailInput ? false: true);
-            if(!isValid) return;
-          })
+      //     people.forEach(person => {
+      //       isValid = (person.email === eMailInput ? false: true);
+      //       if(!isValid) return;
+      //     })
 
-          if(isValid) addVoorstel();
-          else alert("This e mail already exist");
-        })
-      };
+      //     if(isValid) addVoorstel();
+      //     else alert("This e mail already exist");
+      //   })
+      // };
 
 
 
@@ -167,7 +167,8 @@
           />
           <label for=""></label>
         </div>
-        <button onclick="checkingIfeMailExist()" class="btn">Verstuur</button>
+        <!-- <button onclick="checkingIfeMailExist()" class="btn">Verstuur</button> -->
+        <button onclick="addVoorstel()" class="btn">Verstuur</button>
       </div>
     </div>
   </body>
