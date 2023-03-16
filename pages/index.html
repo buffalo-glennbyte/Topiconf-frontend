@@ -20,12 +20,11 @@
         }
 
         .landingpage-inhoud {
-            grid-column-start: 1;
-            grid-column-end: -1;
+            grid-column: 1 / -1;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 100vw;
+            width: 100%;
             height: 50vh;
         }
 
@@ -53,10 +52,8 @@
         }
 
         .landingpage-btncontent {
-            grid-row-start: 2;
-            grid-row-end: -1;
-            grid-column-start: 1;
-            grid-column-end: 2;
+            grid-row: 2 / -1;
+            grid-column: 1 / 2;
             width: 50vw;
             height: 50vh;
             display: flex;
@@ -82,10 +79,8 @@
         }
 
         .landingpage-side {
-            grid-row-start: 2;
-            grid-row-end: -1;
-            grid-column-start: 2;
-            grid-column-end: -1;
+            grid-row: 2 / -1;
+            grid-column: 2 / -1;
             width: 50vw;
             height: 50vh;
             display: flex;
