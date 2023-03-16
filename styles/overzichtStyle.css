@@ -73,10 +73,10 @@ body{
     gap: 1.6rem;
     /* flex-direction :row is by default */
   }
-  .btn-active{
+  /* .btn-active{
     transform: translateY(-1rem);
     background-color: var(--hover);
-  }
+  } */
   .requestList--7,
   .requestList--6,
   .requestList--5,

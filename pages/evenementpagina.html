@@ -8,29 +8,133 @@
     <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="../styles/overzichtStyle.css">
     <style>
-        body {
+        .gridwrapper {
+            display: grid;
+            grid-template-columns: 200px 1fr 1fr;
+            grid-template-rows: 200px 1fr;
+            column-gap: 10px;
+        }
+        .headerwrapper {
+            grid-row: 1 / -1;
+            grid-column: 1 / 2;
+            background-color: #F6F5F3;
+            height: 100vh;
+        }
+        .headerwrapper-img {
+            margin-top: 20px;
+            width: 200px;
+            margin-bottom: 45px;
+        }
+        .asidewrapper {
+            grid-row: 1 / 2;
+            grid-column: 2 / -1;
+            line-height: 45px;
+            text-align: right;
+            display:flex;
+            justify-content:end;
+            align-items: center;
+        }
+        .asidewrapper-btns {
+            margin-right: 30px;
+            color:white
+        }
+        .asidewrapper-btns-text {
+            color: black;
+            display:inline-block;
+            margin-right: 15px;
+            font-size: medium;
+        }
+        .asidewrapper-btns-btn {
+            padding: 8px;
+            margin-right: 15px;
+            display: inline-block;
+            background-color: rgb(43, 82, 155);
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+        .asidewrapper-btns-btn:hover {
+            background-color: #3667C3;
+        }
+        .asidewrapper-btns-btn:active {   
+            font-size: small;
+        }
+        .mainwrapper {
+            grid-row: 2 / -1;
+            grid-column: 2 / -1;
+        }
+
+        /* NAVBAR */
+        .nav {
             display: flex;
-            flex-direction: row;
-
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 80%;
+            width: 80%;
+            margin-left: 15px;
+        }
+        .nav-list {
+            display: flex;
+            flex-direction: column;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+        .nav-link {
+            text-align: center;
         }
 
-        .leftside {
-            width: 50%;
-            height: fit-content;
+        .nav-link a {
+            text-decoration: none;
+            color: #246BA0;
+            font-size: 1.5rem;
+        }
+        .nav-listitem a {
+            display: block;
+            color: #246BA0;
+            padding: 8px 16px;
+            margin-bottom: 10px;
+            border: 1px solid #246BA0;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
         }
 
-        .rightside {
-            width: 50%;
-            height: fit-content;
-            background-color: lightslategray;
+        .nav-listitem a.active {
+            background-color: #246BA0;
+            color: white;
         }
 
-        td {
-            padding-left: 10px;
-            padding-right: 10px;
+        .nav-listitem a:hover:not(.active) {
+            background-color: #246BA0;
+            color: white;
+        }  
+        
+        .tab-btn{
+            padding: 0.8rem 1.6rem;
+            background-color: white;
+            font-weight: 700;
+            font-size: 2rem;
+            cursor:pointer;
+            color: var(--secondary-color);
+            border: none;
+            /* border-bottom: 3px solid #C9C6D1; */
+            transition: all 300ms;
         }
+
+        .btn-active{
+            border-bottom: 3px solid #246BA0;
+            background-color: white;
+        }
+
+        .btn:hover{
+            background-color: var(--hover);
+        }
+
     </style>
-
     <script> 
         let huidigEvenement;
 
@@ -44,13 +148,10 @@
         // @'active'   is the key to the value
         // @'4'        is the actual value
         localStorage.setItem("active","4");
-
-
         window.onload = function(){
             var evenementId = window.location.href.split('=').pop();
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
             huidigEvenement = data;
-            document.getElementById("evenementTitel").innerHTML = data.naam;
             refresh();
         })}
         
@@ -163,9 +264,6 @@
             xhr.send();
         }
 
-
-
-
         // this function celect all request elements with class "changed"
         // and places them into to "requestList--7" element
         // this method is used at the end of
@@ -178,10 +276,6 @@
                 veranderdContainer.insertAdjacentElement("afterbegin",element);
             })
         }
- 
-   
-
-
 
         // this method set active button based on his property data-tabNumber
         // if data-tabNumber value of any content button match the value
@@ -199,10 +293,6 @@
             })
         } 
      
-
-
-
-
         function addListenerToContentButtons(){
             document.querySelectorAll(".content-btn").forEach((btn)=>{
             btn.addEventListener("click", function(e){
@@ -222,10 +312,6 @@
             })
         })
         }
-
-
-
-
 
         function addListenersToActionButtons(){
             document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
@@ -258,12 +344,6 @@
             }))
         }
 
-
-
-
-
-
-
         function clear(){ 
             document.querySelector(".requestList--7").innerHTML='';
             document.querySelector(".requestList--6").innerHTML='';
@@ -274,18 +354,10 @@
             document.querySelector(".requestList--1").innerHTML='';
         }
 
-
-
-
-
         function refresh(){
             clear();
             toonVoorstellenPerEvenement();  
         }
-        
-
-
-
         
         function toonVoorstellenPerEvenement(){
 
@@ -309,13 +381,13 @@
                 const list_1 = document.querySelector(".requestList--1");
                 const htmlButtons = `
                 <div class="content-buttons">
-                    <button class="content-btn btn btn-active"  data-tabNumber="4">Ongezien</button>
-                    <button class="content-btn btn" data-tabNumber="3">Afgewezen</button>
-                    <button class="content-btn btn" data-tabNumber="6">In Behandeling</button>
-                    <button class="content-btn btn" data-tabNumber="1">Voorlopig Geaccepteerd</button>
-                    <button class="content-btn btn" data-tabNumber="5">Ingetrokken</button>
-                    <button class="content-btn btn" data-tabNumber="2">Definitief</button>
-                    <button class="content-btn btn" data-tabNumber="7">Veranderd</button>
+                    <button class="content-btn tab-btn btn-active"  data-tabNumber="4">Ongezien</button>
+                    <button class="content-btn tab-btn" data-tabNumber="3">Afgewezen</button>
+                    <button class="content-btn tab-btn" data-tabNumber="6">In Behandeling</button>
+                    <button class="content-btn tab-btn" data-tabNumber="1">Voorlopig Geaccepteerd</button>
+                    <button class="content-btn tab-btn" data-tabNumber="5">Ingetrokken</button>
+                    <button class="content-btn tab-btn" data-tabNumber="2">Definitief</button>
+                    <button class="content-btn tab-btn" data-tabNumber="7">Veranderd</button>
                 </div>`;
                 const buttonsElement = document.querySelector(".htmlbuttons").innerHTML = htmlButtons;
                 addListenerToContentButtons();
@@ -364,25 +436,32 @@
                 setActiveButton(localStorage.getItem("active"));
                 gewijzigdeAanvragenVrplaatsen();
             });
-            }
-        
-
-    </script>
+        }
+</script>
 </head>
-<body>
-    <header>
-        <h1 class="title" id="evenementTitel"></h1>
-        <nav>
-            <ul>
-                <li><a id="categorie" onclick="toonCategoriePerEvenement()">Categorieën</a></li>
-                <li><a id="locatie" onclick="toonLocatiesPerEvenement()">Locaties</a></li>
-                <li><a id="voorstel" class="active" onclick="refresh()">Voorstellen</a></li>
-                <li><a id="programma" onclick="toonProgrammaPerEvenement()">Programma</a></li>
-              </ul>
+<body class="gridwrapper">
+    <header class="headerwrapper">
+        <img class="headerwrapper-img" src="../images/TopicusLogo.png" >
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-listitem"><a id="categorie" onclick="toonCategoriePerEvenement()">Categorieën</a></li>
+                <li class="nav-listitem"><a id="locatie" onclick="toonLocatiesPerEvenement()">Locaties</a></li>
+                <li class="nav-listitem"><a id="voorstel" class="active" onclick="refresh()">Voorstellen</a></li>
+                <li class="nav-listitem"><a id="programma" onclick="toonProgrammaPerEvenement()">Programma</a></li>
+            </ul>
+            <div class="nav-link">
+                <a href="organisatoromgeving.html">Terug naar evenementen</a>
+            </div>
         </nav>
-        <a href="organisatoromgeving.html">Terug naar evenementen</a>
     </header>
-    <main>
+    <aside class="asidewrapper">
+        <div class="asidewrapper-btns">
+            <p class="asidewrapper-btns-text">Je bent ingelogd als: XYZ</p>
+            <button class="asidewrapper-btns-btn" >Profiel</button>
+            <button class="asidewrapper-btns-btn" onclick="uitloggen()" >Uitloggen</button>
+        </div>
+    </aside>
+    <main class="mainwrapper">
         <div id="innerTable"></div>
         <div class="voorstelTabel wrapper">
             <div class="htmlbuttons"></div>
