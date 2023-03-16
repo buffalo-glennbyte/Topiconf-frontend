@@ -45,9 +45,12 @@ header {
     padding: 6.4rem 3.2rem;
   }
 
-  .form_title{
+  .windowtitle {
     color: white;
     text-align: center;
+  }
+  .form_title{
+    color: black;
   }
   .field{
     margin-bottom: 2.4rem;
