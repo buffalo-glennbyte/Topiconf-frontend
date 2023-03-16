@@ -2,10 +2,10 @@
 
 <html>
     <script>
-         let huidigEvenement;
+        let huidigEvenementNaamNaam;
         window.onload = function() {
             var evenement = window.location.href.split('=').pop();
-            huidigEvenement = evenement;
+            huidigEvenementNaam = evenement;
             const link = document.getElementById("deelnemerbtn");
             link.href = `voorsteldoen.html?e=${evenement}`
             if (evenement.substring(0, 4) == "http") {
@@ -22,7 +22,7 @@
         }
 
         function login() {
-            window.location.href = `login.html?e=${huidigEvenement}`;
+            window.location.href = `login.html?e=${huidigEvenementNaam}`;
         }
     </script>
     <style>

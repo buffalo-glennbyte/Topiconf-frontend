@@ -7,6 +7,8 @@
     <meta name="login to system" content="login" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>
+      let huidigEvenementNaam;
+
       window.onload = function() {
         var submitButton = document.getElementById("submit");
         document.body.addEventListener("keypress", function(event) {
@@ -15,6 +17,8 @@
           submitButton.click();
           }
         });
+        var evenement = window.location.href.split('=').pop();
+        huidigEvenementNaam = evenement;
       }
 
       let data;
@@ -41,22 +45,22 @@
         // filter, map en reduce
         if (inlog.includes(username) && (password == "ww")) {
           if (check[0].rol == "s") {
-            location.href = "sprekeromgeving.html";
+            location.href = `sprekeromgeving.html?e=${huidigEvenementNaam}`;
           } else if (check[0].rol == "o") {
-            location.href = "organisatoroverzicht.html";
+            location.href = `organisatoromgeving.html?e=${huidigEvenementNaam}`;
           } else if (check[0].rol == "a") {
-            location.href = "administratoromgeving.html";
+            location.href = `administratoromgeving.html?e=${huidigEvenementNaam}`;
           } else {
             alert("er ging iets fout");
           }
         // als er 'test' staat in het emailveld, dan controleren op welke testomgeving
         } else if((username.includes("test")) && (password == "ww")) {
           if (username == "testspreker") {
-            location.href = "sprekeromgeving.html";
+            location.href = `sprekeromgeving.html?e=${huidigEvenementNaam}`;
           } else if (username == "testorganisator") {
-            location.href = "organisatoromgeving.html";
+            location.href = `organisatoromgeving.html?e=${huidigEvenementNaam}`;
           } else if (username == "testadministrator") {
-            location.href = "administratoromgeving.html";
+            location.href = `administratoromgeving.html?e=${huidigEvenementNaam}`;
           } else {
             alert("inloggegevens onjuist")
           }
@@ -64,6 +68,11 @@
           alert("wachtwoord of email incorrect");
         }
       }
+
+      function terugNaarIndex() {
+        window.location.href = `index.html?e=${huidigEvenementNaam}`;
+      }
+
     </script>
     <link rel="stylesheet" href="../styles/style.css" />
     <style>
@@ -121,7 +130,7 @@
             function="checkpassword()"
             required
           />
-            <button class="btn" onclick="location.href = 'index.html';">Terug</button>
+            <button class="btn" onclick="terugNaarIndex()">Terug</button>
             <button id="submit" class="btn" onclick="checkPasswordAndEmail()">Log in</button>
       </div>
     </main>
