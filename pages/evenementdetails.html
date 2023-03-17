@@ -54,6 +54,13 @@
             toonEvenementenDetails()
         })}
 
+        function uitloggen() {
+            window.location.href = `index.html?e=${encodeURI(huidigEvenement.naam)}`;
+        }
+
+        function terugNaarAdminOmgeving() {
+            window.location.href = `administratoromgeving.html?e=${encodeURI(huidigEvenement.naam)}`;
+        }
         
         function toonEvenementenDetails() {
             
@@ -99,7 +106,7 @@
         <div class="hdr-btns">
             <p class="hdr-btns-text">Je bent ingelogd als: XYZ</p>
             <button class="hdr-btns-btn" >Profiel</button>
-            <button class="hdr-btns-btn">Uitloggen</button>
+            <button class="hdr-btns-btn" onclick="uitloggen()" >Uitloggen</button>
         </div>
     </header>
     
@@ -223,7 +230,7 @@
             <br>
 
             <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'">Wijzigen</button>
-            <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="window.location.href='administratoromgeving.html'">Annuleren</button>
+            <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="terugNaarAdminOmgeving()">Annuleren</button>
 
         </div>
 
