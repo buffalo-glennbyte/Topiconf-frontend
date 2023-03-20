@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../styles/style.css">
-    <link rel="stylesheet" href="../styles/overzichtStyle.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+        body{
+            overflow: auto;
         }
         .gridwrapper {
             display: grid;
@@ -142,20 +144,182 @@
             flex-direction: column;
             gap: 1.6rem;
             display: none;
-            width: 80%;
+            width: 100%;
             height: 79vh;
+        }
+        .wrapper, .content{
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+            justify-content: flex-start;
         }
         .voorstelTabel {
             display: none;
             height: 79vh;
             width: 80%;
         }
-        
         .visible{
             display: flex;
         }
+        .htmlbuttons {
+            width: 100%;
+        }
+        .data-headerrow {
+            margin-top: 50px;
+            font-size: large;
+            display: flex;
+            color: #AAAAAA;
+            width: 100%;
+
+        }
+        .data-headeritem {
+            width: 200px;
+        }
+        .data {
+            word-wrap: break-word;
+            height: 50px;
+            width: 200px;
+            padding: 5px;
+        }
+        .request{
+            background-color: var(--white-color);
+            display: flex;
+            /* border: 1px solid var(--secondary-color); */
+            border-radius: 9px;
+            align-items: center;
+            width:100%;
+        }
+        .request.changed{
+            border: 1px solid var(--warning-color);
+            position: relative;
+        }
+        .marker.actionBtn{
+            width: 3rem;
+            height: 3rem;
+            background-color: var(--warning-color);
+            border-radius: 999px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white-color);
+            position:absolute;
+            top: 0;
+            left: 0;
+            transform: translate(-50% , -50%);
+            transition: all 300ms;
+            padding: 0;
+        }
+        .marker.actionBtn:hover{
+            top: 0;
+            left: 0;
+            transform: translate(-50% , -50%) scale(110%);
+            background-color: #eec809;
+            cursor: pointer;
+        }
+        .requestList{
+            display: none;
+        }
+        .actionBtn{
+            padding: 0.8rem 1.6rem;
+            border: none;
+            border-radius: 999rem;
+        }
+        .green{
+            background-color: #09ee2f;
+        }
+        .yellow{
+            background-color: yellow;
+        }
+        .delete{
+            background-color: #f20202;
+        }
+        .unmarked {
+            background-color: gray;
+        }
+        .buttons{
+            display: flex;
+            gap: 1.6rem;
+        }
+        table {
+            width: 100%;
+            font-size: medium;
+            background-color: white;
+        }
+        th {    
+            font-size: large;
+            text-align: left;
+            padding: 5px;
+            color: #AAAAAA;
+        }
+        td {
+            border: none;
+            padding: 5px;
+        }
+        .btn-wrapper {
+            display: flex;
+            gap: 20px;
+        }
+        .datarow-btn {
+            padding: 8px;
+            margin-right: 15px;
+            display: inline-block;
+            background-color: rgb(43, 82, 155);
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+        .datarow-btn:hover {
+            background-color: #3667C3;
+        }
+        #innerTable-modal {
+            display: none; 
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            width: 80%;
+            height: 60%;
+            box-shadow: 0 0 20px 0 #999;
+            border-radius: 5px;
+        }
+        .modalwrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
-    <script> 
+    <script 
+        src="https://kit.fontawesome.com/bdf882e752.js"
+        crossorigin="anonymous"
+    ></script>
+    <script>
         let huidigEvenement;
         // value stored in localStorage is used in method @setActiveButton() 
         // where based this value we will set an active button
@@ -169,6 +333,7 @@
             var evenementId = window.location.href.split('=').pop();
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
             huidigEvenement = data;
+            console.log(huidigEvenement);
             refresh();
         })}
         
@@ -178,7 +343,8 @@
             document.getElementById("locatie").classList.remove("active");
             document.getElementById("categorie").classList.remove("active");
             document.getElementById("programma").classList.add("active");
-
+            document.querySelector(".voorstelTabel").classList.remove("visible"); 
+            document.getElementById("innerTable").innerHTML = "";  
         }
 
         function toonCategoriePerEvenement(){
@@ -192,19 +358,14 @@
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     var allCategoriesPerEvent = JSON.parse(this.responseText);
-                    HTMLString = "<table border=1>";
-                    HTMLString += "<tr><th>Naam</th> <th>Omschrijving</th></tr>"
+                    HTMLString = "<table>";
+                    HTMLString += "<tr><th>Naam</th><th>Omschrijving</th><th><button class='datarow-btn' onclick='openModal("+'"categorieType"'+")'>Aanmaken <span class='fa-sharp fa-solid fa-plus'></span></button></th></tr>"
                     for(var i = 0; i < allCategoriesPerEvent.length; i++){
-                        HTMLString += "<td>" + allCategoriesPerEvent[i].name + "</td>";
+                        HTMLString += "<tr><td>" + allCategoriesPerEvent[i].name + "</td>";
                         HTMLString += "<td>" + allCategoriesPerEvent[i].description + "</td>";
-                        HTMLString += "<td><button onclick='verwijderCategorie("+allCategoriesPerEvent[i].id+")'>Delete</button></td><tr>"
+                        HTMLString += "<td><div class='btn-wrapper'><span class='fa-solid fa-trash fa-lg' onclick='verwijderCategorie("+allCategoriesPerEvent[i].id+")'></span><span class='fa-sharp fa-solid fa-pen fa-lg' onclick='openModal("+'"categorieEditType"'+")'></span><span class='fa-sharp fa-solid fa-right-to-bracket fa-lg' onclick='openModal("+'"categorieOpenType"'+")'></span></div></td></tr>"
                     }                   
                     HTMLString += "</table>";
-
-                    HTMLString += "<h4>Categorie toevoegen</h4>";
-                    HTMLString += "Naam categorie: <input id='categorieNaam'><br>";
-                    HTMLString += "Omschrijving: <input id='categorieOmschrijving'><br>";
-                    HTMLString += "<button onclick='voegCategorieToeAanEvenement(" + huidigEvenement.id + ")'>Toevoegen</button>"
                     document.getElementById("innerTable").innerHTML = HTMLString;     
                 }                          
             }
@@ -223,20 +384,18 @@
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     var allLocationsPerEvent = JSON.parse(this.responseText);
-                    HTMLString = "<table border=1>";
-                    HTMLString += "<tr><th>Naam</th><th>Omschrijving</th><th>Capaciteit</th></tr>"
+                    HTMLString = "<table>";
+                    HTMLString += "<tr><th>Naam</th><th>Capaciteit</th><th>Omschrijving</th><th>Faciliteiten</th><th>Details</th><th><button class='datarow-btn' onclick='openModal("+'"locatieType"'+")'>Aanmaken <span class='fa-sharp fa-solid fa-plus'></span></button></th></tr>"
                     for(var i = 0; i < allLocationsPerEvent.length; i++){
-                        HTMLString += "<td>" + allLocationsPerEvent[i].name + "</td>";
-                        HTMLString += "<td>" + allLocationsPerEvent[i].description + "</td>"
+                        HTMLString += "<tr><td>" + allLocationsPerEvent[i].name + "</td>";
                         HTMLString += "<td>" + allLocationsPerEvent[i].capacity + "</td>";
-                        HTMLString += "<td><button onclick='verwijderLocatie("+allLocationsPerEvent[i].id+")'>Delete</button></td><tr>"
+                        HTMLString += "<td>" + allLocationsPerEvent[i].description + "</td>"
+                        HTMLString += "<td>" + allLocationsPerEvent[i].faciliteiten + "</td>"
+                        HTMLString += "<td>" + allLocationsPerEvent[i].details + "</td>"
+                        
+                        HTMLString += "<td><div class='btn-wrapper'><span class='fa-solid fa-trash fa-lg' onclick='verwijderCategorie("+allLocationsPerEvent[i].id+")'></span><span class='fa-sharp fa-solid fa-right-to-bracket fa-lg' onclick='openModal("+'"locatieOpenType"'+")'></span></div></td></tr>"
                     }                   
                     HTMLString += "</table>";
-                    HTMLString += "<h4>Locatie Toevoegen</h4>";
-                    HTMLString += "Naam locatie: <input id='locatieNaam'><br>";
-                    HTMLString += "Omschrijving: <input id='locatieOmschrijving'><br>";
-                    HTMLString += "Capaciteit: <input id='locatieCapaciteit'><br>";
-                    HTMLString += "<button onclick='voegLocatieToeAanEvenement(" + huidigEvenement.id + ")'>Add location</button>"
                     document.getElementById("innerTable").innerHTML = HTMLString;    
                 }                                          
             }
@@ -398,13 +557,20 @@
                 const list_1 = document.querySelector(".requestList--1");
                 const htmlButtons = `
                 <div class="content-buttons">
-                    <button class="content-btn tab-btn btn-active"  data-tabNumber="4">Ongezien</button>
+                    <button class="content-btn tab-btn btn-active" data-tabNumber="4">Ongezien</button>
                     <button class="content-btn tab-btn" data-tabNumber="3">Afgewezen</button>
                     <button class="content-btn tab-btn" data-tabNumber="6">In Behandeling</button>
                     <button class="content-btn tab-btn" data-tabNumber="1">Voorlopig Geaccepteerd</button>
                     <button class="content-btn tab-btn" data-tabNumber="5">Ingetrokken</button>
                     <button class="content-btn tab-btn" data-tabNumber="2">Definitief</button>
                     <button class="content-btn tab-btn" data-tabNumber="7">Veranderd</button>
+                </div>
+                <div class="data-headerrow">
+                    <div class="data-headeritem"><p>Naam:</p></div>
+                    <div class="data-headeritem"><p>Achternaam:</p></div>
+                    <div class="data-headeritem"><p>Onderwerp:</p></div>
+                    <div class="data-headeritem"><p>Samenvatting:</p></div>
+                    <div class="data-headeritem"><p>E-mail:</p></div>
                 </div>`;
                 const buttonsElement = document.querySelector(".htmlbuttons").innerHTML = htmlButtons;
                 addListenerToContentButtons();
@@ -412,21 +578,24 @@
                  // if element status @verander is equals true then request row gets extra class @changed
                  // elements which has this class will have changed border for red color and gets 
                  // warning icon "!" this icon can be found in overzichtStyle.css .changed::after
+
                  data.forEach(data => {
                  const html =`
-                        <div class="request ${data.veranderd===true? 'changed':''}" data-id='${data.id}' id='request${data.id}'>
-
-                          <div class="data "><p>Naam:<span class = 'name'> ${data.voornaam}</span></p></div>
-                          <div class="data "><p>Achternaam: <span class = 'surname'>${data.achternaam}</span></p></div>
-                          <div class="data "><p>Onderwerp:<span class = 'topic'> ${data.onderwerp}</span></p></div>
-                          <div class="data "><p>E-mail: <a class = 'email' href="mailto:${data.eMail}">${data.eMail}</a></p></div>
-                          <div class="buttons">
-                            <button class="actionBtn green" data-action="voorlopigGeaccepteerd">Accepteren</button>
-                            <button class="actionBtn yellow" data-action="inBehandeling">In Behandeling</button>
-                            <button class="actionBtn delete" data-action="afgewezen">Afwijzen</button>
-                            ${data.status==="voorlopigGeaccepteerd" ? "<button class='actionBtn' data-action ='definitief'>Definitief maken</button>":""}
-                         </div>
-                         ${data.veranderd===true ? "<div class='marker actionBtn'>!</div>":""}
+                    <div class="request ${data.veranderd===true? 'changed':''}" data-id='${data.id}' id='request${data.id}'>
+                        <div class="data "><span class="name"> ${data.voornaam}</span></div>
+                        <div class="data "><span class="surname">${data.achternaam}</span></div>
+                        <div class="data "><span class="topic"> ${data.onderwerp}</span></div>
+                        <div class="data "><span class="topic"> ${data.samenvatting}</span></div>
+                        <div class="data "><a class="email" href="mailto:${data.eMail}">${data.eMail}</a></div>
+                        <div class="buttons">
+                           <button class="actionBtn green" data-action="voorlopigGeaccepteerd"><i class="fa-sharp fa-solid fa-check fa-xl"></i></button>
+                           <button class="actionBtn yellow" data-action="inBehandeling"><i class="fa-sharp fa-solid fa-flag fa-xl"></i></button>
+                           <button class="actionBtn delete" data-action="afgewezen"><i class="fa-sharp fa-solid fa-xmark fa-xl"></i></button>
+                           <button class="actionBtn" onclick=""><i class="fa-sharp fa-solid fa-pen fa-xl"></i></button>
+                           
+                           ${data.status==="voorlopigGeaccepteerd" ? "<button class='actionBtn' data-action ='definitief'>Definitief maken</button>":""}
+                        </div>
+                        ${data.veranderd===true ? "<div class='marker actionBtn'>!</div>":""}
                     </div>`;
                     if(data.status === "ongezien"){
                         list_4.insertAdjacentHTML("afterbegin",html);
@@ -454,6 +623,113 @@
                 gewijzigdeAanvragenVrplaatsen();
             });
         }
+        function openModal(type) {
+            const modal = document.getElementById("innerTable-modal");
+            modal.style.display = "block";
+            const element = document.getElementById("modal-content-text");
+            let htmlString ="";
+            if (type == "categorieType") {
+            htmlString += `
+             <div class="modalwrapper">
+                <h4>Categorie toevoegen</h4>
+                <label for=naam>Naam categorie:</label>
+                <input id="categorieNaam" name="naam">
+                <label for=omschrijving>Omschrijving:</label>
+                <input id="categorieOmschrijving name="omschrijving">
+                <button class="asidewrapper-btns-btn" onclick="voegCategorieToeAanEvenement(${huidigEvenement.id})">Toevoegen</button>
+            </div>`
+            } else if (type == "categorieOpenType") {
+            htmlString += `
+             <div class="modalwrapper">
+                <h4>Categorie Aanpassen</h4>
+                <label for=naam>Naam categorie:</label>
+                <input id="categorieNaam" name="naam">
+                <label for=omschrijving>Omschrijving:</label>
+                <input id="categorieOmschrijving name="omschrijving">
+            </div>`
+            } else if (type == "categorieEditType") {
+            htmlString += `
+             <div class="modalwrapper">
+                <h4>Categorie Aanpassen</h4>
+                <label for=naam>Naam categorie:</label>
+                <input id="categorieNaam" name="naam">
+                <label for=omschrijving>Omschrijving:</label>
+                <input id="categorieOmschrijving name="omschrijving">
+                <button class="asidewrapper-btns-btn" onclick="${() => {alert('De categorie aanpassen niet gelukt')}}">Aanpassen</button>
+            </div>`
+            } else if (type == "locatieType") {
+            htmlString += `
+            <div class="modalwrapper">
+                <h4>Locatie toevoegen</h4>
+                <label for=naam>Naam:</label>
+                <input id="locatieNaam" name="naam">
+                <label for=capaciteit>Capaciteit:</label>
+                <input id="locatieCapaciteit" name="capaciteit">
+                <label for=omschrijving>Omschrijving:</label>
+                <input id="locatieOmschrijving" name="omschrijving">
+                <label for=faciliteiten>Faciliteiten:</label>
+                <input id="locatieFaciliteiten" name="faciliteiten">
+                <label for=details>Details:</label>
+                <input id="locatieDetails" name="details">
+                <button class="asidewrapper-btns-btn" onclick="voegLocatieToeAanEvenement(${huidigEvenement.id})">Toevoegen</button>
+            </div>`
+            } else if (type == "locatieOpenType") {
+            htmlString += `
+            <div class="modalwrapper">
+                <h4>Locatie toevoegen</h4>
+                <label for=naam>Naam:</label>
+                <input id="locatieNaam" name="naam">
+                <label for=capaciteit>Capaciteit:</label>
+                <input id="locatieCapaciteit" name="capaciteit">
+                <label for=omschrijving>Omschrijving:</label>
+                <input id="locatieOmschrijving" name="omschrijving">
+                <label for=faciliteiten>Faciliteiten:</label>
+                <input id="locatieFaciliteiten" name="faciliteiten">
+                <label for=details>Details:</label>
+                <input id="locatieDetails" name="details">
+            </div>`
+            } else if (type == "delete") {
+            htmlString += `
+            <div class="modalwrapper">
+                <h1>Verwijderen</h1>
+                <button id="submit" class="inlog-wrapper-btn submit" onclick="">Verwijderen</button>
+                <button class="inlog-wrapper-btn" onclick="sluitModal()">Annuleren</button>
+            </div>`
+            } 
+            else if (type == "profiel") {
+            htmlString += `
+            <div class="modalwrapper">
+                <h1>Account instellingen</h1>
+                    <label for=voornaam>Voornaam:</label>
+                    <input id="persoonNaam" name="voornaam">
+                    <label for=achternaam>Achternaam:</label>
+                    <input id="persoonAchternaam" name="achternaam">
+                    <label for=email>Email:</label>
+                    <input id="persoonEmail" name="email">
+                    <label for=wachtwoord>Wachtwoord:</label>
+                    <input id="persoonWachtwoord" name="wachtwoord">
+                    <button id="submit" class="inlog-wrapper-btn submit" onclick="">Aanpassen</button>
+                    <button class="inlog-wrapper-btn" onclick="sluitModal()">Annuleren</button>
+            </div>`
+            } else {
+                htmlString += "default"
+            }
+            element.innerHTML = htmlString;
+        }
+        function sluitModal() {
+            const modal = document.getElementById("innerTable-modal");
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            const modal = document.getElementById("innerTable-modal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        function uitloggen() {
+            window.location.href = `index.html?e=${encodeURI(huidigEvenement.naam)}`;
+        }
 </script>
 </head>
 <body class="gridwrapper">
@@ -474,12 +750,18 @@
     <aside class="asidewrapper">
         <div class="asidewrapper-btns">
             <p class="asidewrapper-btns-text">Je bent ingelogd als: XYZ</p>
-            <button class="asidewrapper-btns-btn" >Profiel</button>
+            <button class="asidewrapper-btns-btn" onclick="openModal('profiel')"><i class="fa-sharp fa-solid fa-gear fa-lg"></i></button>
             <button class="asidewrapper-btns-btn" onclick="uitloggen()" >Uitloggen</button>
         </div>
     </aside>
     <main class="mainwrapper">
         <div id="innerTable"></div>
+        <div id="innerTable-modal">
+            <div class="modal-content">
+                <span class="close" onclick="sluitModal()">&times;</span>
+                <div id="modal-content-text"></div>
+              </div>
+        </div>
         <div class="voorstelTabel wrapper">
             <div class="htmlbuttons"></div>
             <div class="requestList--6"></div>

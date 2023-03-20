@@ -1,4 +1,4 @@
-body{
+/* body{
   overflow: auto;
 }
 .request{
@@ -72,7 +72,7 @@ body{
     display: flex;
     gap: 1.6rem;
     /* flex-direction :row is by default */
-  }
+  /* } */
   /* .btn-active{
     transform: translateY(-1rem);
     background-color: var(--hover);
