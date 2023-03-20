@@ -38,6 +38,17 @@
             font-size: small;
         }
 
+
+        ul
+        {
+            background-color: white;
+        }
+
+        li
+        {
+            background-color: white;
+        }
+
     </style>
 
 
@@ -63,12 +74,44 @@
         }
         
         function toonEvenementenDetails() {
-            
+            console.log(huidigEvenement.voorstelLijst);
+
+
             document.getElementById("naam-Van-Evenement").innerHTML = `<i>${huidigEvenement.naam}</i>`;
             document.getElementById("omschrijving-Evenement").value = huidigEvenement.omschrijving;
             document.getElementById("begin-Datum").value = huidigEvenement.beginDatumTijd;
             document.getElementById("eind-Datum").value = huidigEvenement.eindDatumTijd;
-            document.getElementById("locatie-Value").innerHTML = huidigEvenement.location;
+
+            // Laat alle categorien zien in een lijst
+            var categorieLijst = "<ul>";
+                for(var x = 0; x < huidigEvenement.categorieLijst.length; x++)
+                {
+                    categorieLijst += `<li>${huidigEvenement.categorieLijst[x].name}</li>`;
+                }
+
+            categorieLijst += "</ul>"
+
+            // Laat de Naam + Email zien van de organisator die bij dit evenement hoort.
+            // de verwijder button er achter is om die organisator te verwijderen van dat evenement.
+            var organisatorLijst = "<ul>";
+                for(var x = 0; x < huidigEvenement.voorstelLijst.length; x++)
+                {
+                    organisatorLijst += `<li>${huidigEvenement.voorstelLijst[x].voornaam} : ${huidigEvenement.voorstelLijst[x].eMail} <button>Verwijder</button></li>`
+                }
+            organisatorLijst += "</ul>"
+
+            // Laat de locaties zien die behoren tot dit evenement
+            var locatieLijst = "<ul>";
+                for(var x = 0; x < huidigEvenement.locatieLijst.length; x++)
+                {
+                    locatieLijst += `<li>${huidigEvenement.locatieLijst[x].name}</li>`
+                }
+            locatieLijst += "</ul>"
+
+
+            document.getElementById("categorie-lijst").innerHTML = categorieLijst;
+            document.getElementById("organisator-Lijst-Namen").innerHTML = organisatorLijst;
+            document.getElementById("locatie-lijst").innerHTML = locatieLijst;
 
         }
 
@@ -91,9 +134,11 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(organisator),
             })
+        }
 
+        function verwijderOrganisator()
+        {
             
-
         }
 
     </script>
@@ -115,34 +160,12 @@
     <div class="grid-container">
         <div >
             <h1>Organisators</h1>
-            <div style="width: 30em; height: 25em; overflow-y: scroll;">
+            <div style="width: 35em; height: 25em; overflow-y: scroll;">
                 <table>
                     <tr>
                         <td>
-                            <label>Naam:</label>
-                            <ul class="organisator-Lijst-Namen">
-                                <li><span class="organisator-naam">Test Naam</span></li>
-                                <li><span class="organisator-naam">Test Naam</span></li>
-                                <li><span class="organisator-naam">Test Naam</span></li>
-                                <li><span class="organisator-naam">Test Naam</span></li>
-                                <li><span class="organisator-naam">Test Naam</span></li>
-                                <li><span class="organisator-naam">Test Naam</span></li>
-                                <li><span class="organisator-naam">Test Naam</span></li>
-                                <li><span class="organisator-naam">Test Naam</span></li>
-                            </ul>
-                        </td>
-                        <td>
-                            <label>Email:</label>
-                            <ul class="organisator-Lijst-Email">
-                                <li><span class="organisator-Email">Test email</span></li>              
-                                <li><span class="organisator-Email">Test email</span></li>                     
-                                <li><span class="organisator-Email">Test email</span></li>   
-                                <li><span class="organisator-Email">Test email</span></li>   
-                                <li><span class="organisator-Email">Test email</span></li>   
-                                <li><span class="organisator-Email">Test email</span></li>   
-                                <li><span class="organisator-Email">Test email</span></li>   
-                                <li><span class="organisator-Email">Test email</span></li>   
-                            </ul>
+                            <label>Naam & Email</label>
+                            <div id="organisator-Lijst-Namen"></div>
                         </td>
                     </tr>
                 </table>
@@ -180,15 +203,12 @@
                 <tr>
                     <td>
                         <h3>Categorieen</h3>
-                        <p></p>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <div style="height: 100px; overflow-y: scroll;">
-                            <ul>
-                                <li>Presentatie Java</li>
-                            </ul>
+                            <div id="categorie-lijst"></div>
                         </div>
                     </td>
                 </tr>
@@ -262,7 +282,7 @@
                 <tr>
                     <td>
                         <h4>Locatie</h4>
-                        <p id="locatie-Value">Deventer park, locatie 1233 DE</p>
+                        <div id="locatie-lijst"></div>
                     </td>
                 </tr>
             </table>
