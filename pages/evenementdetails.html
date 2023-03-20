@@ -44,13 +44,20 @@
 
 
     <script>
+ function gebruikerKrijgen(){
+            const customerName = document.querySelector(".user-name");
+            fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
+            .then(response=>response.json())
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"admin": user.rol==="o"? "organiser": "spreker"}`) 
+        }
+
         // pakt de 'id' uit de URL
         let huidigEvenement;
         window.onload = function(){
             var evenementId = window.location.href.split('=').pop();
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
             huidigEvenement = data;
-            
+            gebruikerKrijgen()
             toonEvenementenDetails()
         })}
 
@@ -104,7 +111,7 @@
     <header class="hdr-main">
         <img src="../images/TopicusLogo.png" class="hdr-img">
         <div class="hdr-btns">
-            <p class="hdr-btns-text">Je bent ingelogd als: XYZ</p>
+            <p class="hdr-btns-text">Je bent ingelogd als: <span class="user-name"></span></p>
             <button class="hdr-btns-btn" >Profiel</button>
             <button class="hdr-btns-btn" onclick="uitloggen()" >Uitloggen</button>
         </div>
