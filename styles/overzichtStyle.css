@@ -77,24 +77,7 @@ body{
     transform: translateY(-1rem);
     background-color: var(--hover);
   } */
-  .requestList--7,
-  .requestList--6,
-  .requestList--5,
-  .requestList--4,
-  .requestList--3,
-  .requestList--2,
-  .requestList--1{
-    display: flex;
-    flex-direction: column;
-    gap: 1.6rem;
-    display: none;
-    width:80%;
-  }
-  .voorstelTabel {
-    display: none;
-  }
 
-  .visible{
-    display: flex;
-  }
+
+
 

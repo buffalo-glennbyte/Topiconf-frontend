@@ -8,10 +8,15 @@
     <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="../styles/overzichtStyle.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         .gridwrapper {
             display: grid;
             grid-template-columns: 200px 1fr 1fr;
-            grid-template-rows: 200px 1fr;
+            grid-template-rows: 20% 1fr;
             column-gap: 10px;
         }
         .headerwrapper {
@@ -21,9 +26,9 @@
             height: 100vh;
         }
         .headerwrapper-img {
-            margin-top: 20px;
             width: 200px;
             margin-bottom: 45px;
+            margin-top: 20px;
         }
         .asidewrapper {
             grid-row: 1 / 2;
@@ -62,15 +67,14 @@
         .mainwrapper {
             grid-row: 2 / -1;
             grid-column: 2 / -1;
+            height: 79vh;
         }
-
-        /* NAVBAR */
         .nav {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            height: 80%;
+            height: 70%;
             width: 80%;
             margin-left: 15px;
         }
@@ -86,7 +90,6 @@
         .nav-link {
             text-align: center;
         }
-
         .nav-link a {
             text-decoration: none;
             color: #246BA0;
@@ -102,17 +105,14 @@
             text-decoration: none;
             text-align: center;
         }
-
         .nav-listitem a.active {
             background-color: #246BA0;
             color: white;
         }
-
         .nav-listitem a:hover:not(.active) {
             background-color: #246BA0;
             color: white;
         }  
-        
         .tab-btn{
             padding: 0.8rem 1.6rem;
             background-color: white;
@@ -124,22 +124,39 @@
             /* border-bottom: 3px solid #C9C6D1; */
             transition: all 300ms;
         }
-
         .btn-active{
             border-bottom: 3px solid #246BA0;
             background-color: white;
         }
-
         .btn:hover{
             background-color: var(--hover);
         }
-
+        .requestList--7,
+        .requestList--6,
+        .requestList--5,
+        .requestList--4,
+        .requestList--3,
+        .requestList--2,
+        .requestList--1{
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+            display: none;
+            width: 80%;
+            height: 79vh;
+        }
+        .voorstelTabel {
+            display: none;
+            height: 79vh;
+            width: 80%;
+        }
+        
+        .visible{
+            display: flex;
+        }
     </style>
     <script> 
         let huidigEvenement;
-
-
-
         // value stored in localStorage is used in method @setActiveButton() 
         // where based this value we will set an active button
         // also value in localStorage will be changed in method @addListenerToContentButtons()
