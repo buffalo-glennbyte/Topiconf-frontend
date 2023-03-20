@@ -54,8 +54,16 @@
         let nietGeselecteerdeBenodigdheden = [];
         let alleBenodigdheden = [];
 
+        function gebruikerKrijgen(){
+            const customerName = document.querySelector(".user-name");
+            fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
+            .then(response=>response.json())
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"admin": user.rol==="o"? "organiser": "spreker"}`) 
+        }
+
         window.onload = function(){
             huidigVoorstelId = window.location.href.split("=").pop();
+            gebruikerKrijgen()
             laadGeselecteerdVoorstel();      
             laadBenodigdheden();    
         }
@@ -171,7 +179,7 @@
     <header class="hdr-main">
         <img src="../images/TopicusLogo.png" class="hdr-img">
         <div class="hdr-btns">
-            <p class="hdr-btns-text">Je bent ingelogd als: XYZ</p>
+            <p class="hdr-btns-text">Je bent ingelogd als: <span class="user-name"></span></p>
             <button class="hdr-btns-btn" >Profiel</button>
             <button class="hdr-btns-btn">Uitloggen</button>
         </div>
