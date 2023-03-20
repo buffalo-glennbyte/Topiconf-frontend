@@ -42,6 +42,13 @@
         var password = document.getElementById("passwordInput").value;
         let check = data.filter((user) => user.email == username);
 
+        // save user id in local storage
+        data.forEach(user => {
+          if(user.email==username){
+            localStorage.setItem("userID",user.id )
+          }
+        });
+
         // filter, map en reduce
         if (inlog.includes(username) && (password == "ww")) {
           if (check[0].rol == "s") {
@@ -67,6 +74,7 @@
         } else {
           alert("wachtwoord of email incorrect");
         }
+       
       }
 
       function terugNaarIndex() {
