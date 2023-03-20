@@ -55,7 +55,7 @@
 
 
     <script>
- function gebruikerKrijgen(){
+        function gebruikerKrijgen(){
             const customerName = document.querySelector(".user-name");
             fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
             .then(response=>response.json())
@@ -68,7 +68,7 @@
             var evenementId = window.location.href.split('=').pop();
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
             huidigEvenement = data;
-            gebruikerKrijgen()
+            // gebruikerKrijgen()
             toonEvenementenDetails()
         })}
 
@@ -81,7 +81,7 @@
         }
         
         function toonEvenementenDetails() {
-            console.log(huidigEvenement.voorstelLijst);
+            console.log(huidigEvenement);
 
 
             document.getElementById("naam-Van-Evenement").innerHTML = `<i>${huidigEvenement.naam}</i>`;
@@ -103,7 +103,8 @@
             var organisatorLijst = "<ul>";
                 for(var x = 0; x < huidigEvenement.voorstelLijst.length; x++)
                 {
-                    organisatorLijst += `<li>${huidigEvenement.voorstelLijst[x].voornaam} : ${huidigEvenement.voorstelLijst[x].eMail} <button>Verwijder</button></li>`
+                    organisatorLijst += `<li>${huidigEvenement.voorstelLijst[x].voornaam} : ${huidigEvenement.voorstelLijst[x].eMail} `
+                        + ` <button onclick='verwijderOrganisator(${huidigEvenement.id},${huidigEvenement.voorstelLijst[x].id})''>Verwijder</button></li>`
                 }
             organisatorLijst += "</ul>"
 
@@ -143,9 +144,14 @@
             })
         }
 
-        function verwijderOrganisator()
+        function verwijderOrganisator(evenementID, organisatorID)
         {
-            
+            console.log(`evenement id: ${evenementID} organisator id: ${organisatorID}`);
+            fetch(`http://localhost:8082/evenement/verwijderOrganisatorVanEvenement/${evenementID}?organisatorid=${organisatorID}`,
+            {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" }
+            })
         }
 
     </script>
