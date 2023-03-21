@@ -2,14 +2,111 @@
 
 <html>
     <script>
-         let currentEvenement;
+        let huidigEvenementNaam;
         window.onload = function() {
             var evenement = window.location.href.split('=').pop();
-            currentEvenement = evenement;
+            huidigEvenementNaam = evenement;
             const link = document.getElementById("deelnemerbtn");
-            link.href = `voorsteldoen.html?e=${evenement}`
+            link.href = `voorsteldoen.html?e=${encodeURI(huidigEvenementNaam)}`
+            if (evenement.substring(0, 4) == "http") {
+                document.getElementById("inhoudTitel").innerHTML = "Titel van een Evenement";
+                document.getElementById("detailTitel").innerHTML = "Details van een Evenement";
+                document.getElementById("detailTekst").innerHTML = "Je bent iets vergeten... hint: ?e={NaamVanJouEvenement}";
+                
+            } else {
+                document.getElementById("inhoudTitel").innerHTML = evenement;
+                document.getElementById("detailTitel").innerHTML = `Details van ${evenement}`;
+                document.getElementById("detailTekst").innerHTML = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, aliquam itaque. Velit quisquam, sint vitae cum odio ducimus voluptates, animi, id aperiam qui ullam aspernatur quibusdam totam inventore excepturi repudiandae!";
+            }
+
+        }
+
+        function login() {
+            window.location.href = `login.html?e=${encodeURI(huidigEvenementNaam)}`;
         }
     </script>
+    <style>
+        .landingpage-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        .landingpage-inhoud {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 50vh;
+        }
+
+        .landingpage-inhoud-image {
+            height: 50vh;
+            width: 100%;
+            object-fit: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: absolute;
+            overflow: hidden;
+        }
+
+        .landingpage-inhoud-title {
+            position: relative;
+            z-index: 1;
+            font-size: 9em;
+            background-image: linear-gradient(rgb(254, 255, 255), rgb(252, 252, 252));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-filter: drop-shadow(2px 2px #333);
+                    filter: drop-shadow(2px 2px #333);
+        }
+
+        .landingpage-btncontent {
+            grid-row: 2 / -1;
+            grid-column: 1 / 2;
+            width: 50vw;
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        .landingpage-btncontent-btn {
+            padding: 20px;
+            background-color: #246BA0;
+            color: white;
+            font-weight: 700;
+            font-size: 2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            transition: all 300ms;
+            text-decoration: none;
+        }
+        .landingpage-btncontent-btn:hover {
+            background-color: #143a57;
+        }
+
+        .landingpage-side {
+            grid-row: 2 / -1;
+            grid-column: 2 / -1;
+            width: 50vw;
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .landingpage-side-text {
+            text-align: center;
+            padding: 50px;
+            font-size: 2em;
+        }
+    </style>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,16 +116,23 @@
         <link rel="stylesheet" href="../styles/style.css">
     </head>
     <body>
-        <div class="wrapper" >
-            <div style="text-align: center;">
-                <img src="../images/TopicusLogo.png" width="200px" >
-                <h1 class="form_title">Meld je aan als:</h1>
-                <a id="deelnemerbtn" class="btn">Aanmelden</a>
-            <br>
-            <br>
-                <button class="btn" onclick="location.href= 'login.html'">Log in</button> 
+        <main class="landingpage-wrapper">
+            <div class="landingpage-inhoud">
+                <div class="landingpage-inhoud-text">
+                    <h1 id="inhoudTitel" class="landingpage-inhoud-title"></h1>
+                </div>
+                <img class="landingpage-inhoud-image" src="../images/conferentie.jpg" width="200px" >
             </div>
-        </div>
-   
+            <div class="landingpage-btncontent" >
+                <a id="deelnemerbtn" class="landingpage-btncontent-btn">Voorstel indienen</a>
+                <button class="landingpage-btncontent-btn" onclick="login()">Log in</button> 
+            </div>
+            <div class="landingpage-side">
+                <div class="landingpage-side-text">
+                    <h1 id="detailTitel" class="landingpage-side-title"></h1>
+                    <p id="detailTekst"></p>
+                </div>
+            </div>
+        </main>
     </body>
 </html>
