@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organisator Edit</title>
+    <link rel="stylesheet" href="../styles/header.css">
+    <link rel="stylesheet" href="../styles/style.css">
+
+    <style>
+        .is-flex{
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            gap: 10px;
+            padding: 10px;
+        }
+    
+        .grid-container > div {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        table, th, td {
+            border: none;
+        }
+
+        .flexRow {
+            display: flex;
+            flex-direction: row;
+            margin: 5px;
+        }
+
+        td {
+            display: flex;
+            flex-direction: row;
+        }
+
+        label {
+            width: 6.3em;
+            font-size: larger;
+        }
+    </style>
+
+    <script>
+
+        function changeToPickedColor() { 
+            document.getElementById("inputCategorie").style.backgroundColor = document.getElementById("color-picker").value; 
+            
+            // Storing picked color for use elsewhere
+            let pickedColorValue = document.getElementById("color-picker").value;
+            console.log(pickedColorValue);
+        } 
+        
+    </script>
+
+</head>
+<body>
+
+    <header class="hdr-main">
+        <img src="../images/TopicusLogo.png" class="hdr-img">
+        <div class="hdr-btns">
+            <p class="hdr-btns-text">Je bent ingelogd als: <span class="user-name"></span></p>
+            <button class="hdr-btns-btn" >Profiel</button>
+            <button class="hdr-btns-btn">Uitloggen</button>
+        </div>
+    </header>
+
+    <div class="grid-container">
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <h3>Spreker</h3>
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Voornaam">Voornaam: </label>
+                        <input type="text" id="inputVoornaam" placeholder="John">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Achternaam">Achternaam:</label>
+                        <input type="text" id="inputAchternaam" placeholder="Marston">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Email">Email:</label>
+                        <input type="text" id="inputEmail" placeholder="John@email.com">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <h3>Presentatie</h3>
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Onderwerp">Onderwerp: </label>
+                        <input id="inputOnderwerp" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Samenvatting">Beschrijving:</label>
+                        <textarea name="Samenvatting" id="inputSamenvatting" cols="20" rows="5"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <h3>Status</h3>
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <input id="statusTegel" type="text" style="background-color: aquamarine; width:60px; text-align: center;">
+                        </div>
+                        <div>
+                            <!-- Dummy division voor de uitlijning-->
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div> 
+
+        <div>
+            <div class="flexRow">
+                <h2>Voeg spreker toe</h2>
+                <p></p>
+            </div>
+            <div style="border: 1px solid slategrey; width: 300px; height: 120px; border-radius: 3px;">
+                <div class="flexRow">
+                    <label for="Voornaam">Voornaam: </label>
+                    <input id="inputVoornaamNieuweSpreker" type="text" style="float: right;">
+                </div>
+                <div class="flexRow">
+                    <label for="Achternaam">Achternaam</label>
+                    <input id="inputAchternaamNieuweSpreker" type="text">
+                </div>
+                <div class="flexRow">
+                    <label for="Email">Email:</label>
+                    <input id="inputEmailNieuweSpreker" type="text">
+                </div>
+                <div style="float: right; margin-right: 5px;">
+                    <button>Toevoegen</button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="flexRow" style="height: 4em;">
+                <!-- Dummy division voor de uitlijning-->
+            </div>
+            <div style="height: 120px;">
+                <div class="flexRow">
+                    <label for="tijdsduur">Tijdsduur: </label>
+                    <input id="inputTijdsduur" type="text">
+                </div>
+                <div class="flexRow">
+                    <label for="MaxCapaciteit">Max. Capaciteit: </label>
+                    <input id="inputCapaciteit" type="text">
+                </div>
+                <div class="flexRow">
+                    <label for="Categorie">Categorie: </label>
+                    <input id="inputCategorie" type="text">
+                </div>
+                <div class="flexRow">
+                    <label for="color-picker">Categorie kleur:</label>
+                    <input id="color-picker" type="color" onchange="changeToPickedColor()">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="flexRow" style="height: 4em;">
+                <!-- Dummy division voor de uitlijning-->
+            </div>
+            <div style="height: 120px;">
+                <div class="flexRow">
+                    <label for="tijdsduur">Tijdsduur: </label>
+                    <input id="inputTijdsduur" type="text">
+                </div>
+                <div class="flexRow">
+                    <label for="MaxCapaciteit">Max. Capaciteit: </label>
+                    <input id="inputCapaciteit" type="text">
+                </div>
+                <div class="flexRow">
+                    <label for="Categorie">Categorie: </label>
+                    <input id="inputCategorie" type="text">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
