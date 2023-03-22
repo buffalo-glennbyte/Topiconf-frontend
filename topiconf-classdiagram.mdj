@@ -693,7 +693,7 @@
 											"top": 550,
 											"width": 242.51220703125,
 											"height": 13,
-											"text": "+Spreker: Spreker",
+											"text": "+sprekerLijst: List<Spreker>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2774,16 +2774,16 @@
 										"$ref": "AAAAAAGGgxi9KU1Yj8o="
 									},
 									"font": "Arial;13;0",
-									"left": 781,
+									"left": 775,
 									"top": 452,
-									"width": 7.22998046875,
+									"width": 19.5126953125,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
 									"hostEdge": {
 										"$ref": "AAAAAAGGgxi9KU1a2/o="
 									},
-									"text": "1"
+									"text": "1..*"
 								},
 								{
 									"_type": "UMLQualifierCompartmentView",
@@ -5864,7 +5864,7 @@
 									"$ref": "AAAAAAGGgwp9mQK+W3M="
 								},
 								"aggregation": "shared",
-								"multiplicity": "1"
+								"multiplicity": "1..*"
 							}
 						}
 					],
@@ -5875,10 +5875,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGGgwAKaNwtBoY="
 							},
-							"name": "Spreker",
-							"type": {
-								"$ref": "AAAAAAGGgwp9mQK+W3M="
-							}
+							"name": "sprekerLijst",
+							"type": "List<Spreker>"
 						},
 						{
 							"_type": "UMLAttribute",

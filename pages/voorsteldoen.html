@@ -17,25 +17,7 @@
      // @const people       holds all data from @method fetch
      // @let isValid        is true when program dont find any duplicates in database, and false otherwise
 
-      function checkingIfeMailExist(){
-        const eMailInput = document.querySelector("#emailInput").value;
-       fetch(`http://localhost:8082/persoon/geefAllePersonen`)
-        .then((response)=> response.json())
-        .then((data)=>{
-
-          const [...people]= data;
-          console.log(data);
-          let isValid = true;
-
-          people.forEach(person => {
-            isValid = (person.email === eMailInput ? false: true);
-            if(!isValid) return;
-          })
-
-          if(isValid) addVoorstel();
-          else alert("This e mail already exist");
-        })
-      };
+    const backendURL = "http://localhost:8082";
 
       let huidigEvenement;
       window.onload = function () {
@@ -56,6 +38,12 @@
         document.getElementById("emailInput").value = "";
         document.getElementById("samenInput").value = "";
       };
+
+      function maakVoorstelEnUser(){
+        addVoorstel();
+        createNewUser();
+        clearValue();
+      }
 
       async function addVoorstel() {
         const name = document.getElementById("nameInput").value;
@@ -85,13 +73,41 @@
             }
           ).then((response) => alert("Voorstel is succesvol verstuurd"));
           console.log(JSON.stringify(request));
-          clearValue();
           location.href=`index.html?e=${encodeURI(huidigEvenement.naam)}`;
         }
       }
 
       function terugNaarIndex() {
         window.location.href = `index.html?e=${encodeURI(huidigEvenement.naam)}`;
+      }
+
+      function createNewUser(){
+        let newUser = {};
+        let emailObject = {};
+        newUser.username = document.getElementById("emailInput").value;
+
+        fetch(`${backendURL}/user/createNewUser`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newUser)
+        })
+        .then((response)=> response.text())
+        .then((data) => {
+          emailObject.recipient = newUser.username;
+          emailObject.subject = "Welkom bij Call for Presentations";
+          emailObject.msgBody = `Bedankt voor je aanmelding! Voor nu heb je een automatisch gegenereerd wachtwoord gekregen. Log <a href>hier</a> in met je inloggegevens en kies een nieuw wachtwoord.\n 
+            Gebruikersnaam: ${newUser.username}\n
+            Wachtwoord: ` + data;
+          fetch(`${backendURL}/email/emailVersturen`, {
+            method: "POST",
+            headers: {
+              "Content-Type" : "application/json"
+            }, 
+            body: JSON.stringify(emailObject)
+          })
+        })
       }
 
     </script>
@@ -221,7 +237,7 @@
           required
         />
         <p class="bottomtext">*maximaal 140 karakters</p>
-        <button onclick="checkingIfeMailExist()" class="voorstel-wrapper-btn submit">Verstuur</button>
+        <button onclick="maakVoorstelEnUser()" class="voorstel-wrapper-btn submit">Verstuur</button>
         <button class="voorstel-wrapper-btn"  onclick="terugNaarIndex()">Terug</button>
       </div>
     </main>
