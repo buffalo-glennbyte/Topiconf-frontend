@@ -36,8 +36,81 @@
             border-radius: 10px;
             background-color: rgb(6, 228, 17, .7);
         }
+        #innerTable-modal {
+            display: none; 
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            width: 20%;
+            height: 20%;
+            box-shadow: 0 0 20px 0 #999;
+            border-radius: 5px;
+        }
+        .ptoevoegen {
+            margin: 0% auto;
+            border-radius: none;
+            width: 97.7%;
+            height: 95.5%;
+        }
+        .asidewrapper-btns-btn {
+            padding: 8px;
+            margin-right: 15px;
+            display: inline-block;
+            background-color: rgb(43, 82, 155);
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+        .annuleren{
+            background-color: white;
+            color: black;
+            border: 1px solid gray;
+        }
+        #modal-content-text {
+            height: 100%;
+        }
+        .modalwrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap:20px;
+            text-align: left;
+        }
+        .modalwrapper-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
-
+    <script 
+        src="https://kit.fontawesome.com/bdf882e752.js"
+        crossorigin="anonymous"
+    ></script>
     <script>
 
             function gebruikerKrijgen(){
@@ -113,6 +186,44 @@
         {
             window.open(`voorstelEdit.html?v=${id}`)
         }
+        function openModal(id, type) {
+            const modal = document.getElementById("innerTable-modal");
+            modal.style.display = "block";
+            const element = document.getElementById("modal-content-text");
+            let htmlString ="";
+            if (type == "profiel") {
+                document.querySelector(".modal-content").classList.add("ptoevoegen");
+            htmlString += `
+            <div class="modalwrapper">
+                <h1>Account instellingen</h1>
+                    <label for=voornaam>Voornaam:</label>
+                    <input id="persoonNaam" name="voornaam">
+                    <label for=achternaam>Achternaam:</label>
+                    <input id="persoonAchternaam" name="achternaam">
+                    <label for=email>Email:</label>
+                    <input id="persoonEmail" name="email">
+                    <label for=wachtwoord>Wachtwoord:</label>
+                    <input id="persoonWachtwoord" name="wachtwoord">
+                    <div class="modalwrapper-btn">
+                        <button class="asidewrapper-btns-btn annuleren" onclick="sluitModal()">Annuleren</button>
+                        <button id="submit" class="asidewrapper-btns-btn" onclick="">Aanpassen</button>
+                    </div>
+            </div>`
+            } else {
+                htmlString += "default"
+            }
+            element.innerHTML = htmlString;
+        }
+        function sluitModal() {
+            const modal = document.getElementById("innerTable-modal");
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            const modal = document.getElementById("innerTable-modal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
     </script>
 
@@ -122,10 +233,16 @@
         <img src="../images/TopicusLogo.png" class="hdr-img">
         <div class="hdr-btns">
             <p class="hdr-btns-text">Je bent ingelogd als: <span class="user-name"></span></p>
-            <button class="hdr-btns-btn">Profiel</button>
+            <button class="hdr-btns-btn" onclick="openModal(-1,'profiel')"><i class="fa-sharp fa-solid fa-gear fa-lg"></i></button>
             <button class="hdr-btns-btn" onclick="uitloggen()" >Uitloggen</button>
         </div>
     </header>
     <div id="voorstelTabel"></div>
+    <div id="innerTable-modal">
+        <div class="modal-content">
+            <span class="close" onclick="sluitModal()">&times;</span>
+            <div id="modal-content-text"></div>
+          </div>
+    </div>
 </body>
 </html>

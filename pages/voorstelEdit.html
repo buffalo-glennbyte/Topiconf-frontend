@@ -215,6 +215,9 @@
             .then(()=> laadGeselecteerdVoorstel(huidigVoorstelId))
             alert("Voorstel is geupdatet.")
         }
+        function uitloggen() {
+            window.location.href = `index.html?e=${encodeURI(huidigEvenement.naam)}`;
+        }
     </script>
 
 </head>
@@ -225,7 +228,7 @@
         <div class="hdr-btns">
             <p class="hdr-btns-text">Je bent ingelogd als: <span class="user-name"></span></p>
             <button class="hdr-btns-btn" >Profiel</button>
-            <button class="hdr-btns-btn">Uitloggen</button>
+            <button class="hdr-btns-btn" onclick="uitloggen()">Uitloggen</button>
         </div>
     </header>
 
