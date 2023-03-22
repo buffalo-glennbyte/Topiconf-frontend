@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mijn Voorstel Edit</title>
+    <title>Voorstel Aanpassen</title>
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/style.css">
 
@@ -13,39 +13,39 @@
             display: flex;
             justify-content: space-evenly;
         }
-    .grid-container {
-      display: grid;
-      grid-template-columns: auto auto auto;
-      width: 80%;
-      margin-left: auto;
-      margin-right: auto;
-      gap: 10px;
-      padding: 10px;
-    }
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            gap: 10px;
+            padding: 10px;
+        }
     
-    .grid-container > div {
-      background-color: rgba(255, 255, 255, 0.8);
-    }
+        .grid-container > div {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
 
-    table, th, td {
-        border: none;
-    }
+        table, th, td {
+            border: none;
+        }
 
-    .flexRow {
-        display: flex;
-        flex-direction: row;
-        margin: 5px;
-    }
+        .flexRow {
+            display: flex;
+            flex-direction: row;
+            margin: 5px;
+        }
 
-    td {
-        display: flex;
-        flex-direction: row;
-    }
+        td {
+            display: flex;
+            flex-direction: row;
+        }
 
-    label {
-        width: 6.3em;
-        font-size: larger;
-    }
+        label {
+            width: 6.3em;
+            font-size: larger;
+        }
     </style>
 
     <script>
@@ -91,6 +91,49 @@
                 })        
         }
 
+<<<<<<< HEAD
+        var voorstelID;
+        window.onload = function () {
+        this.voorstelID = window.location.href.split("=").pop();
+        var response = fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${voorstelID}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            document.getElementById("inputEmail").value = data.eMail;
+            document.getElementById("inputOnderwerp").value = data.onderwerp;
+            document.getElementById("inputSamenvatting").value = data.samenvatting;
+            document.getElementById("inputVoornaam").value = data.voornaam;
+            document.getElementById("inputAchternaam").value = data.achternaam;
+            document.getElementById("inputEmailNieuweSpreker").value = data.eMail;
+            document.getElementById("statusTegel").value = data.status;
+            document.getElementById("inputTijdsduur").value = data.tijdsduur;
+            document.getElementById("inputCapaciteit").value = data.maximaleCapaciteit;
+            document.getElementById("inputCategorie").value = data.categorie;
+          });
+      };
+
+      function slaWijzigingenInVoorstelOpOud() {
+            var xhr = new XMLHttpRequest();
+            var geupdateVoorstel = {};
+            geupdateVoorstel.id = voorstelID;
+            geupdateVoorstel.voornaam = document.getElementById("inputVoornaam").value;
+            geupdateVoorstel.achternaam = document.getElementById("inputAchternaam").value;
+            geupdateVoorstel.eMail = document.getElementById("inputEmail").value;
+            geupdateVoorstel.onderwerp = document.getElementById("inputOnderwerp").value;
+            geupdateVoorstel.samenvatting = document.getElementById("inputSamenvatting").value;
+            geupdateVoorstel.status = document.getElementById("statusTegel").value;
+            geupdateVoorstel.tijdsduur = document.getElementById("inputTijdsduur").value;
+            geupdateVoorstel.maximaleCapaciteit = document.getElementById("inputCapaciteit").value;
+            geupdateVoorstel.categorie = document.getElementById("inputCategorie").value;
+
+            JSONstatement = JSON.stringify(geupdateVoorstel);      
+            console.log(JSONstatement);         
+            xhr.open("PUT", "http://localhost:8082/voorstel/updateVoorstel/", true);          
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSONstatement);
+      }
+        const laadGeselecteerdVoorstel = function(voorstelid){
+=======
         const genereerBenodigdhedenHTML = function(){
             welGeselecteerdHTMLString = "";
             nietGeselecteerdHTMLString = "";
@@ -132,6 +175,7 @@
         }
 
         const laadGeselecteerdVoorstel = function(){
+>>>>>>> master
             fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${huidigVoorstelId}`)
                 .then((request)=> request.text())
                 .then((data)=> geselecteerdVoorstel = JSON.parse(data))
