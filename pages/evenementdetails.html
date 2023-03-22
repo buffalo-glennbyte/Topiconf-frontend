@@ -64,20 +64,26 @@
 
         // pakt de 'id' uit de URL
         let huidigEvenement;
+        let organisatorData;
         window.onload = function(){
             var evenementId = window.location.href.split('=').pop();
-            fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
-            huidigEvenement = data;
-            },
-            fetch(`http://localhost:8082/evenement/geefOrganisatorsPerEvenementId/${evenementId}`).then((response) => response.json()).then((data) =>
-            {
-                huidigEvenement += data;
-            }),
-
+            
+            fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`)
+            .then((response)=>response.json())
+            .then((data)=>
+            { 
+                huidigEvenement = data;
+            }
             // gebruikerKrijgen(),
-            toonEvenementenDetails()
+            )
 
-        )}
+            fetch(`http://localhost:8082/organisator/geefOrganisatorsPerEvenementId/${evenementId}`).then((response) => response.json()).then((data) =>
+            {
+                organisatorData + data;
+                console.log(data);
+                toonEvenementenDetails()
+            })
+        }
 
         function uitloggen() {
             window.location.href = `index.html?e=${encodeURI(huidigEvenement.naam)}`;
@@ -88,7 +94,7 @@
         }
         
         function toonEvenementenDetails() {
-            console.log(huidigEvenement);
+            console.log(organisatorData);
 
 
             document.getElementById("naam-Van-Evenement").innerHTML = `<i>${huidigEvenement.naam}</i>`;
@@ -98,9 +104,9 @@
 
             // Laat alle categorien zien in een lijst
             var categorieLijst = "<ul>";
-                for(var x = 0; x < huidigEvenement.categorieLijst.length; x++)
+                for(var x = 0; x < organisatorData.length; x++)
                 {
-                    categorieLijst += `<li>${huidigEvenement.categorieLijst[x].name}</li>`;
+                    categorieLijst += `<li>${organisatorData[x].voornaam}</li>`;
                 }
 
             categorieLijst += "</ul>"
