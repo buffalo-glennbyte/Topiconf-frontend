@@ -123,7 +123,6 @@
             cursor:pointer;
             color: var(--secondary-color);
             border: none;
-            /* border-bottom: 3px solid #C9C6D1; */
             transition: all 300ms;
         }
         .btn-active{
@@ -235,6 +234,11 @@
         .delete{
             background-color: #f20202;
         }
+        .annuleren{
+            background-color: white;
+            color: black;
+            border: 1px solid gray;
+        }
         .unmarked {
             background-color: gray;
         }
@@ -287,12 +291,30 @@
         }
         .modal-content {
             background-color: #fefefe;
-            margin: 10% auto;
+            margin: 15% auto;
             padding: 20px;
-            width: 80%;
-            height: 60%;
+            width: 20%;
+            height: 20%;
             box-shadow: 0 0 20px 0 #999;
             border-radius: 5px;
+        }
+        .ltoevoegen {
+            margin: 5% auto;
+            width: 80%;
+            height: 80%;
+        }
+        .ctoevoegen {
+            width: 20%;
+            height: 30%;
+        }
+        .ptoevoegen {
+            margin: 0% auto;
+            border-radius: none;
+            width: 100%;
+            height: 100%;
+        }
+        #modal-content-text {
+            height: 100%;
         }
         .modalwrapper {
             display: flex;
@@ -300,6 +322,13 @@
             align-items: center;
             justify-content: center;
             height: 100%;
+            gap:20px;
+            text-align: left;
+        }
+        .modalwrapper-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .close {
             color: #aaa;
@@ -307,7 +336,6 @@
             font-size: 28px;
             font-weight: bold;
         }
-
         .close:hover,
         .close:focus {
             color: black;
@@ -358,11 +386,11 @@
                 if(this.readyState == 4){
                     var allCategoriesPerEvent = JSON.parse(this.responseText);
                     HTMLString = "<table>";
-                    HTMLString += "<tr><th>Naam</th><th>Omschrijving</th><th><button class='datarow-btn' onclick='openModal("+'"categorieType"'+")'>Aanmaken <span class='fa-sharp fa-solid fa-plus'></span></button></th></tr>"
+                    HTMLString += "<tr><th>Naam</th><th>Omschrijving</th><th><button class='datarow-btn' onclick='openModal("+ -1 + ","+'"categorieType"'+")'>Aanmaken <span class='fa-sharp fa-solid fa-plus'></span></button></th></tr>"
                     for(var i = 0; i < allCategoriesPerEvent.length; i++){
                         HTMLString += "<tr><td>" + allCategoriesPerEvent[i].name + "</td>";
                         HTMLString += "<td>" + allCategoriesPerEvent[i].description + "</td>";
-                        HTMLString += "<td><div class='btn-wrapper'><span class='fa-solid fa-trash fa-lg' onclick='verwijderCategorie("+allCategoriesPerEvent[i].id+")'></span><span class='fa-sharp fa-solid fa-pen fa-lg' onclick='openModal("+'"categorieEditType"'+")'></span><span class='fa-sharp fa-solid fa-right-to-bracket fa-lg' onclick='openModal("+'"categorieOpenType"'+")'></span></div></td></tr>"
+                        HTMLString += "<td><div class='btn-wrapper'><span class='fa-solid fa-trash fa-lg' onclick='openModal("+ allCategoriesPerEvent[i].id + "," +'"deleteCategorie"'+")'></span><span class='fa-sharp fa-solid fa-pen fa-lg' onclick='openModal("+ allCategoriesPerEvent[i].id + ","+'"categorieEditType"'+")'></span><span class='fa-sharp fa-solid fa-right-to-bracket fa-lg' onclick='openModal("+ allCategoriesPerEvent[i].id + ","+'"categorieOpenType"'+")'></span></div></td></tr>"
                     }                   
                     HTMLString += "</table>";
                     document.getElementById("innerTable").innerHTML = HTMLString;     
@@ -384,7 +412,7 @@
                 if(this.readyState == 4){
                     var allLocationsPerEvent = JSON.parse(this.responseText);
                     HTMLString = "<table>";
-                    HTMLString += "<tr><th>Naam</th><th>Capaciteit</th><th>Omschrijving</th><th>Faciliteiten</th><th>Details</th><th><button class='datarow-btn' onclick='openModal("+'"locatieType"'+")'>Aanmaken <span class='fa-sharp fa-solid fa-plus'></span></button></th></tr>"
+                    HTMLString += "<tr><th>Naam</th><th>Capaciteit</th><th>Omschrijving</th><th>Faciliteiten</th><th>Details</th><th><button class='datarow-btn' onclick='openModal("+ -1 + ","+'"locatieType"'+")'>Aanmaken <span class='fa-sharp fa-solid fa-plus'></span></button></th></tr>"
                     for(var i = 0; i < allLocationsPerEvent.length; i++){
                         HTMLString += "<tr><td>" + allLocationsPerEvent[i].name + "</td>";
                         HTMLString += "<td>" + allLocationsPerEvent[i].capacity + "</td>";
@@ -392,7 +420,7 @@
                         HTMLString += "<td>" + allLocationsPerEvent[i].faciliteiten + "</td>"
                         HTMLString += "<td>" + allLocationsPerEvent[i].details + "</td>"
                         
-                        HTMLString += "<td><div class='btn-wrapper'><span class='fa-solid fa-trash fa-lg' onclick='verwijderCategorie("+allLocationsPerEvent[i].id+")'></span><span class='fa-sharp fa-solid fa-right-to-bracket fa-lg' onclick='openModal("+'"locatieOpenType"'+")'></span></div></td></tr>"
+                        HTMLString += "<td><div class='btn-wrapper'><span class='fa-solid fa-trash fa-lg' onclick='openModal("+ allLocationsPerEvent[i].id + "," +'"deleteLocatie"'+")'></span><span class='fa-sharp fa-solid fa-right-to-bracket fa-lg' onclick='openModal("+ allLocationsPerEvent[i].id + "," +'"locatieOpenType"'+")'></span></div></td></tr>"
                     }                   
                     HTMLString += "</table>";
                     document.getElementById("innerTable").innerHTML = HTMLString;    
@@ -407,11 +435,14 @@
             var toetevoegenCategorie = {};
             toetevoegenCategorie.name = document.getElementById("categorieNaam").value;
             toetevoegenCategorie.description = document.getElementById("categorieOmschrijving").value;
-            JSONstatement = JSON.stringify(toetevoegenCategorie);      
-            console.log(JSONstatement);         
+            JSONstatement = JSON.stringify(toetevoegenCategorie);             
             xhr.open("POST", "http://localhost:8082/evenement/voegCategorieAanEvenementToe/" + id, true);          
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSONstatement);
+            alert("Categorie succesvol toegevoegd.");
+            document.getElementById("categorieNaam").value = "";
+            document.getElementById("categorieOmschrijving").value = "";
+            toonCategoriePerEvenement();
         }
 
         function voegLocatieToeAanEvenement(id){
@@ -420,23 +451,29 @@
             toetevoegenLocatie.name = document.getElementById("locatieNaam").value;
             toetevoegenLocatie.description = document.getElementById("locatieOmschrijving").value;
             toetevoegenLocatie.capacity = document.getElementById("locatieCapaciteit").value;
-            JSONstatement = JSON.stringify(toetevoegenLocatie);      
-            console.log(JSONstatement);         
+            JSONstatement = JSON.stringify(toetevoegenLocatie);              
             xhr.open("POST", "http://localhost:8082/evenement/voegLocatieAanEvenementToe/" + id, true);          
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSONstatement);
+            alert("Locatie succesvol toegevoegd.");
+            document.getElementById("locatieNaam").value = "";
+            document.getElementById("locatieOmschrijving").value = "";
+            document.getElementById("locatieCapaciteit").value = "";
+            toonLocatiesPerEvenement();
         }
 
         function verwijderCategorie(id){
             var xhr = new XMLHttpRequest();
             xhr.open("DELETE", "http://localhost:8082/categorie/verwijderCategorie/" + id, true);
             xhr.send();
+            toonCategoriePerEvenement();
         }
 
         function verwijderLocatie(id){
             var xhr = new XMLHttpRequest();
             xhr.open("DELETE", "http://localhost:8082/locatie/verwijderLocatie/" + id, true);
             xhr.send();
+            toonLocatiesPerEvenement();
         }
 
         // this function celect all request elements with class "changed"
@@ -491,12 +528,15 @@
         function addListenersToActionButtons(){
             document.querySelectorAll(".actionBtn").forEach((btn)=>btn.addEventListener("click", function(e){
                 const target = e.target;
-                const action = target.dataset.action;
+                let action = target.dataset.action;
                 const parent = target.closest('.request');
                 const name = document.querySelector(".name").textContent;
                 const surname = document.querySelector(".surname").textContent;
                 const topic = document.querySelector(".topic").textContent;
                 const email = document.querySelector(".email").textContent;
+                if(!(target.classList.contains("actionBtn"))){
+                    action = target.closest(".actionBtn").dataset.action;
+                }
                 parent.classList.add(action);
                 
                 fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${parent.dataset.id}`).then((element)=>element.json()).then((obj)=>{
@@ -587,10 +627,10 @@
                         <div class="data "><span class="topic"> ${data.samenvatting}</span></div>
                         <div class="data "><a class="email" href="mailto:${data.eMail}">${data.eMail}</a></div>
                         <div class="buttons">
-                           <button class="actionBtn green" data-action="voorlopigGeaccepteerd"><i class="fa-sharp fa-solid fa-check fa-xl"></i></button>
-                           <button class="actionBtn yellow" data-action="inBehandeling"><i class="fa-sharp fa-solid fa-flag fa-xl"></i></button>
-                           <button class="actionBtn delete" data-action="afgewezen"><i class="fa-sharp fa-solid fa-xmark fa-xl"></i></button>
-                           <button class="actionBtn" onclick=""><i class="fa-sharp fa-solid fa-pen fa-xl"></i></button>
+                           <button class="actionBtn green" data-action="voorlopigGeaccepteerd"><span class="fa-sharp fa-solid fa-check fa-xl"></span></button>
+                           <button class="actionBtn yellow" data-action="inBehandeling"><span class="fa-sharp fa-solid fa-flag fa-xl"></span></button>
+                           <button class="actionBtn delete" data-action="afgewezen"><span class="fa-sharp fa-solid fa-xmark fa-xl"></span></button>
+                           <button class="actionBtn" onclick=""><span class="fa-sharp fa-solid fa-pen fa-xl"></span></button>
                            
                            ${data.status==="voorlopigGeaccepteerd" ? "<button class='actionBtn' data-action ='definitief'>Definitief maken</button>":""}
                         </div>
@@ -622,44 +662,62 @@
                 gewijzigdeAanvragenVrplaatsen();
             });
         }
-        function openModal(type) {
+        function openModal(id, type) {
             const modal = document.getElementById("innerTable-modal");
             modal.style.display = "block";
             const element = document.getElementById("modal-content-text");
             let htmlString ="";
             if (type == "categorieType") {
+                document.querySelector(".modal-content").classList.remove("ltoevoegen");
+                document.querySelector(".modal-content").classList.remove("ptoevoegen");
+                document.querySelector(".modal-content").classList.add("ctoevoegen");
             htmlString += `
              <div class="modalwrapper">
-                <h4>Categorie toevoegen</h4>
+                <h1>Categorie toevoegen</h1>
                 <label for=naam>Naam categorie:</label>
                 <input id="categorieNaam" name="naam">
                 <label for=omschrijving>Omschrijving:</label>
-                <input id="categorieOmschrijving name="omschrijving">
-                <button class="asidewrapper-btns-btn" onclick="voegCategorieToeAanEvenement(${huidigEvenement.id})">Toevoegen</button>
+                <input id="categorieOmschrijving" name="omschrijving">
+                <div class="modalwrapper-btn">
+                    <button class="asidewrapper-btns-btn annuleren" onclick="sluitModal()">Annuleren</button>
+                    <button class="asidewrapper-btns-btn" onclick="voegCategorieToeAanEvenement(${huidigEvenement.id})">Toevoegen</button>
+                </div>
             </div>`
             } else if (type == "categorieOpenType") {
+                document.querySelector(".modal-content").classList.remove("ltoevoegen");
+                document.querySelector(".modal-content").classList.remove("ptoevoegen");
+                document.querySelector(".modal-content").classList.add("ctoevoegen");
             htmlString += `
              <div class="modalwrapper">
-                <h4>Categorie Aanpassen</h4>
+                <h1>Categorie Bekijken</h1>
                 <label for=naam>Naam categorie:</label>
                 <input id="categorieNaam" name="naam">
                 <label for=omschrijving>Omschrijving:</label>
                 <input id="categorieOmschrijving name="omschrijving">
             </div>`
             } else if (type == "categorieEditType") {
+                document.querySelector(".modal-content").classList.remove("ltoevoegen");
+                document.querySelector(".modal-content").classList.remove("ptoevoegen");
+                document.querySelector(".modal-content").classList.add("ctoevoegen");
             htmlString += `
              <div class="modalwrapper">
-                <h4>Categorie Aanpassen</h4>
+                <h1>Categorie Aanpassen</h1>
                 <label for=naam>Naam categorie:</label>
                 <input id="categorieNaam" name="naam">
                 <label for=omschrijving>Omschrijving:</label>
                 <input id="categorieOmschrijving name="omschrijving">
-                <button class="asidewrapper-btns-btn" onclick="alert('De categorie aanpassen niet gelukt"}">Aanpassen</button>
+                <div class="modalwrapper-btn">
+                    <button class="asidewrapper-btns-btn annuleren" onclick="sluitModal()">Annuleren</button>
+                    <button class="asidewrapper-btns-btn" onclick="">Aanpassen</button>
+                </div>
             </div>`
             } else if (type == "locatieType") {
+                document.querySelector(".modal-content").classList.remove("ctoevoegen");
+                document.querySelector(".modal-content").classList.remove("ptoevoegen");
+                document.querySelector(".modal-content").classList.add("ltoevoegen");
             htmlString += `
             <div class="modalwrapper">
-                <h4>Locatie toevoegen</h4>
+                <h1>Locatie toevoegen</h1>
                 <label for=naam>Naam:</label>
                 <input id="locatieNaam" name="naam">
                 <label for=capaciteit>Capaciteit:</label>
@@ -673,9 +731,12 @@
                 <button class="asidewrapper-btns-btn" onclick="voegLocatieToeAanEvenement(${huidigEvenement.id})">Toevoegen</button>
             </div>`
             } else if (type == "locatieOpenType") {
+                document.querySelector(".modal-content").classList.remove("ctoevoegen");
+                document.querySelector(".modal-content").classList.remove("ptoevoegen");
+                document.querySelector(".modal-content").classList.add("ltoevoegen");
             htmlString += `
             <div class="modalwrapper">
-                <h4>Locatie toevoegen</h4>
+                <h1>Locatie toevoegen</h1>
                 <label for=naam>Naam:</label>
                 <input id="locatieNaam" name="naam">
                 <label for=capaciteit>Capaciteit:</label>
@@ -687,15 +748,37 @@
                 <label for=details>Details:</label>
                 <input id="locatieDetails" name="details">
             </div>`
-            } else if (type == "delete") {
+            } else if (type == "deleteLocatie") {
+                document.querySelector(".modal-content").classList.remove("ltoevoegen");
+                document.querySelector(".modal-content").classList.remove("ptoevoegen");
+                document.querySelector(".modal-content").classList.add("ctoevoegen");
             htmlString += `
             <div class="modalwrapper">
-                <h1>Verwijderen</h1>
-                <button id="submit" class="inlog-wrapper-btn submit" onclick="">Verwijderen</button>
-                <button class="inlog-wrapper-btn" onclick="sluitModal()">Annuleren</button>
+                <h1>Locatie verwijderen</h1>
+                <p>Weet je zeker dat je deze locatie wil verwijderen?</p>
+                <div class="modalwrapper-btn">        
+                    <button class="asidewrapper-btns-btn annuleren" onclick="sluitModal()">Annuleren</button>
+                    <button id="submit" class="asidewrapper-btns-btn delete" onclick="verwijderLocatie(${id})">Bevestigen</button>
+                </div>
+            </div>`
+            } else if (type == "deleteCategorie") {
+                document.querySelector(".modal-content").classList.remove("ltoevoegen");
+                document.querySelector(".modal-content").classList.remove("ptoevoegen");
+                document.querySelector(".modal-content").classList.add("ctoevoegen");
+            htmlString += `
+            <div class="modalwrapper">
+                <h1>Categorie verwijderen</h1>
+                <p>Weet je zeker dat je deze categorie wil verwijderen?</p>
+                <div class="modalwrapper-btn">                
+                    <button class="asidewrapper-btns-btn annuleren" onclick="sluitModal()">Annuleren</button>
+                    <button id="submit" class="asidewrapper-btns-btn delete" onclick="verwijderCategorie(${id})">Bevestigen</button>
+                </div>
             </div>`
             } 
             else if (type == "profiel") {
+                document.querySelector(".modal-content").classList.remove("ctoevoegen");
+                document.querySelector(".modal-content").classList.remove("ltoevoegen");
+                document.querySelector(".modal-content").classList.add("ptoevoegen");
             htmlString += `
             <div class="modalwrapper">
                 <h1>Account instellingen</h1>
@@ -707,8 +790,10 @@
                     <input id="persoonEmail" name="email">
                     <label for=wachtwoord>Wachtwoord:</label>
                     <input id="persoonWachtwoord" name="wachtwoord">
-                    <button id="submit" class="inlog-wrapper-btn submit" onclick="">Aanpassen</button>
-                    <button class="inlog-wrapper-btn" onclick="sluitModal()">Annuleren</button>
+                    <div class="modalwrapper-btn">
+                        <button class="asidewrapper-btns-btn annuleren" onclick="sluitModal()">Annuleren</button>
+                        <button id="submit" class="asidewrapper-btns-btn" onclick="">Aanpassen</button>
+                    </div>
             </div>`
             } else {
                 htmlString += "default"
@@ -725,7 +810,6 @@
                 modal.style.display = "none";
             }
         }
-
         function uitloggen() {
             window.location.href = `index.html?e=${encodeURI(huidigEvenement.naam)}`;
         }
@@ -749,7 +833,7 @@
     <aside class="asidewrapper">
         <div class="asidewrapper-btns">
             <p class="asidewrapper-btns-text">Je bent ingelogd als: XYZ</p>
-            <button class="asidewrapper-btns-btn" onclick="openModal('profiel')"><i class="fa-sharp fa-solid fa-gear fa-lg"></i></button>
+            <button class="asidewrapper-btns-btn" onclick="openModal(-1,'profiel')"><i class="fa-sharp fa-solid fa-gear fa-lg"></i></button>
             <button class="asidewrapper-btns-btn" onclick="uitloggen()" >Uitloggen</button>
         </div>
     </aside>
