@@ -333,7 +333,6 @@
             var evenementId = window.location.href.split('=').pop();
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
             huidigEvenement = data;
-            console.log(huidigEvenement);
             refresh();
         })}
         
@@ -655,7 +654,7 @@
                 <input id="categorieNaam" name="naam">
                 <label for=omschrijving>Omschrijving:</label>
                 <input id="categorieOmschrijving name="omschrijving">
-                <button class="asidewrapper-btns-btn" onclick="${() => {alert('De categorie aanpassen niet gelukt')}}">Aanpassen</button>
+                <button class="asidewrapper-btns-btn" onclick="alert('De categorie aanpassen niet gelukt"}">Aanpassen</button>
             </div>`
             } else if (type == "locatieType") {
             htmlString += `
