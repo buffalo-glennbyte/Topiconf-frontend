@@ -62,13 +62,44 @@
             gebruikerKrijgen();
             toonEvenementen();
         }
+        
 
         function uitloggen() {
             window.location.href = `index.html?e=${encodeURI(huidigEvenementNaam)}`;
         }
 
+        function toonEvenementen() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("Aanvragen opgehaald");
+                    var evenementen = JSON.parse(this.responseText);
+                    var HTMLString = "<table id='tbl-main'>"
+                        + "<tr><th>Naam</th>"
+                        + "<th>Omschrijving</th>"
+                        + "<th>Datum</th>"
+                        + "<th><button id='btn-aanmaken' onclick='evenementAanmaken()'>Evenement Aanmaken</button></th></tr>"
+                        for(var x = 0; x < evenementen.length; x++){
+                            HTMLString += "<tr class='row'><td>" + evenementen[x].naam +"</td>";
+                            HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
+                            HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
+                                + "</br>"
+                                + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
+                            HTMLString += "<td><input type='button' value='Verwijder' style='margin-right: 20px;'></input><button>Organisator Toevoegen/Verwijderen</button></td></tr>";
+                            evenementenID.set(evenementen[x].id, evenementen[x].naam);
+                        }
+                    HTMLString += "</table>";
+                    document.getElementById("alleEvenementenTabel").innerHTML = HTMLString;
+                }
+
+            }
+            xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true)
+            xhr.send();
+
+        }
+
         function RijenOpKlikken()
-        { 
+        {
             const tableRows = document.querySelectorAll(".row");
             tableRows.forEach(function(element) 
             {
@@ -106,38 +137,7 @@
                 });
             });
         } 
-
         
-        function toonEvenementen() {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function(){
-                if(this.readyState == 4){
-                    console.log("Aanvragen opgehaald");
-                    var evenementen = JSON.parse(this.responseText);
-                    var HTMLString = "<table id='tbl-main'>"
-                        + "<tr><th>Naam</th>"
-                        + "<th>Omschrijving</th>"
-                        + "<th>Datum</th>"
-                        + "<th><button id='btn-aanmaken' onclick='evenementAanmaken()'>Evenement Aanmaken</button></th></tr>"
-                        for(var x = 0; x < evenementen.length; x++){
-                            HTMLString += "<tr class='row'><td>" + evenementen[x].naam +"</td>";
-                            HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
-                            HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
-                                + "</br>"
-                                + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
-                            HTMLString += "<td><input type='button' value='Verwijder' style='margin-right: 20px;'></input><button>Organisator Toevoegen/Verwijderen</button></td></tr>";
-                            evenementenID.set(evenementen[x].id, evenementen[x].naam);
-                        }
-                    HTMLString += "</table>";
-                    document.getElementById("alleEvenementenTabel").innerHTML = HTMLString;
-                }
-
-            }
-            xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true)
-            xhr.send();
-
-        }
-
 
         function evenementAanmaken()
         {
