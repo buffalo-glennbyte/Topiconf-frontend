@@ -91,7 +91,6 @@
                 })        
         }
 
-<<<<<<< HEAD
         var voorstelID;
         window.onload = function () {
         this.voorstelID = window.location.href.split("=").pop();
@@ -132,8 +131,7 @@
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSONstatement);
       }
-        const laadGeselecteerdVoorstel = function(voorstelid){
-=======
+
         const genereerBenodigdhedenHTML = function(){
             welGeselecteerdHTMLString = "";
             nietGeselecteerdHTMLString = "";
@@ -174,8 +172,7 @@
             genereerBenodigdhedenHTML();
         }
 
-        const laadGeselecteerdVoorstel = function(){
->>>>>>> master
+        const laadGeselecteerdVoorstel = function(huidigVoorstelId){
             fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${huidigVoorstelId}`)
                 .then((request)=> request.text())
                 .then((data)=> geselecteerdVoorstel = JSON.parse(data))
