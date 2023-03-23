@@ -63,12 +63,20 @@
             toonEvenementen();
         }
         
+        // async function wachtenOpEvenement()
+        // {
+        //     await toonEvenementen();
+        //     console.log("Wij wachten op evenementen");
+        //     RijenOpKlikken();
+        // }
+        // wachtenOpEvenement();
 
         function uitloggen() {
             window.location.href = `index.html?e=${encodeURI(huidigEvenementNaam)}`;
         }
 
         function toonEvenementen() {
+            console.log("toon");
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -95,11 +103,11 @@
             }
             xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true)
             xhr.send();
-
         }
 
         function RijenOpKlikken()
         {
+            console.log("rijenklikken");
             const tableRows = document.querySelectorAll(".row");
             tableRows.forEach(function(element) 
             {
