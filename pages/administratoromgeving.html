@@ -48,8 +48,6 @@
         let evenementenID = new Map();
         let huidigEvenementNaam;
 
-        setTimeout(RijenOpKlikken, 500);
-
         function gebruikerKrijgen(){
             const customerName = document.querySelector(".user-name");
             fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
@@ -57,18 +55,28 @@
             .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"admin": user.rol==="o"? "organiser": "spreker"}`) 
         }
 
+        setTimeout(RijenOpKlikken, 500);
+
         window.onload = function() {
             var evenement = window.location.hre
             gebruikerKrijgen();
             toonEvenementen();
         }
         
+        // async function wachtenOpEvenement()
+        // {
+        //     await toonEvenementen();
+        //     console.log("Wij wachten op evenementen");
+        //     RijenOpKlikken();
+        // }
+        // wachtenOpEvenement();
 
         function uitloggen() {
             window.location.href = `index.html?e=${encodeURI(huidigEvenementNaam)}`;
         }
 
         function toonEvenementen() {
+            console.log("toon");
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -95,7 +103,6 @@
             }
             xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true)
             xhr.send();
-
         }
 
         function RijenOpKlikken()
@@ -119,6 +126,7 @@
                                 var xhr = new XMLHttpRequest();
                                 xhr.open("DELETE", "http://localhost:8082/evenement/verwijderEvenement/" + key, true);
                                 xhr.send();
+                                alert("Uw evenement is verwijdert.");
                             }
                         }
                     }
@@ -163,10 +171,11 @@
 
         function slaNieuwEvenementOp()
         {
+            let nieuwEvenement = {};
             nieuwEvenement.naam = document.getElementById("organisatorNaam").value;
             nieuwEvenement.omschrijving = document.getElementById("organisatorAchterNaam").value;
-            nieuwEvenement.beginDatumTijd = document.getElementById("").value;
-            nieuwEvenement.eindDatumTijd = document.getElementById("").value;
+            nieuwEvenement.beginDatumTijd = document.getElementById("begin-Datum").value;
+            nieuwEvenement.eindDatumTijd = document.getElementById("eind-Datum").value;
 
             var EvenementJSON = JSON.stringify(nieuwEvenement);
             var xhr = new XMLHttpRequest();
@@ -178,10 +187,13 @@
             xhr.open("POST","http://localhost:8082/evenement/slaEvenementOp", true);
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(EvenementJSON);
-            naamEvenement.value = null;
-            omschrijvingEvenement.value = null;
-            beginDatumTijdEvenement.value = null;
-            eindDatumTijdEvenement.value = null;
+            document.getElementById("naam-Van-Evenement").value = null;
+            document.getElementById("omschrijving-Evenement").value = null;
+            document.getElementById("begin-Datum").value = null;
+            document.getElementById("eind-Datum").value = null;
+            document.getElementById("organisatorNaam").value = null;
+            document.getElementById("organisatorAchterNaam").value = null;
+            document.getElementById("organisatorEmail").value = null;
             alert("Evenement toegevoegd");
         }
 
@@ -303,7 +315,7 @@
                     <br>
                     <br>
         
-                    <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="slaNieuwEvenementOp">Opslaan</button>
+                    <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="slaNieuwEvenementOp()">Opslaan</button>
                     <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="terugNaarOverzicht()">Annuleren</button>
         
                 </div>
