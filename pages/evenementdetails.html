@@ -65,24 +65,28 @@
         // pakt de 'id' uit de URL
         let huidigEvenement;
         let organisatorData;
-        window.onload = function(){
+        window.onload = function()
+        {
             var evenementId = window.location.href.split('=').pop();
+            
+            // gebruikerKrijgen()
             
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`)
             .then((response)=>response.json())
             .then((data)=>
             { 
                 huidigEvenement = data;
-            }
-            // gebruikerKrijgen(),
-            )
-
-            fetch(`http://localhost:8082/organisator/geefOrganisatorsPerEvenementId/${evenementId}`).then((response) => response.json()).then((data) =>
-            {
-                organisatorData + data;
-                console.log(data);
-                toonEvenementenDetails()
             })
+
+            fetch(`http://localhost:8082/organisator/geefOrganisatorsPerEvenementId/${evenementId}`)
+            .then((response) => response.json())
+            .then((data) =>
+            {
+                organisatorData = data;
+                toonEvenementenDetails();
+            })
+
+
         }
 
         function uitloggen() {
@@ -94,9 +98,6 @@
         }
         
         function toonEvenementenDetails() {
-            console.log(organisatorData);
-
-
             document.getElementById("naam-Van-Evenement").innerHTML = `<i>${huidigEvenement.naam}</i>`;
             document.getElementById("omschrijving-Evenement").value = huidigEvenement.omschrijving;
             document.getElementById("begin-Datum").value = huidigEvenement.beginDatumTijd;
@@ -104,9 +105,9 @@
 
             // Laat alle categorien zien in een lijst
             var categorieLijst = "<ul>";
-                for(var x = 0; x < organisatorData.length; x++)
+                for(var x = 0; x < huidigEvenement.categorieLijst.length; x++)
                 {
-                    categorieLijst += `<li>${organisatorData[x].voornaam}</li>`;
+                    categorieLijst += `<li>${huidigEvenement.categorieLijst[x].name}</li>`;
                 }
 
             categorieLijst += "</ul>"
@@ -114,11 +115,11 @@
             // Laat de Naam + Email zien van de organisator die bij dit evenement hoort.
             // de verwijder button er achter is om die organisator te verwijderen van dat evenement.
             var organisatorLijst = "<ul>";
-                for(var x = 0; x < huidigEvenement.voorstelLijst.length; x++)
-                {
-                    organisatorLijst += `<li>${huidigEvenement.voorstelLijst[x].voornaam} : ${huidigEvenement.voorstelLijst[x].eMail} `
-                        + ` <button onclick='verwijderOrganisator(${huidigEvenement.id},${huidigEvenement.voorstelLijst[x].id})''>Verwijder</button></li>`
-                }
+            for(var x = 0; x < organisatorData.length; x++)
+            {
+                organisatorLijst += `<li>${organisatorData[0].voornaam} : ${organisatorData[0].email} `
+                    + ` <button onclick='verwijderOrganisator(${huidigEvenement.id},${organisatorData.id})''>Verwijder</button></li>`
+            }
             organisatorLijst += "</ul>"
 
             // Laat de locaties zien die behoren tot dit evenement
@@ -129,7 +130,7 @@
                 }
             locatieLijst += "</ul>"
 
-
+            // vult de divs, met een lijst
             document.getElementById("categorie-lijst").innerHTML = categorieLijst;
             document.getElementById("organisator-Lijst-Namen").innerHTML = organisatorLijst;
             document.getElementById("locatie-lijst").innerHTML = locatieLijst;
