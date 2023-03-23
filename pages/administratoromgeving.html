@@ -107,7 +107,6 @@
 
         function RijenOpKlikken()
         {
-            console.log("rijenklikken");
             const tableRows = document.querySelectorAll(".row");
             tableRows.forEach(function(element) 
             {
@@ -127,6 +126,7 @@
                                 var xhr = new XMLHttpRequest();
                                 xhr.open("DELETE", "http://localhost:8082/evenement/verwijderEvenement/" + key, true);
                                 xhr.send();
+                                alert("Uw evenement is verwijdert.");
                             }
                         }
                     }
@@ -171,10 +171,11 @@
 
         function slaNieuwEvenementOp()
         {
+            let nieuwEvenement = {};
             nieuwEvenement.naam = document.getElementById("organisatorNaam").value;
             nieuwEvenement.omschrijving = document.getElementById("organisatorAchterNaam").value;
-            nieuwEvenement.beginDatumTijd = document.getElementById("").value;
-            nieuwEvenement.eindDatumTijd = document.getElementById("").value;
+            nieuwEvenement.beginDatumTijd = document.getElementById("begin-Datum").value;
+            nieuwEvenement.eindDatumTijd = document.getElementById("eind-Datum").value;
 
             var EvenementJSON = JSON.stringify(nieuwEvenement);
             var xhr = new XMLHttpRequest();
@@ -186,10 +187,13 @@
             xhr.open("POST","http://localhost:8082/evenement/slaEvenementOp", true);
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(EvenementJSON);
-            naamEvenement.value = null;
-            omschrijvingEvenement.value = null;
-            beginDatumTijdEvenement.value = null;
-            eindDatumTijdEvenement.value = null;
+            document.getElementById("naam-Van-Evenement").value = null;
+            document.getElementById("omschrijving-Evenement").value = null;
+            document.getElementById("begin-Datum").value = null;
+            document.getElementById("eind-Datum").value = null;
+            document.getElementById("organisatorNaam").value = null;
+            document.getElementById("organisatorAchterNaam").value = null;
+            document.getElementById("organisatorEmail").value = null;
             alert("Evenement toegevoegd");
         }
 
@@ -311,7 +315,7 @@
                     <br>
                     <br>
         
-                    <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="slaNieuwEvenementOp">Opslaan</button>
+                    <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="slaNieuwEvenementOp()">Opslaan</button>
                     <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="terugNaarOverzicht()">Annuleren</button>
         
                 </div>
