@@ -48,14 +48,14 @@
         let evenementenID = new Map();
         let huidigEvenementNaam;
 
-        setTimeout(RijenOpKlikken, 500);
-
         function gebruikerKrijgen(){
             const customerName = document.querySelector(".user-name");
             fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
             .then(response=>response.json())
             .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"admin": user.rol==="o"? "organiser": "spreker"}`) 
         }
+
+        setTimeout(RijenOpKlikken, 500);
 
         window.onload = function() {
             var evenement = window.location.hre
