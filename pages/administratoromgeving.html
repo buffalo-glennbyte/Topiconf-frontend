@@ -119,8 +119,15 @@
                 element.addEventListener("click", function(event) 
                 {
                     if (event.target.tagName == "BUTTON") {
-                        window.location.href = ("http://hierMoetOrganisatorToevoegenEnVerwijderen"); // Voor de knop Organisator Toevoegen/Verwijderen
-                        console.log("Dit is de naam: " + element.children[0].innerHTML);
+                        for(let [key, value] of evenementenID.entries())
+                        {
+                            // checkt of de namen gelijk zijn van het evenement
+                            if(value == element.children[0].innerHTML)
+                            {
+                                // dan moeten wij de ID van dit evenement meegeven.
+                                window.location.href = ("evenementdetails.html?id=" + key); // element.children[0].innerHTML    ----   geeft de naam van het event mee.
+                            }
+                        }
                     } 
                     else if(event.target.tagName == "INPUT")
                     {
