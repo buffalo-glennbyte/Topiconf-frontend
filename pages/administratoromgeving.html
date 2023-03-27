@@ -52,7 +52,7 @@
             const customerName = document.querySelector(".user-name");
             fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
             .then(response=>response.json())
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"admin": user.rol==="o"? "organiser": "spreker"}`) 
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"administrator": user.rol==="o"? "organisator": "spreker"}`) 
         }
 
         setTimeout(RijenOpKlikken, 500);
@@ -250,7 +250,7 @@
                         <tr>
                             <td>
                                 <label><b>Naam:</b></label>
-                                <input type="text" id="naam-Van-Evenement" placeholder="naam van het evenement"></label>
+                                <input type="text" id="naam-Van-Evenement" placeholder="naam van het evenement">
                             </td>
                         </tr>
                         <tr>

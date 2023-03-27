@@ -362,9 +362,17 @@
             var evenementId = window.location.href.split('=').pop();
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`).then((response)=> response.json()).then((data)=>{
             huidigEvenement = data;
+            gebruikerKrijgen();
             refresh();
         })}
-        
+
+        function gebruikerKrijgen(){
+            const customerName = document.querySelector(".user-name");
+            fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
+            .then(response=>response.json())
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"administrator": user.rol==="o"? "organisator": "spreker"}`) 
+        }
+
         function toonProgrammaPerEvenement() {
             document.getElementById("voorstel").classList.remove("active");
             document.getElementById("programma").classList.remove("active");
@@ -487,7 +495,6 @@
             }
             xhr.open("DELETE", `http://localhost:8082/locatie/verwijderLocatie/${id}?id=${huidigEvenement.id}`, true);
             xhr.send();
-            toonLocatiesPerEvenement();
         }
 
         // this function celect all request elements with class "changed"
@@ -846,7 +853,7 @@
     </header>
     <aside class="asidewrapper">
         <div class="asidewrapper-btns">
-            <p class="asidewrapper-btns-text">Je bent ingelogd als: XYZ</p>
+            <p class="asidewrapper-btns-text">Je bent ingelogd als: <span class="user-name"></span></p>
             <button class="asidewrapper-btns-btn" onclick="openModal(-1,'profiel')"><i class="fa-sharp fa-solid fa-gear fa-lg"></i></button>
             <button class="asidewrapper-btns-btn" onclick="uitloggen()" >Uitloggen</button>
         </div>
@@ -857,7 +864,7 @@
             <div class="modal-content">
                 <span class="close" onclick="sluitModal()">&times;</span>
                 <div id="modal-content-text"></div>
-              </div>
+            </div>
         </div>
         <div class="voorstelTabel wrapper">
             <div class="htmlbuttons"></div>
