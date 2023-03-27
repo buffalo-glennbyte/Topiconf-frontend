@@ -42,6 +42,11 @@
             background-color: white;
         }
 
+        .grid-container
+        {
+            gap: 50px;
+        }
+
     </style>
 
     <script>
@@ -114,8 +119,15 @@
                 element.addEventListener("click", function(event) 
                 {
                     if (event.target.tagName == "BUTTON") {
-                        window.location.href = ("http://hierMoetOrganisatorToevoegenEnVerwijderen"); // Voor de knop Organisator Toevoegen/Verwijderen
-                        console.log("Dit is de naam: " + element.children[0].innerHTML);
+                        for(let [key, value] of evenementenID.entries())
+                        {
+                            // checkt of de namen gelijk zijn van het evenement
+                            if(value == element.children[0].innerHTML)
+                            {
+                                // dan moeten wij de ID van dit evenement meegeven.
+                                window.location.href = ("evenementdetails.html?id=" + key); // element.children[0].innerHTML    ----   geeft de naam van het event mee.
+                            }
+                        }
                     } 
                     else if(event.target.tagName == "INPUT")
                     {
@@ -173,12 +185,19 @@
         function slaNieuwEvenementOp()
         {
             let nieuwEvenement = {};
-            nieuwEvenement.naam = document.getElementById("organisatorNaam").value;
-            nieuwEvenement.omschrijving = document.getElementById("organisatorAchterNaam").value;
+            let categorieenLijst = [];
+            nieuwEvenement.naam = document.getElementById("naam-Van-Evenement").value;
+            nieuwEvenement.omschrijving = document.getElementById("omschrijving-Evenement").value;
             nieuwEvenement.beginDatumTijd = document.getElementById("begin-Datum").value;
             nieuwEvenement.eindDatumTijd = document.getElementById("eind-Datum").value;
+            categorieenLijst.push(document.getElementById("categorie-Value").value);
+            categorieenLijst.push(document.getElementById("categorie-Value1").value);
+            categorieenLijst.push(document.getElementById("categorie-Value2").value);
+            nieuwEvenement.categorieLijst = categorieenLijst;
+
 
             var EvenementJSON = JSON.stringify(nieuwEvenement);
+            console.log(EvenementJSON);
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -192,10 +211,64 @@
             document.getElementById("omschrijving-Evenement").value = null;
             document.getElementById("begin-Datum").value = null;
             document.getElementById("eind-Datum").value = null;
+            document.getElementById("categorie-Value").value = null;
+            document.getElementById("categorie-Value1").value = null;
+            document.getElementById("categorie-Value2").value = null;
+
+            slaLocatieOp();
+            slaOrganisatorOp();
+
+            alert("Evenement toegevoegd");
+        }
+
+        function slaLocatieOp()
+        {
+            let locatie = {};
+            locatie.name = document.getElementById("locatie-Naam").value;
+            locatie.description = document.getElementById("locatie-Omschrijving").value;
+            locatie.capicity = document.getElementById("locatie-Capiciteit").value;
+
+            var EvenementJSON = JSON.stringify(locatie);
+            console.log(EvenementJSON);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("locatie aangemaakt");
+                }
+            }
+            xhr.open("POST","http://localhost:8082/locatie/slaLocatieOp", true);
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(EvenementJSON);
+
+            document.getElementById("locatie-Naam").value = null;
+            document.getElementById("locatie-Omschrijving").value = null;
+            document.getElementById("locatie-Capaciteit").value = null;
+        }
+
+        function slaOrganisatorOp()
+        {
+            let vnaam = document.getElementById("organisatorNaam").value;
+            let anaam = document.getElementById("organisatorAchterNaam").value;
+            let mail = document.getElementById("organisatorEmail").value;
+
+
+            let organisator = {
+                voornaam : vnaam,
+                achternaam : anaam,
+                email : mail
+            };
+
+            fetch("http://localhost:8082/organisator/slaOrganisatorOp",
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(organisator),
+            })
+
+            
             document.getElementById("organisatorNaam").value = null;
             document.getElementById("organisatorAchterNaam").value = null;
             document.getElementById("organisatorEmail").value = null;
-            alert("Evenement toegevoegd");
         }
 
 
@@ -218,28 +291,6 @@
         <div id="evenement-Aanmaken-Container">
             <div class="grid-container">
                 <div >
-                    <h1 class="header-Text-Evenement-Aanmaken-Container">Organisators</h1>
-                    <div style="width: 30em; height: 25em; overflow-y: scroll;">
-                        <table>
-                            <tr>
-                                <td>
-                                    <label>Naam:</label>
-                                    <ul class="organisator-Lijst-Namen">
-                                        <li><span class="organisator-naam">Test Naam</span></li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <label>Email:</label>
-                                    <ul class="organisator-Lijst-Email">
-                                        <li><span class="organisator-Email">Test email</span></li>  
-                                    </ul>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-        
-                <div>
                     <table>
                         <tr>
                             <td>
@@ -308,7 +359,54 @@
                         </tr>
                         
                     </table>
+                </div>
         
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <h3 class="header-Text-Evenement-Aanmaken-Container">Evenement</h3>
+                                <p></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label><b>Naam:</b></label>
+                                <input type="text" id="naam-Van-Evenement" placeholder="Naam van het evenement"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <fieldset style="width: 18em;">
+                                    <legend><b>Omschrijving</b></legend>
+                                    <textarea id="omschrijving-Evenement" name="om" placeholder="Hier komt de omschrijving van het evenement" style="border:none; resize: none; max-width: 23em; width:23em; max-height: 10em; height:10em;"></textarea>
+                                </fieldset>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <h3 class="header-Text-Evenement-Aanmaken-Container">Categorieen</h3>
+                                <input id="categorie-Value" placeholder="IT" style="width: 18em;">
+                                <input id="categorie-Value1" placeholder="SCRUM" style="width: 18em;">
+                                <input id="categorie-Value2" placeholder="Onderwijs" style="width: 18em;">
+                            </td>
+                        </tr>
+                    </table>
+                </div> 
+        
+                <div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                     <br>
                     <br>
                     <br>
@@ -349,7 +447,9 @@
                         <tr>
                             <td>
                                 <h4 class="header-Text-Evenement-Aanmaken-Container">Locatie</h4>
-                                <p id="locatie-Value">Deventer park, locatie 1233 DE</p>
+                                <input id="locatie-Naam" placeholder="Naam" style="width: 18em;">
+                                <input id="locatie-Omschrijving" placeholder="Omschrijving" style="width: 18em;">
+                                <input id="locatie-Capaciteit" placeholder="Capaciteit" style="width: 18em;">
                             </td>
                         </tr>
                     </table>
