@@ -187,9 +187,10 @@
             categorieenLijst.push(document.getElementById("categorie-Value1").value);
             categorieenLijst.push(document.getElementById("categorie-Value2").value);
             nieuwEvenement.categorieLijst = categorieenLijst;
-            nieuwEvenement.locatieLijst = document.getElementById("locatie-Value").value;
+
 
             var EvenementJSON = JSON.stringify(nieuwEvenement);
+            console.log(EvenementJSON);
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -203,17 +204,64 @@
             document.getElementById("omschrijving-Evenement").value = null;
             document.getElementById("begin-Datum").value = null;
             document.getElementById("eind-Datum").value = null;
-            document.getElementById("organisatorNaam").value = null;
-            document.getElementById("organisatorAchterNaam").value = null;
-            document.getElementById("organisatorEmail").value = null;
-            document.getElementById("locatie-Value").value = null;
-            document.getElementById("locatie-Value1").value = null;
-            document.getElementById("locatie-Value2").value = null;
             document.getElementById("categorie-Value").value = null;
             document.getElementById("categorie-Value1").value = null;
             document.getElementById("categorie-Value2").value = null;
 
+            slaLocatieOp();
+            slaOrganisatorOp();
+
             alert("Evenement toegevoegd");
+        }
+
+        function slaLocatieOp()
+        {
+            let locatie = {};
+            locatie.name = document.getElementById("locatie-Naam").value;
+            locatie.description = document.getElementById("locatie-Omschrijving").value;
+            locatie.capicity = document.getElementById("locatie-Capiciteit").value;
+
+            var EvenementJSON = JSON.stringify(locatie);
+            console.log(EvenementJSON);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("locatie aangemaakt");
+                }
+            }
+            xhr.open("POST","http://localhost:8082/locatie/slaLocatieOp", true);
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(EvenementJSON);
+
+            document.getElementById("locatie-Naam").value = null;
+            document.getElementById("locatie-Omschrijving").value = null;
+            document.getElementById("locatie-Capiciteit").value = null;
+        }
+
+        function slaOrganisatorOp()
+        {
+            let vnaam = document.getElementById("organisatorNaam").value;
+            let anaam = document.getElementById("organisatorAchterNaam").value;
+            let mail = document.getElementById("organisatorEmail").value;
+
+
+            let organisator = {
+                voornaam : vnaam,
+                achternaam : anaam,
+                email : mail
+            };
+
+            fetch("http://localhost:8082/organisator/slaOrganisatorOp",
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(organisator),
+            })
+
+            
+            document.getElementById("organisatorNaam").value = null;
+            document.getElementById("organisatorAchterNaam").value = null;
+            document.getElementById("organisatorEmail").value = null;
         }
 
 
@@ -347,7 +395,9 @@
                         <tr>
                             <td>
                                 <h4 class="header-Text-Evenement-Aanmaken-Container">Locatie</h4>
-                                <input id="locatie-Value" placeholder="Deventer park, locatie 1233 DE" style="width: 18em;">
+                                <input id="locatie-Naam" placeholder="Naam" style="width: 18em;">
+                                <input id="locatie-Omschrijving" placeholder="Omschrijving" style="width: 18em;">
+                                <input id="locatie-Capiciteit" placeholder="Capiciteit" style="width: 18em;">
                             </td>
                         </tr>
                     </table>

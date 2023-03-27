@@ -73,17 +73,20 @@
             .then((data)=>
             { 
                 huidigEvenement = data;
+                // toonEvenementenDetails();
+
+                fetch(`http://localhost:8082/organisator/geefOrganisatorsPerEvenementId/${evenementId}`)
+                .then((response) => response.json())
+                .then((data) =>
+                {
+                    organisatorData = data;
+                    toonEvenementenDetails();
+                })
+
+                console.log(huidigEvenement?.locatieLijst);
             })
 
-            fetch(`http://localhost:8082/organisator/geefOrganisatorsPerEvenementId/${evenementId}`)
-            .then((response) => response.json())
-            .then((data) =>
-            {
-                organisatorData = data;
-                toonEvenementenDetails();
-            })
-
-
+            
         }
 
         function uitloggen() {
@@ -101,13 +104,17 @@
             document.getElementById("eind-Datum").value = huidigEvenement.eindDatumTijd;
 
             // Laat alle categorien zien in een lijst
-            var categorieLijst = "<ul>";
-                for(var x = 0; x < huidigEvenement.categorieLijst.length; x++)
-                {
-                    categorieLijst += `<li>${huidigEvenement.categorieLijst[x].name}</li>`;
-                }
+            // var categorieLijst = "<ul>";
+            //     for(var x = 0; x < huidigEvenement.categorieLijst.length; x++)
+            //     {
+            //         categorieLijst += `<li>${huidigEvenement.categorieLijst[x].name}</li>`;
+            //     }
 
-            categorieLijst += "</ul>"
+            // categorieLijst += "</ul>"
+
+            const categorieLijst = `<ul>${huidigEvenement.categorieLijst?.forEach(element => {
+               `${element.name}`  
+            })}</ul>`
 
             // Laat de Naam + Email zien van de organisator die bij dit evenement hoort.
             // de verwijder button er achter is om die organisator te verwijderen van dat evenement.
@@ -232,7 +239,7 @@
                 <tr>
                     <td>
                         <div style="height: 100px; overflow-y: scroll;">
-                            <div id="categorie-lijst"></div>
+                            <div id="categorie-lijst" placeholder="Geen Categorie"></div>
                         </div>
                     </td>
                 </tr>
