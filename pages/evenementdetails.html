@@ -119,8 +119,8 @@
             var organisatorLijst = "<ul>";
             for(var x = 0; x < organisatorData.length; x++)
             {
-                organisatorLijst += `<li>${organisatorData[0].voornaam} : ${organisatorData[0].email} `
-                    + ` <button onclick='verwijderOrganisator(${huidigEvenement.id},${organisatorData.id})''>Verwijder</button></li>`
+                organisatorLijst += `<li>${organisatorData[x].voornaam} : ${organisatorData[x].email} `
+                    + ` <button onclick='verwijderOrganisator(${huidigEvenement.id},${organisatorData[x].id})''>Verwijder</button></li>`
             }
             organisatorLijst += "</ul>"
 
@@ -166,7 +166,8 @@
             fetch(`http://localhost:8082/evenement/verwijderOrganisatorVanEvenement/${evenementID}?organisatorid=${organisatorID}`,
             {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "application/json" },
+                body: {organisatorID}
             })
         }
 
