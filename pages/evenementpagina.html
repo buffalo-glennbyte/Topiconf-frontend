@@ -465,14 +465,27 @@
 
         function verwijderCategorie(id){
             var xhr = new XMLHttpRequest();
-            xhr.open("DELETE", "http://localhost:8082/categorie/verwijderCategorie/" + id, true);
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    const modal = document.getElementById("innerTable-modal");
+                    modal.style.display = "none";
+                    toonCategoriePerEvenement();
+                }
+            }
+            xhr.open("DELETE", `http://localhost:8082/categorie/verwijderCategorie/${id}?id=${huidigEvenement.id}`, true);
             xhr.send();
-            toonCategoriePerEvenement();
         }
 
         function verwijderLocatie(id){
             var xhr = new XMLHttpRequest();
-            xhr.open("DELETE", "http://localhost:8082/locatie/verwijderLocatie/" + id, true);
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    const modal = document.getElementById("innerTable-modal");
+                    modal.style.display = "none";
+                    toonLocatiesPerEvenement();
+                }
+            }
+            xhr.open("DELETE", `http://localhost:8082/locatie/verwijderLocatie/${id}?id=${huidigEvenement.id}`, true);
             xhr.send();
             toonLocatiesPerEvenement();
         }
