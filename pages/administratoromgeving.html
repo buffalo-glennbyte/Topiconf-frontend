@@ -86,7 +86,7 @@
         .ptoevoegen {
             margin: 0% auto;
             border-radius: none;
-            width: 97.5%;
+            width: 97.7%;
             height: 95.5%;
         }
         #modal-content-text {
@@ -117,6 +117,9 @@
             color: black;
             text-decoration: none;
             cursor: pointer;
+        }
+        .fa-trash {
+            margin-right:20px;
         }
     </style>
     <script 
@@ -165,7 +168,9 @@
                             HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
                                 + "</br>"
                                 + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
-                            HTMLString += "<td><input type='button' value='Verwijder' style='margin-right: 20px;'></input><button>Organisator Toevoegen/Verwijderen</button></td></tr>";
+                            HTMLString += "<td><i class='fa-solid fa-trash fa-lg' ></i><span class='fa-sharp fa-solid fa-pen fa-lg' ></span></td></tr>";
+
+                            
                             evenementenID.set(evenementen[x].id, evenementen[x].naam);
                         }
                     HTMLString += "</table>";
@@ -184,7 +189,7 @@
             {
                 element.addEventListener("click", function(event) 
                 {
-                    if (event.target.tagName == "BUTTON") {
+                    if (event.target.tagName == "SPAN") {
                         for(let [key, value] of evenementenID.entries())
                         {
                             // checkt of de namen gelijk zijn van het evenement
@@ -195,7 +200,7 @@
                             }
                         }
                     } 
-                    else if(event.target.tagName == "INPUT")
+                    else if(event.target.tagName == "I")
                     {
                         for(let [key, value] of evenementenID.entries())
                         {
@@ -203,9 +208,13 @@
                             if(value == element.children[0].innerHTML)
                             {
                                 var xhr = new XMLHttpRequest();
+                                xhr.onreadystatechange = function(){
+                                if(this.readyState == 4){
+                                    toonEvenementen();
+                                }
+                                }
                                 xhr.open("DELETE", "http://localhost:8082/evenement/verwijderEvenement/" + key, true);
                                 xhr.send();
-                                alert("Uw evenement is verwijdert.");
                             }
                         }
                     }
@@ -246,6 +255,7 @@
             let evenementAanmakenTafel = document.getElementById("evenement-Aanmaken-Container");
             evenementAanmakenTafel.style.visibility = "hidden"
             evenementAanmakenTafel.style.display = "none"
+            toonEvenementen()
         }
 
         function slaNieuwEvenementOp()
@@ -268,6 +278,7 @@
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     console.log("Evenement aangemaakt");
+                    toonEvenementen();
                 }
             }
             xhr.open("POST","http://localhost:8082/evenement/slaEvenementOp", true);
@@ -377,6 +388,7 @@
                 modal.style.display = "none";
             }
         }
+
     </script>
 </head>
 <body>
@@ -400,7 +412,7 @@
 
         <div id="evenement-Aanmaken-Container">
             <div class="grid-container">
-                
+      
                 <div>
                     <table>
                         
@@ -451,7 +463,7 @@
                         </tr>
                     </table>
                 </div>
-
+        
                 <div>
                     <table>
                         <tr>
