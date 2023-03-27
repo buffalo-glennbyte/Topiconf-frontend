@@ -60,7 +60,7 @@
             const customerName = document.querySelector(".user-name");
             fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
             .then(response=>response.json())
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"admin": user.rol==="o"? "organiser": "spreker"}`) 
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"administrator": user.rol==="o"? "organisator": "spreker"}`) 
         }
 
         let huidigEvenementNaam;
@@ -70,34 +70,6 @@
             gebruikerKrijgen();
             toonEvenementen();
         }
-
-        // // old verion of method
-        // function toonEvenementen() {
-        //     var xhr = new XMLHttpRequest();
-        //     xhr.onreadystatechange = function(){
-        //         if(this.readyState == 4){
-        //             var evenementen = JSON.parse(this.responseText);
-        //             var HTMLString = "<table id='tbl-main'>"
-        //                 + "<tr><th>Naam</th>"
-        //                 + "<th>Omschrijving</th>"
-        //                 + "<th>Datum</th></tr>"
-        //                 for(var x = 0; x < evenementen.length; x++){
-        //                     HTMLString += `<tr class='row' onclick='beheerEvenement(${evenementen[x].id})'>
-        //                                     <td>${evenementen[x].naam}</td>`;
-        //                     HTMLString += `<td>${evenementen[x].omschrijving}</td>`;
-        //                     HTMLString += `<td>Start: ${evenementen[x].beginDatumTijd} </br>
-        //                                        Einde: ${evenementen[x].eindDatumTijd}</td>`;
-        //                     HTMLString += `<td>
-        //                                     <button class='btn-event' onclick='beheerEvenement(${evenementen[x].id})'>Beheren</button>
-        //                                     </td></tr>`;
-        //                 }                        
-        //             HTMLString += "</table>";
-        //             document.getElementById("evenementTabel").innerHTML = HTMLString;
-        //         }
-        //     }
-        //     xhr.open("GET","http://localhost:8082/evenement/geefAlleEvenementen", true);
-        //     xhr.send();
-        // }
 
         function toonEvenementen(){
 
