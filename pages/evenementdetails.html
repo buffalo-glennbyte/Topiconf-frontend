@@ -63,7 +63,10 @@
         // pakt de 'id' uit de URL
         var evenementId;
         let huidigEvenement;
+        let evenementId;
         let organisatorData;
+        let categorieenLijst;
+
         window.onload = function()
         {
             evenementId = window.location.href.split('=').pop();
@@ -81,6 +84,7 @@
                 .then((data) =>
                 {
                     organisatorData = data;
+                    console.log(data);
 
                     toonEvenementenDetails();
                     
@@ -120,8 +124,9 @@
             var organisatorLijst = "<ul>";
             for(var x = 0; x < organisatorData.length; x++)
             {
+                console.log(organisatorData[x]);
                 organisatorLijst += `<li>${organisatorData[x].voornaam} : ${organisatorData[x].email} `
-                    + ` <button onclick='verwijderOrganisator(${huidigEvenement.id},${organisatorData[x].id})''>Verwijder</button></li>`
+                    + ` <button onclick='verwijderOrganisator(${organisatorData[x].id})''>Verwijder</button></li>`
             }
             organisatorLijst += "</ul>"
 
@@ -213,14 +218,12 @@
             })
         }
 
-        function verwijderOrganisator(evenementID, organisatorID)
+        function verwijderOrganisator(organisatorID)
         {
-            console.log(`evenement id: ${evenementID} organisator id: ${organisatorID}`);
-            fetch(`http://localhost:8082/evenement/verwijderOrganisatorVanEvenement/${evenementID}?organisatorid=${organisatorID}`,
+            fetch(`http://localhost:8082/evenement/verwijderOrganisatorVanEvenement/${evenementId}?organisatorid=${organisatorID}`,
             {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: {organisatorID}
+                headers: { "Content-Type": "application/json" }
             })
         }
 
