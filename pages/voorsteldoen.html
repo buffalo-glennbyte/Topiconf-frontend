@@ -42,9 +42,8 @@
       function maakVoorstelEnUser(){
         addVoorstel();
         createNewUser();
-        clearValue();
       }
-
+      
       async function addVoorstel() {
         const name = document.getElementById("nameInput").value;
         const surname = document.getElementById("surnameInput").value;
@@ -73,6 +72,7 @@
             }
           ).then((response) => alert("Voorstel is succesvol verstuurd"));
           console.log(JSON.stringify(request));
+          clearValue();
           location.href=`index.html?e=${encodeURI(huidigEvenement.naam)}`;
         }
       }

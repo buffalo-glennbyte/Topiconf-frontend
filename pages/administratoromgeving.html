@@ -11,13 +11,11 @@
     <link rel="stylesheet" href="../styles/DrieTafelStyling.css">
 
     <style>
-        #evenement-Aanmaken-Container
-        {
+        #evenement-Aanmaken-Container {
             visibility: hidden;
         }
 
-        .voet-knoppen
-        {
+        .voet-knoppen {
             padding: 8px;
             margin-right: 15px;
             background-color: rgb(43, 82, 155);
@@ -26,24 +24,108 @@
             border-radius: 10px;
         }
 
-
-        .voet-knoppen:active
-        {
+        .voet-knoppen:active {
             font-size: small;
         }
 
-        .header-Text-Evenement-Aanmaken-Container
-        {
+        .header-Text-Evenement-Aanmaken-Container {
             color: gray;
         }
 
-        ul, li
-        {
+        ul, li {
             background-color: white;
         }
 
+        .grid-container {
+            gap: 50px;
+        }
+        .asidewrapper-btns-btn {
+            padding: 8px;
+            margin-right: 15px;
+            display: inline-block;
+            background-color: rgb(43, 82, 155);
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+        .annuleren{
+            background-color: white;
+            color: black;
+            border: 1px solid gray;
+        }
+        #innerTable-modal {
+            display: none; 
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            width: 20%;
+            height: 20%;
+            box-shadow: 0 0 20px 0 #999;
+            border-radius: 5px;
+        }
+        .ltoevoegen {
+            margin: 5% auto;
+            width: 80%;
+            height: 80%;
+        }
+        .ctoevoegen {
+            width: 20%;
+            height: 30%;
+        }
+        .ptoevoegen {
+            margin: 0% auto;
+            border-radius: none;
+            width: 97.7%;
+            height: 95.5%;
+        }
+        #modal-content-text {
+            height: 100%;
+        }
+        .modalwrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap:20px;
+            text-align: left;
+        }
+        .modalwrapper-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .fa-trash {
+            margin-right:20px;
+        }
     </style>
-
+    <script 
+        src="https://kit.fontawesome.com/bdf882e752.js"
+        crossorigin="anonymous"
+    ></script>
     <script>
         let evenementenID = new Map();
         let huidigEvenementNaam;
@@ -52,7 +134,7 @@
             const customerName = document.querySelector(".user-name");
             fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
             .then(response=>response.json())
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"admin": user.rol==="o"? "organiser": "spreker"}`) 
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"administrator": user.rol==="o"? "organisator": "spreker"}`) 
         }
 
         setTimeout(RijenOpKlikken, 500);
@@ -63,38 +145,30 @@
             gebruikerKrijgen();
             toonEvenementen();
         }
-        
-        // async function wachtenOpEvenement()
-        // {
-        //     await toonEvenementen();
-        //     console.log("Wij wachten op evenementen");
-        //     RijenOpKlikken();
-        // }
-        // wachtenOpEvenement();
 
         function uitloggen() {
             window.location.href = `index.html?e=${encodeURI(huidigEvenementNaam)}`;
         }
 
         function toonEvenementen() {
-            console.log("toon");
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    console.log("Aanvragen opgehaald");
                     var evenementen = JSON.parse(this.responseText);
                     var HTMLString = "<table id='tbl-main'>"
                         + "<tr><th>Naam</th>"
                         + "<th>Omschrijving</th>"
                         + "<th>Datum</th>"
-                        + "<th><button id='btn-aanmaken' onclick='evenementAanmaken()'>Evenement Aanmaken</button></th></tr>"
+                        + "<th><button class='asidewrapper-btns-btn' onclick='evenementAanmaken()'>Aanmaken <span class='fa-sharp fa-solid fa-plus'></span></button></th></tr>"
                         for(var x = 0; x < evenementen.length; x++){
                             HTMLString += "<tr class='row'><td>" + evenementen[x].naam +"</td>";
                             HTMLString += "<td>" + evenementen[x].omschrijving + "</td>";
                             HTMLString += "<td>" + "Start: " + evenementen[x].beginDatumTijd 
                                 + "</br>"
                                 + "Einde: " + evenementen[x].eindDatumTijd + "</td>";
-                            HTMLString += "<td><input type='button' value='Verwijder' style='margin-right: 20px;'></input><button>Organisator Toevoegen/Verwijderen</button></td></tr>";
+                            HTMLString += "<td><i class='fa-solid fa-trash fa-lg' ></i><span class='fa-sharp fa-solid fa-pen fa-lg' ></span></td></tr>";
+
+                            
                             evenementenID.set(evenementen[x].id, evenementen[x].naam);
                         }
                     HTMLString += "</table>";
@@ -113,11 +187,18 @@
             {
                 element.addEventListener("click", function(event) 
                 {
-                    if (event.target.tagName == "BUTTON") {
-                        window.location.href = ("http://hierMoetOrganisatorToevoegenEnVerwijderen"); // Voor de knop Organisator Toevoegen/Verwijderen
-                        console.log("Dit is de naam: " + element.children[0].innerHTML);
+                    if (event.target.tagName == "SPAN") {
+                        for(let [key, value] of evenementenID.entries())
+                        {
+                            // checkt of de namen gelijk zijn van het evenement
+                            if(value == element.children[0].innerHTML)
+                            {
+                                // dan moeten wij de ID van dit evenement meegeven.
+                                window.location.href = ("evenementdetails.html?id=" + key); // element.children[0].innerHTML    ----   geeft de naam van het event mee.
+                            }
+                        }
                     } 
-                    else if(event.target.tagName == "INPUT")
+                    else if(event.target.tagName == "I")
                     {
                         for(let [key, value] of evenementenID.entries())
                         {
@@ -125,9 +206,13 @@
                             if(value == element.children[0].innerHTML)
                             {
                                 var xhr = new XMLHttpRequest();
+                                xhr.onreadystatechange = function(){
+                                if(this.readyState == 4){
+                                    toonEvenementen();
+                                }
+                                }
                                 xhr.open("DELETE", "http://localhost:8082/evenement/verwijderEvenement/" + key, true);
                                 xhr.send();
-                                alert("Uw evenement is verwijdert.");
                             }
                         }
                     }
@@ -168,21 +253,30 @@
             let evenementAanmakenTafel = document.getElementById("evenement-Aanmaken-Container");
             evenementAanmakenTafel.style.visibility = "hidden"
             evenementAanmakenTafel.style.display = "none"
+            toonEvenementen()
         }
 
         function slaNieuwEvenementOp()
         {
             let nieuwEvenement = {};
-            nieuwEvenement.naam = document.getElementById("organisatorNaam").value;
-            nieuwEvenement.omschrijving = document.getElementById("organisatorAchterNaam").value;
+            let categorieenLijst = [];
+            nieuwEvenement.naam = document.getElementById("naam-Van-Evenement").value;
+            nieuwEvenement.omschrijving = document.getElementById("omschrijving-Evenement").value;
             nieuwEvenement.beginDatumTijd = document.getElementById("begin-Datum").value;
             nieuwEvenement.eindDatumTijd = document.getElementById("eind-Datum").value;
+            categorieenLijst.push(document.getElementById("categorie-Value").value);
+            categorieenLijst.push(document.getElementById("categorie-Value1").value);
+            categorieenLijst.push(document.getElementById("categorie-Value2").value);
+            nieuwEvenement.categorieLijst = categorieenLijst;
+
 
             var EvenementJSON = JSON.stringify(nieuwEvenement);
+            console.log(EvenementJSON);
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     console.log("Evenement aangemaakt");
+                    toonEvenementen();
                 }
             }
             xhr.open("POST","http://localhost:8082/evenement/slaEvenementOp", true);
@@ -192,13 +286,106 @@
             document.getElementById("omschrijving-Evenement").value = null;
             document.getElementById("begin-Datum").value = null;
             document.getElementById("eind-Datum").value = null;
-            document.getElementById("organisatorNaam").value = null;
-            document.getElementById("organisatorAchterNaam").value = null;
-            document.getElementById("organisatorEmail").value = null;
+            document.getElementById("categorie-Value").value = null;
+            document.getElementById("categorie-Value1").value = null;
+            document.getElementById("categorie-Value2").value = null;
+
+            slaLocatieOp();
+            slaOrganisatorOp();
+
             alert("Evenement toegevoegd");
         }
 
+        function slaLocatieOp()
+        {
+            let locatie = {};
+            locatie.name = document.getElementById("locatie-Naam").value;
+            locatie.description = document.getElementById("locatie-Omschrijving").value;
+            locatie.capicity = document.getElementById("locatie-Capiciteit").value;
 
+            var EvenementJSON = JSON.stringify(locatie);
+            console.log(EvenementJSON);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("locatie aangemaakt");
+                }
+            }
+            xhr.open("POST","http://localhost:8082/locatie/slaLocatieOp", true);
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(EvenementJSON);
+
+            document.getElementById("locatie-Naam").value = null;
+            document.getElementById("locatie-Omschrijving").value = null;
+            document.getElementById("locatie-Capaciteit").value = null;
+        }
+
+        function slaOrganisatorOp()
+        {
+            let vnaam = document.getElementById("organisatorNaam").value;
+            let anaam = document.getElementById("organisatorAchterNaam").value;
+            let mail = document.getElementById("organisatorEmail").value;
+
+
+            let organisator = {
+                voornaam : vnaam,
+                achternaam : anaam,
+                email : mail
+            };
+
+            fetch("http://localhost:8082/organisator/slaOrganisatorOp",
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(organisator),
+            })
+
+            
+            document.getElementById("organisatorNaam").value = null;
+            document.getElementById("organisatorAchterNaam").value = null;
+            document.getElementById("organisatorEmail").value = null;
+        }
+
+        function openModal(id, type) {
+            const modal = document.getElementById("innerTable-modal");
+            modal.style.display = "block";
+            const element = document.getElementById("modal-content-text");
+            let htmlString ="";
+            if (type == "profiel") {
+                document.querySelector(".modal-content").classList.add("ptoevoegen");
+            htmlString += `
+            <div class="modalwrapper">
+                <h1>Account instellingen</h1>
+                    <label for=voornaam>Voornaam:</label>
+                    <input id="persoonNaam" name="voornaam">
+                    <label for=achternaam>Achternaam:</label>
+                    <input id="persoonAchternaam" name="achternaam">
+                    <label for=email>Email:</label>
+                    <input id="persoonEmail" name="email">
+                    <label for=wachtwoord>Wachtwoord:</label>
+                    <input id="persoonWachtwoord" name="wachtwoord">
+                    <div class="modalwrapper-btn">
+                        <button class="asidewrapper-btns-btn annuleren" onclick="sluitModal()">Annuleren</button>
+                        <button id="submit" class="asidewrapper-btns-btn" onclick="">Aanpassen</button>
+                    </div>
+            </div>`
+            } else {
+                htmlString += "default"
+            }
+            element.innerHTML = htmlString;
+        } 
+
+        function sluitModal() {
+            const modal = document.getElementById("innerTable-modal");
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("innerTable-modal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
 </head>
 <body>
@@ -206,85 +393,23 @@
         <img src="../images/TopicusLogo.png" class="hdr-img">
         <div class="hdr-btns">
             <p class="hdr-btns-text">Je bent ingelogd als: <span class="user-name"></span></p>
-            <button class="hdr-btns-btn" >Profiel</button>
-            <button class="hdr-btns-btn" onclick="uitloggen()" >Uitloggen</button>
+            <button class="asidewrapper-btns-btn" onclick="openModal(-1,'profiel')"><i class="fa-sharp fa-solid fa-gear fa-lg"></i></button>
+            <button class="asidewrapper-btns-btn" onclick="uitloggen()" >Uitloggen</button>
         </div>
     </header>
-
+    <div id="innerTable-modal">
+        <div class="modal-content">
+            <span class="close" onclick="sluitModal()">&times;</span>
+            <div id="modal-content-text"></div>
+          </div>
+    </div>
     <div id="tafel-content">
         <div id="alleEvenementenTabel"></div>
 
 
         <div id="evenement-Aanmaken-Container">
             <div class="grid-container">
-                <div >
-                    <h1 class="header-Text-Evenement-Aanmaken-Container">Organisators</h1>
-                    <div style="width: 30em; height: 25em; overflow-y: scroll;">
-                        <table>
-                            <tr>
-                                <td>
-                                    <label>Naam:</label>
-                                    <ul class="organisator-Lijst-Namen">
-                                        <li><span class="organisator-naam">Test Naam</span></li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <label>Email:</label>
-                                    <ul class="organisator-Lijst-Email">
-                                        <li><span class="organisator-Email">Test email</span></li>  
-                                    </ul>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-        
-                <div>
-                    <table>
-                        <tr>
-                            <td>
-                                <h3 class="header-Text-Evenement-Aanmaken-Container">Evenement</h3>
-                                <p></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label><b>Naam:</b></label>
-                                <input type="text" id="naam-Van-Evenement" placeholder="naam van het evenement"></label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <fieldset style="width: 18em;">
-                                    <legend><b>Omschrijving</b></legend>
-                                    <textarea id="omschrijving-Evenement" name="om" placeholder="Hier komt de omschrijving van het evenement" style="border:none; resize: none; max-width: 23em; width:23em; max-height: 10em; height:10em;"></textarea>
-                                </fieldset>
-                                
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-        
-                <div>
-                    <table>
-                        <tr>
-                            <td>
-                                <h3 class="header-Text-Evenement-Aanmaken-Container">Categorieen</h3>
-                                <p></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="height: 100px; overflow-y: scroll;">
-                                    <ul>
-                                        <li>Presentatie Java</li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div> 
-        
+      
                 <div>
                     <table>
                         
@@ -308,7 +433,54 @@
                         </tr>
                         
                     </table>
+                </div>
         
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <h3 class="header-Text-Evenement-Aanmaken-Container">Evenement</h3>
+                                <p></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label><b>Naam:</b></label>
+                                <input type="text" id="naam-Van-Evenement" placeholder="Naam van het evenement"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <fieldset style="width: 18em;">
+                                    <legend><b>Omschrijving</b></legend>
+                                    <textarea id="omschrijving-Evenement" name="om" placeholder="Hier komt de omschrijving van het evenement" style="border:none; resize: none; max-width: 23em; width:23em; max-height: 10em; height:10em;"></textarea>
+                                </fieldset>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <h3 class="header-Text-Evenement-Aanmaken-Container">Categorieen</h3>
+                                <input id="categorie-Value" placeholder="IT" style="width: 18em;">
+                                <input id="categorie-Value1" placeholder="SCRUM" style="width: 18em;">
+                                <input id="categorie-Value2" placeholder="Onderwijs" style="width: 18em;">
+                            </td>
+                        </tr>
+                    </table>
+                </div> 
+        
+                <div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                     <br>
                     <br>
                     <br>
@@ -349,7 +521,9 @@
                         <tr>
                             <td>
                                 <h4 class="header-Text-Evenement-Aanmaken-Container">Locatie</h4>
-                                <p id="locatie-Value">Deventer park, locatie 1233 DE</p>
+                                <input id="locatie-Naam" placeholder="Naam" style="width: 18em;">
+                                <input id="locatie-Omschrijving" placeholder="Omschrijving" style="width: 18em;">
+                                <input id="locatie-Capaciteit" placeholder="Capaciteit" style="width: 18em;">
                             </td>
                         </tr>
                     </table>
