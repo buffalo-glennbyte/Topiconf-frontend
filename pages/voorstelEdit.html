@@ -216,7 +216,6 @@
             geupdatetVoorstel.id = huidigVoorstelId;
             geupdatetVoorstel.benodigdhedenLijst = geselecteerdeBenodigdheden;
             geupdatetVoorstel.extraOpmerkingen = document.getElementById("inputExtraOpmerkingen").value;
-            console.log(geupdatetVoorstel);
             
             fetch(`http://localhost:8082/voorstel/updateVoorstel`, {
                 method: "PUT", 
@@ -225,8 +224,11 @@
                 },
                 body: JSON.stringify(geupdatetVoorstel)
             })
-            .then(()=> laadGeselecteerdVoorstel(huidigVoorstelId))
-            terugNaarSprekeromgeving();
+            .then(()=> {
+                laadGeselecteerdVoorstel(huidigVoorstelId)
+                terugNaarSprekeromgeving();
+            })
+    
         }
         function terugNaarSprekeromgeving() {
             window.location.href = `sprekeromgeving.html?e=${huidigEvenement}`;
