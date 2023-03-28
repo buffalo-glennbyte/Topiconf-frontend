@@ -172,6 +172,9 @@
                 },
                 body: JSON.stringify(evenement)
             })
+            .then(()=> {
+                window.location=window.location;
+            })
         }
 
 
@@ -194,6 +197,9 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(organisator),
             })
+            .then(()=> {
+                window.location=window.location;
+            })
         }
 
         function verwijderOrganisator(organisatorID)
@@ -202,6 +208,9 @@
             {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" }
+            })
+            .then(()=> {
+                window.location=window.location;
             })
         }
 
@@ -217,6 +226,9 @@
                 }, 
                 body: JSON.stringify(nieuweCategorie)
             })
+            .then(()=> {
+                window.location=window.location;
+            })
         }
 
         function verwijderCategorie(categorieId){
@@ -224,7 +236,11 @@
               method: "DELETE", 
               headers: { "Content-Type": "application/json"}  
             })
+            .then(()=> {
+                window.location=window.location;
+            })
         }
+
         function voegLocatieToe(){
             let nieuweLocatie = {};
 
@@ -237,12 +253,18 @@
                 }, 
                 body: JSON.stringify(nieuweLocatie)
             })
+            .then(()=> {
+                window.location=window.location;
+            })
         }
 
         function verwijderLocatie(locatieId){
             fetch(`http://localhost:8082/locatie/verwijderLocatie/${evenementId}/${locatieId}`, {
               method: "DELETE", 
               headers: { "Content-Type": "application/json"}  
+            })
+            .then(()=> {
+                window.location=window.location;
             })
         }
 
