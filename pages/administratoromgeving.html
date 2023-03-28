@@ -121,6 +121,22 @@
         .fa-trash {
             margin-right:20px;
         }
+        .aanmaken-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap:20px;
+        }
+        .aanmaken-container-evenement{
+            margin-left: 40px;
+            width: 40%;
+        }
+        .aanmaken-container-datumtijd {
+            width: 40%;
+        }
+        .aanmaken-container-btn {
+            margin-left: 40px;
+            width: 50%;
+        }
     </style>
     <script 
         src="https://kit.fontawesome.com/bdf882e752.js"
@@ -393,8 +409,8 @@
 
 
         <div id="evenement-Aanmaken-Container">
-            <div class="grid-container">
-                <div>
+            <div class="aanmaken-container">
+                <div class="aanmaken-container-evenement">
                     <table>
                         <tr>
                             <td>
@@ -418,37 +434,34 @@
                             </td>
                         </tr>
                     </table>
-                </div>
-        
-        
-                <div>
-        
-                    <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="slaNieuwEvenementOp()">Opslaan</button>
-                    <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="terugNaarOverzicht()">Annuleren</button>
-        
-                </div>
-        
-                <div>
+                </div>      
+                <div class="aanmaken-container-datumtijd">
                     <table>
                         <tr>
                             <td>
                                 <h4 class="header-Text-Evenement-Aanmaken-Container">Datum & Tijd</h4>
-                                <p></p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label><b>Begin Datum: </b></label>
+                                <label><b>Begin datum: </b></label>
                                 <input id="begin-Datum" type="datetime-local" placeholder="01/01/2000">
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label><b>Eind Datum: </b></label>
+                                <label><b>Eind datum: </b></label>
                                 <input id="eind-Datum" type="datetime-local" placeholder="01/01/2000">
                             </td>
                         </tr>
                     </table>
+                </div>
+                        
+                <div class="aanmaken-container-btn">
+        
+                    <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="slaNieuwEvenementOp()">Opslaan</button>
+                    <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="terugNaarOverzicht()">Annuleren</button>
+        
                 </div>
         
               </div>
