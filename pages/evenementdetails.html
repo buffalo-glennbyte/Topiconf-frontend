@@ -47,12 +47,10 @@
         li
         {
             background-color: white;
+            list-style-type: none;
         }
 
     </style>
-
-
-
 
     <script>
         function gebruikerKrijgen(){
@@ -65,28 +63,32 @@
         // pakt de 'id' uit de URL
         let huidigEvenement;
         let organisatorData;
+        let categorieenLijst;
         window.onload = function()
         {
             var evenementId = window.location.href.split('=').pop();
             
-            // gebruikerKrijgen()
+            gebruikerKrijgen()
             
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`)
             .then((response)=>response.json())
             .then((data)=>
             { 
                 huidigEvenement = data;
+
+                fetch(`http://localhost:8082/organisator/geefOrganisatorsPerEvenementId/${evenementId}`)
+                .then((response) => response.json())
+                .then((data) =>
+                {
+                    organisatorData = data;
+
+                    toonEvenementenDetails();
+                    
+                })
+
             })
 
-            fetch(`http://localhost:8082/organisator/geefOrganisatorsPerEvenementId/${evenementId}`)
-            .then((response) => response.json())
-            .then((data) =>
-            {
-                organisatorData = data;
-                toonEvenementenDetails();
-            })
-
-
+            
         }
 
         function uitloggen() {
@@ -98,7 +100,7 @@
         }
         
         function toonEvenementenDetails() {
-            document.getElementById("naam-Van-Evenement").innerHTML = `<i>${huidigEvenement.naam}</i>`;
+            document.getElementById("naam-Van-Evenement").value = huidigEvenement.naam;
             document.getElementById("omschrijving-Evenement").value = huidigEvenement.omschrijving;
             document.getElementById("begin-Datum").value = huidigEvenement.beginDatumTijd;
             document.getElementById("eind-Datum").value = huidigEvenement.eindDatumTijd;
@@ -107,18 +109,19 @@
             var categorieLijst = "<ul>";
                 for(var x = 0; x < huidigEvenement.categorieLijst.length; x++)
                 {
-                    categorieLijst += `<li>${huidigEvenement.categorieLijst[x].name}</li>`;
+                    categorieLijst += `<li><input type='text' value='${huidigEvenement.categorieLijst[x].name}'></li>`;
                 }
 
             categorieLijst += "</ul>"
 
+            
             // Laat de Naam + Email zien van de organisator die bij dit evenement hoort.
             // de verwijder button er achter is om die organisator te verwijderen van dat evenement.
             var organisatorLijst = "<ul>";
             for(var x = 0; x < organisatorData.length; x++)
             {
-                organisatorLijst += `<li>${organisatorData[0].voornaam} : ${organisatorData[0].email} `
-                    + ` <button onclick='verwijderOrganisator(${huidigEvenement.id},${organisatorData.id})''>Verwijder</button></li>`
+                organisatorLijst += `<li>${organisatorData[x].voornaam} : ${organisatorData[x].email} `
+                    + ` <button onclick='verwijderOrganisator(${huidigEvenement.id},${organisatorData[x].id})''>Verwijder</button></li>`
             }
             organisatorLijst += "</ul>"
 
@@ -126,7 +129,7 @@
             var locatieLijst = "<ul>";
                 for(var x = 0; x < huidigEvenement.locatieLijst.length; x++)
                 {
-                    locatieLijst += `<li>${huidigEvenement.locatieLijst[x].name}</li>`
+                    locatieLijst += `<li><input type='text' value='${huidigEvenement.locatieLijst[x].name}'></li>`
                 }
             locatieLijst += "</ul>"
 
@@ -136,6 +139,21 @@
             document.getElementById("locatie-lijst").innerHTML = locatieLijst;
 
         }
+
+        function opslaan(evenementID)
+        {
+            // alle values moeten gepakt worden
+            // en dan verstuurd worden
+            
+
+            fetch("http://localhost:8082/evenement/updateEvenement/" + evenementID,
+            {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(),
+            })
+        }
+
 
         function voegNieuweOrganisatorToe()
         {
@@ -164,7 +182,8 @@
             fetch(`http://localhost:8082/evenement/verwijderOrganisatorVanEvenement/${evenementID}?organisatorid=${organisatorID}`,
             {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "application/json" },
+                body: {organisatorID}
             })
         }
 
@@ -210,7 +229,7 @@
                 <tr>
                     <td>
                         <label><b>Naam:</b></label>
-                        <label id="naam-Van-Evenement" value=""></label>
+                        <input type="text" id="naam-Van-Evenement">
                     </td>
                 </tr>
                 <tr>
@@ -234,8 +253,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <div style="height: 100px; overflow-y: scroll;">
-                            <div id="categorie-lijst"></div>
+                        <div style="height: 150px; overflow-y: scroll;">
+                            <div id="categorie-lijst" placeholder="Geen Categorie"></div>
                         </div>
                     </td>
                 </tr>
@@ -276,7 +295,7 @@
             <br>
             <br>
 
-            <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'">Wijzigen</button>
+            <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="opslaan(evenementId)">Wijzigen</button>
             <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="terugNaarAdminOmgeving()">Annuleren</button>
 
         </div>
