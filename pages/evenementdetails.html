@@ -144,6 +144,10 @@
         {
             // alle values moeten gepakt worden
             // en dan verstuurd worden
+            let evenementNaam = document.getElementById("naam-Van-Evenement").value;
+            let evenementOmschrijving = document.getElementById("omschrijving-Evenement").value;
+            let evenementDatumBegin = document.getElementById("begin-Datum").value;
+            let evenementDatumEinde = document.getElementById("eind-Datum").value;
             
 
             fetch("http://localhost:8082/evenement/updateEvenement/" + evenementID,
