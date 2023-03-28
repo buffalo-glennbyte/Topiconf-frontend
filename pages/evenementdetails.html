@@ -47,12 +47,10 @@
         li
         {
             background-color: white;
+            list-style-type: none;
         }
 
     </style>
-
-
-
 
     <script>
         function gebruikerKrijgen(){
@@ -64,29 +62,36 @@
 
         // pakt de 'id' uit de URL
         let huidigEvenement;
+        let evenementId;
         let organisatorData;
+        let categorieenLijst;
+
         window.onload = function()
         {
-            var evenementId = window.location.href.split('=').pop();
+            evenementId = window.location.href.split('=').pop();
             
-            // gebruikerKrijgen()
+            gebruikerKrijgen()
             
             fetch(`http://localhost:8082/evenement/geefEvenementPerId/${evenementId}`)
             .then((response)=>response.json())
             .then((data)=>
             { 
                 huidigEvenement = data;
+
+                fetch(`http://localhost:8082/organisator/geefOrganisatorsPerEvenementId/${evenementId}`)
+                .then((response) => response.json())
+                .then((data) =>
+                {
+                    organisatorData = data;
+                    console.log(data);
+
+                    toonEvenementenDetails();
+                    
+                })
+
             })
 
-            fetch(`http://localhost:8082/organisator/geefOrganisatorsPerEvenementId/${evenementId}`)
-            .then((response) => response.json())
-            .then((data) =>
-            {
-                organisatorData = data;
-                toonEvenementenDetails();
-            })
-
-
+            
         }
 
         function uitloggen() {
@@ -98,44 +103,77 @@
         }
         
         function toonEvenementenDetails() {
-            document.getElementById("naam-Van-Evenement").innerHTML = `<i>${huidigEvenement.naam}</i>`;
+            document.getElementById("naam-Van-Evenement").value = huidigEvenement.naam;
             document.getElementById("omschrijving-Evenement").value = huidigEvenement.omschrijving;
             document.getElementById("begin-Datum").value = huidigEvenement.beginDatumTijd;
             document.getElementById("eind-Datum").value = huidigEvenement.eindDatumTijd;
 
             // Laat alle categorien zien in een lijst
-            var categorieLijst = "<ul>";
+            var categorieLijstHTML = "<ul class='catLijst-UL'>";
+                
                 for(var x = 0; x < huidigEvenement.categorieLijst.length; x++)
                 {
-                    categorieLijst += `<li>${huidigEvenement.categorieLijst[x].name}</li>`;
+                    categorieLijstHTML += `
+                        <li>
+                            <input type='text' class="categorie-list-item" value='${huidigEvenement.categorieLijst[x].name}'>
+                            <button onclick="verwijderCategorie(${huidigEvenement.categorieLijst[x].id})">-</button>
+                        </li>
+                        `;
                 }
-
-            categorieLijst += "</ul>"
-
+                categorieLijstHTML += "<br><br>"
+                categorieLijstHTML += `<input type="text" id="categorieNaam"> <button onclick="voegCategorieToe()">+</button>`
+                categorieLijstHTML += "</ul>"
+            
             // Laat de Naam + Email zien van de organisator die bij dit evenement hoort.
             // de verwijder button er achter is om die organisator te verwijderen van dat evenement.
-            var organisatorLijst = "<ul>";
+            var organisatorLijstHTML = `<table border=1>`;
             for(var x = 0; x < organisatorData.length; x++)
             {
-                organisatorLijst += `<li>${organisatorData[0].voornaam} : ${organisatorData[0].email} `
-                    + ` <button onclick='verwijderOrganisator(${huidigEvenement.id},${organisatorData.id})''>Verwijder</button></li>`
+                organisatorLijstHTML += `<tr><td>${organisatorData[x].voornaam} ${organisatorData[x].achternaam}</td>
+                                            <td rowspan="2"><button onclick="verwijderOrganisator(${organisatorData[x].id})">Verwijder</button></td></tr>
+                    <tr><td>${organisatorData[x].email}</td></tr>`
             }
-            organisatorLijst += "</ul>"
+            organisatorLijstHTML += "</table>"
 
             // Laat de locaties zien die behoren tot dit evenement
-            var locatieLijst = "<ul>";
+            var locatieLijstHTML = "<ul>";
                 for(var x = 0; x < huidigEvenement.locatieLijst.length; x++)
                 {
-                    locatieLijst += `<li>${huidigEvenement.locatieLijst[x].name}</li>`
+                    locatieLijstHTML += `
+                        <li>
+                            <input type='text' value='${huidigEvenement.locatieLijst[x].name}'>                       
+                            <button onclick="verwijderLocatie(${huidigEvenement.locatieLijst[x].id})">-</button>
+                        </li>
+                    `;
                 }
-            locatieLijst += "</ul>"
-
+                locatieLijstHTML += "<br><br>"
+                locatieLijstHTML += `<input type="text" id="locatieNaam"> <button onclick="voegLocatieToe()">+</button>`
+                locatieLijstHTML += "</ul>"
+            
             // vult de divs, met een lijst
-            document.getElementById("categorie-lijst").innerHTML = categorieLijst;
-            document.getElementById("organisator-Lijst-Namen").innerHTML = organisatorLijst;
-            document.getElementById("locatie-lijst").innerHTML = locatieLijst;
+            document.getElementById("categorie-lijst").innerHTML = categorieLijstHTML;
+            document.getElementById("organisator-Lijst-Namen").innerHTML = organisatorLijstHTML;
+            document.getElementById("locatie-lijst").innerHTML = locatieLijstHTML;
 
         }
+
+        function evenementWijzigen()
+        {   
+            let evenement = {};
+            evenement.naam = document.getElementById("naam-Van-Evenement").value;
+            evenement.omschrijving = document.getElementById("omschrijving-Evenement").value;
+            evenement.beginDatumTijd = document.getElementById("begin-Datum").value;
+            evenement.eindDatumTijd = document.getElementById("eind-Datum").value;
+
+            fetch(`http://localhost:8082/evenement/updateEvenement/${evenementId}`, {
+                method: "PUT", 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(evenement)
+            })
+        }
+
 
         function voegNieuweOrganisatorToe()
         {
@@ -150,7 +188,7 @@
                 email : mail
             };
 
-            fetch("http://localhost:8082/organisator/slaOrganisatorOp",
+            fetch(`http://localhost:8082/evenement/voegOrganisatorToeAanEvenement/${evenementId}`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -158,13 +196,53 @@
             })
         }
 
-        function verwijderOrganisator(evenementID, organisatorID)
+        function verwijderOrganisator(organisatorID)
         {
-            console.log(`evenement id: ${evenementID} organisator id: ${organisatorID}`);
-            fetch(`http://localhost:8082/evenement/verwijderOrganisatorVanEvenement/${evenementID}?organisatorid=${organisatorID}`,
+            fetch(`http://localhost:8082/evenement/verwijderOrganisatorVanEvenement/${evenementId}?organisatorid=${organisatorID}`,
             {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" }
+            })
+        }
+
+        function voegCategorieToe(){
+            let nieuweCategorie = {};
+
+            nieuweCategorie.name = document.getElementById("categorieNaam").value;
+
+            fetch(`http://localhost:8082/evenement/voegCategorieAanEvenementToe/${evenementId}`, {
+                method: "POST", 
+                headers: {
+                    "Content-Type": "application/json"
+                }, 
+                body: JSON.stringify(nieuweCategorie)
+            })
+        }
+
+        function verwijderCategorie(categorieId){
+            fetch(`http://localhost:8082/categorie/verwijderCategorie/${evenementId}/${categorieId}`, {
+              method: "DELETE", 
+              headers: { "Content-Type": "application/json"}  
+            })
+        }
+        function voegLocatieToe(){
+            let nieuweLocatie = {};
+
+            nieuweLocatie.name = document.getElementById("locatieNaam").value;
+
+            fetch(`http://localhost:8082/evenement/voegLocatieAanEvenementToe/${evenementId}`, {
+                method: "POST", 
+                headers: {
+                    "Content-Type": "application/json"
+                }, 
+                body: JSON.stringify(nieuweLocatie)
+            })
+        }
+
+        function verwijderLocatie(locatieId){
+            fetch(`http://localhost:8082/locatie/verwijderLocatie/${evenementId}/${locatieId}`, {
+              method: "DELETE", 
+              headers: { "Content-Type": "application/json"}  
             })
         }
 
@@ -187,7 +265,7 @@
     <div class="grid-container">
         <div >
             <h1>Organisators</h1>
-            <div style="width: 35em; height: 25em; overflow-y: scroll;">
+            <div style="width: 35em; height: 25em; overflow-y: hidden;">
                 <table>
                     <tr>
                         <td>
@@ -210,7 +288,7 @@
                 <tr>
                     <td>
                         <label><b>Naam:</b></label>
-                        <label id="naam-Van-Evenement" value=""></label>
+                        <input type="text" id="naam-Van-Evenement">
                     </td>
                 </tr>
                 <tr>
@@ -234,8 +312,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <div style="height: 100px; overflow-y: scroll;">
-                            <div id="categorie-lijst"></div>
+                        <div style="height: 150px; overflow-y: scroll;">
+                            <div id="categorie-lijst" placeholder="Geen Categorie"></div>
                         </div>
                     </td>
                 </tr>
@@ -276,7 +354,7 @@
             <br>
             <br>
 
-            <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'">Wijzigen</button>
+            <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="evenementWijzigen(evenementId)">Wijzigen</button>
             <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="terugNaarAdminOmgeving()">Annuleren</button>
 
         </div>
