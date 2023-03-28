@@ -107,6 +107,26 @@
                 })        
         }
 
+        var voorstelID;
+        window.onload = function () {
+        this.voorstelID = window.location.href.split("=").pop();
+        var response = fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${voorstelID}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            document.getElementById("inputEmail").value = data.eMail;
+            document.getElementById("inputOnderwerp").value = data.onderwerp;
+            document.getElementById("inputSamenvatting").value = data.samenvatting;
+            document.getElementById("inputVoornaam").value = data.voornaam;
+            document.getElementById("inputAchternaam").value = data.achternaam;
+            document.getElementById("inputEmailNieuweSpreker").value = data.eMail;
+            document.getElementById("statusTegel").value = data.status;
+            document.getElementById("inputTijdsduur").value = data.tijdsduur;
+            document.getElementById("inputCapaciteit").value = data.maximaleCapaciteit;
+            document.getElementById("inputCategorie").value = data.categorie;
+          });
+      };
+
       function slaWijzigingenInVoorstelOpOud() {
             var xhr = new XMLHttpRequest();
             var geupdateVoorstel = {};
@@ -168,7 +188,7 @@
             genereerBenodigdhedenHTML();
         }
 
-        const laadGeselecteerdVoorstel = function(voorstelid){
+        const laadGeselecteerdVoorstel = function(huidigVoorstelId){
             fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${huidigVoorstelId}`)
                 .then((request)=> request.text())
                 .then((data)=> geselecteerdVoorstel = JSON.parse(data))
