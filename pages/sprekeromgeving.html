@@ -304,9 +304,10 @@
                       onderwerp:d.onderwerp,
                       eMail:d. eMail,
                       status : "ingetrokken"})
-                    });
-                    sluitModal();
-                    toonAanvragen();
+                    }).then(() => {
+                        sluitModal();
+                        toonAanvragen();
+                    })
             });
         }
 
