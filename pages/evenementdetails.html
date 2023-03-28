@@ -61,12 +61,12 @@
         }
 
         // pakt de 'id' uit de URL
+        var evenementId;
         let huidigEvenement;
         let organisatorData;
-        let categorieenLijst;
         window.onload = function()
         {
-            var evenementId = window.location.href.split('=').pop();
+            evenementId = window.location.href.split('=').pop();
             
             gebruikerKrijgen()
             
@@ -106,10 +106,10 @@
             document.getElementById("eind-Datum").value = huidigEvenement.eindDatumTijd;
 
             // Laat alle categorien zien in een lijst
-            var categorieLijst = "<ul>";
+            var categorieLijst = "<ul class='catLijst-UL'>";
                 for(var x = 0; x < huidigEvenement.categorieLijst.length; x++)
                 {
-                    categorieLijst += `<li><input type='text' value='${huidigEvenement.categorieLijst[x].name}'></li>`;
+                    categorieLijst += `<li><input type='text' class="categorie-list-item" value='${huidigEvenement.categorieLijst[x].name}'></li>`;
                 }
 
             categorieLijst += "</ul>"
@@ -148,14 +148,47 @@
             let evenementOmschrijving = document.getElementById("omschrijving-Evenement").value;
             let evenementDatumBegin = document.getElementById("begin-Datum").value;
             let evenementDatumEinde = document.getElementById("eind-Datum").value;
-            
 
-            fetch("http://localhost:8082/evenement/updateEvenement/" + evenementID,
+            organisator = [];
+            // organisator.voornaam = document.getElementById("organisatorNaam").value;
+            // organisator.achternaam = document.getElementById("organisatorAchterNaam").value;
+            // organisator.email = document.getElementById("organisatorEmail").value;
+
+            for(var x = 0; x < organisatorData.length; x++)
             {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(),
-            })
+                organisator.push(organisatorData[x].voornaam + " " + organisatorData[x].email);
+            }
+            
+            catArray = [];
+            for(x = 0; x < document.getElementById("categorie-lijst").innerHTML.length; x++)
+            {
+                catArray.push(document.getElementsByClassName("categorie-list-item")[x].value);   
+            }
+            
+            locaties = [];
+            for(x = 0; x < huidigEvenement.locatieLijst.length; x++)
+            {
+                locaties.push(huidigEvenement.locatieLijst[x].name);
+            }
+
+            let naarJSONBody = {
+                naam : evenementNaam,
+                omschrijving : evenementOmschrijving,
+                beginDatumTijd : evenementDatumBegin,
+                eindDatumTijd : evenementDatumEinde,
+                persoonLijst : organisator,
+                categorieLijst : catArray,
+                locatieLijst : locaties
+            };
+            
+            console.log(naarJSONBody);
+
+            // fetch("http://localhost:8082/evenement/updateEvenement/" + evenementID,
+            // {
+            //     method: "PUT",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify(),
+            // })
         }
 
 
@@ -172,7 +205,7 @@
                 email : mail
             };
 
-            fetch("http://localhost:8082/organisator/slaOrganisatorOp",
+            fetch(`http://localhost:8082/evenement/voegOrganisatorToeAanEvenement/${evenementId}`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
