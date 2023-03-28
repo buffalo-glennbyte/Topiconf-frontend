@@ -261,41 +261,18 @@
         function slaNieuwEvenementOp()
         {
             let nieuwEvenement = {};
-            let categorieenLijst = [];
             nieuwEvenement.naam = document.getElementById("naam-Van-Evenement").value;
             nieuwEvenement.omschrijving = document.getElementById("omschrijving-Evenement").value;
             nieuwEvenement.beginDatumTijd = document.getElementById("begin-Datum").value;
             nieuwEvenement.eindDatumTijd = document.getElementById("eind-Datum").value;
-            categorieenLijst.push(document.getElementById("categorie-Value").value);
-            categorieenLijst.push(document.getElementById("categorie-Value1").value);
-            categorieenLijst.push(document.getElementById("categorie-Value2").value);
-            nieuwEvenement.categorieLijst = categorieenLijst;
 
-
-            var EvenementJSON = JSON.stringify(nieuwEvenement);
-            console.log(EvenementJSON);
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function(){
-                if(this.readyState == 4){
-                    console.log("Evenement aangemaakt");
-                    toonEvenementen();
-                }
-            }
-            xhr.open("POST","http://localhost:8082/evenement/slaEvenementOp", true);
-            xhr.setRequestHeader("Content-Type","application/json");
-            xhr.send(EvenementJSON);
-            document.getElementById("naam-Van-Evenement").value = null;
-            document.getElementById("omschrijving-Evenement").value = null;
-            document.getElementById("begin-Datum").value = null;
-            document.getElementById("eind-Datum").value = null;
-            document.getElementById("categorie-Value").value = null;
-            document.getElementById("categorie-Value1").value = null;
-            document.getElementById("categorie-Value2").value = null;
-
-            slaLocatieOp();
-            slaOrganisatorOp();
-
-            alert("Evenement toegevoegd");
+            fetch(`http://localhost:8082/evenement/slaEvenementOp`, {
+                method: "POST", 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(nieuwEvenement)              
+            })
         }
 
         function slaLocatieOp()
@@ -412,32 +389,6 @@
 
         <div id="evenement-Aanmaken-Container">
             <div class="grid-container">
-      
-                <div>
-                    <table>
-                        
-                        <tr>
-                            <td>
-                                <fieldset>
-                                    <legend class="header-Text-Evenement-Aanmaken-Container"><b>Voeg Organisator Toe</b></legend>
-                                    <form >
-                                        <br>
-                                        <label for="voornaam">Voornaam: </label>
-                                        <input type="text" id="organisatorNaam" name="voornaam" placeholder="Type hier een voornaam">
-                                        <br>
-                                        <label for="achternaam">Achternaam</label>
-                                        <input type="text" id="organisatorAchterNaam" name="achternaam" placeholder="Type hier een achternaam">
-                                        <br>
-                                        <label for="email">e-mail</label>
-                                        <input type="e" id="organisatorEmail" name="email" placeholder="Type hier een e-mail">
-                                    </form>
-                                </fieldset>
-                            </td>
-                        </tr>
-                        
-                    </table>
-                </div>
-        
                 <div>
                     <table>
                         <tr>
@@ -478,18 +429,6 @@
                 </div> 
         
                 <div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
         
                     <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="slaNieuwEvenementOp()">Opslaan</button>
                     <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="terugNaarOverzicht()">Annuleren</button>
