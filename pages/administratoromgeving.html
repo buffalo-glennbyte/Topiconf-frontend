@@ -150,7 +150,7 @@
             const customerName = document.querySelector(".user-name");
             fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
             .then(response=>response.json())
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: admin`) 
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: Administrator`) 
         }
 
         // setTimeout(RijenOpKlikken, 500);
