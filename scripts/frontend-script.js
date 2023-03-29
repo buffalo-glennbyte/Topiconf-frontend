@@ -53,7 +53,7 @@ async function addVoorstel() {
     })
     .then(() => alert("Voorstel is succesvol verstuurd"));
     clearValue();
-    location.href=`index.html?e=${encodeURI(huidigEvenement.naam)}`;
+    // location.href=`index.html?e=${encodeURI(huidigEvenement.naam)}`;
     }
 }
 
@@ -121,16 +121,4 @@ window.onmousemove=e=>{
     // track.style.transform=`translate(${nextPercentage}%, 0%)`
     track.animate({transform:`translate(${nextPercentage}%, 0%)`},
     {duration: 1200, fill: "forwards"});
-}
-
-
-let huidigEvenementNaam;
-window.onload = function() {
-    var evenement = window.location.href.split('=').pop();
-    huidigEvenementNaam = evenement;
-}
-
-
-function login() {
-    window.location.href = `login.html?e=${encodeURI(huidigEvenementNaam)}`;
 }
