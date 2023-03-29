@@ -5,6 +5,14 @@
         let huidigEvenementNaam;
         window.onload = function() {
             var evenement = window.location.href.split('=').pop();
+
+            // const response = fetch(`http://localhost:8082/evenement/geefEvenementPerNaam?e=${evenement}`)
+            // .then((response) => response.json())
+            // .then((data) => {
+            //     huidigEvenement = data[0];
+            // });
+
+
             huidigEvenementNaam = evenement;
             const link = document.getElementById("deelnemerbtn");
             link.href = `voorsteldoen.html?e=${encodeURI(huidigEvenementNaam)}`
@@ -16,7 +24,7 @@
             } else {
                 document.getElementById("inhoudTitel").innerHTML = evenement;
                 document.getElementById("detailTitel").innerHTML = `Details van ${evenement}`;
-                document.getElementById("detailTekst").innerHTML = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, aliquam itaque. Velit quisquam, sint vitae cum odio ducimus voluptates, animi, id aperiam qui ullam aspernatur quibusdam totam inventore excepturi repudiandae!";
+                document.getElementById("detailTekst").innerHTML = `${huidigEvenementNaam}`;
             }
         }
 

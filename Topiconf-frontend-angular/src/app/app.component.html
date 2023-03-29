@@ -2,4 +2,16 @@
 <button>Naar sprekeromgeving</button>
 <button>Naar organisatoromgeving</button>
 
-<router-outlet></router-outlet>
+
+<header class="hdr-main">
+    <img src="../images/TopicusLogo.png" class="hdr-img">
+    <div class="hdr-btns">
+        <p class="hdr-btns-text">Je bent ingelogd als: <span class="user-name"></span></p>
+        <button class="hdr-btns-btn" >Profiel</button>
+        <button class="hdr-btns-btn" onclick="uitloggen()" >Uitloggen</button>
+    </div>
+</header>
+
+<router-outlet>
+    <app-administratoromgeving></app-administratoromgeving>
+</router-outlet>
