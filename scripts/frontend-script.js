@@ -96,7 +96,7 @@ function loadFunction() {
     var scrolled = (winScroll / height) * 100;
     document.getElementById("myBar").style.width = scrolled + "%";
 
-    if(scrolled>18) document.querySelector('.header').style.background = "#3c3c3c";
+    if(scrolled>1) document.querySelector('.header').style.background = "#3c3c3c";
     else document.querySelector('.header').style.background = "transparent";
 }
 
@@ -121,4 +121,16 @@ window.onmousemove=e=>{
     // track.style.transform=`translate(${nextPercentage}%, 0%)`
     track.animate({transform:`translate(${nextPercentage}%, 0%)`},
     {duration: 1200, fill: "forwards"});
+}
+
+
+let huidigEvenementNaam;
+window.onload = function() {
+    var evenement = window.location.href.split('=').pop();
+    huidigEvenementNaam = evenement;
+}
+
+
+function login() {
+    window.location.href = `login.html?e=${encodeURI(huidigEvenementNaam)}`;
 }
