@@ -27,7 +27,7 @@
                 <li class="list-item"> <a href="#faq">FAQ</a></li>
             </ul>
             <div class="btn">
-                <div class="btn-content wh-100 d-flex center-all">
+                <div onclick="login()" class="btn-content wh-100 d-flex center-all">
                 <p>LogIn</p>
                 </div>
             </div>
@@ -106,17 +106,48 @@
                     </div>
                     <div class="form d-flex-col">
                         <p class="label">Name<span>*</span></p>
-                        <input type="text" class="input">
-                        <p class="label">Surame<span>*</span></p>
-                        <input type="text" class="input">
+                        <input 
+                            id="nameInput"
+                            name="voornaam" 
+                            type="text" 
+                            class="input" 
+                            required
+                        >
+                        <p class="label">Surname<span>*</span></p>
+                        <input 
+                            id="surnameInput"
+                            name="achternaam" 
+                            type="text" 
+                            class="input" 
+                            required
+                        >
                         <p class="label">email<span>*</span></p>
-                        <input type="text" class="input">
+                        <input 
+                            id="emailInput"
+                            name="email" 
+                            pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" 
+                            type="email" 
+                            class="input" 
+                            required
+                        >
                         <p class="label">Topic<span>*</span></p>
-                        <input type="text" class="input">
+                        <input 
+                            id="topicInput"
+                            name="onderwerp" 
+                            type="text" 
+                            class="input" 
+                            required
+                        >
                         <p class="label ">Description<span>*</span></p>
-                        <input type="text" class="input description">
+                        <input 
+                            id="samenInput"
+                            name="samenvatting" 
+                            type="text" 
+                            class="input description" 
+                            required
+                        >
                         <!-- <div class="btn submit submit-form">Submit</div> -->
-                        <div class="btn submit-form">
+                        <div onclick="maakVoorstelEnUser()" class="btn submit-form">
                             <div class="btn-content wh-100 d-flex center-all">
                             <p>SUBMIT</p>
                             </div>
@@ -173,7 +204,7 @@
                                 <span class="material-symbols-outlined">
                                     expand_less
                                     </span>
-                                <p class="question">What are the bennefits for speakers ?</p>
+                                <p class="question">What are the benefits for speakers ?</p>
                             </li>
                             <li class="question-item d-flex">
                                 <span class="material-symbols-outlined">

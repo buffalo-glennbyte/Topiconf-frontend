@@ -57,7 +57,7 @@
             const customerName = document.querySelector(".user-name");
             fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
             .then(response=>response.json())
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"admin": user.rol==="o"? "organiser": "spreker"}`) 
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: Administrator`) 
         }
 
         // pakt de 'id' uit de URL
