@@ -78,10 +78,9 @@
 
         window.onload = function(){
             huidigVoorstelId = window.location.href.split("=").pop();
-            huidigEvenement = localStorage.getItem("evenement");
             gebruikerKrijgen();
             laadGeselecteerdVoorstel();      
-            laadBenodigdheden();    
+            laadBenodigdheden();  
         }
 
         const laadBenodigdheden = function(){           
@@ -106,47 +105,6 @@
                     })  
                 })        
         }
-
-        var voorstelID;
-        window.onload = function () {
-        this.voorstelID = window.location.href.split("=").pop();
-        var response = fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${voorstelID}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            document.getElementById("inputEmail").value = data.eMail;
-            document.getElementById("inputOnderwerp").value = data.onderwerp;
-            document.getElementById("inputSamenvatting").value = data.samenvatting;
-            document.getElementById("inputVoornaam").value = data.voornaam;
-            document.getElementById("inputAchternaam").value = data.achternaam;
-            document.getElementById("inputEmailNieuweSpreker").value = data.eMail;
-            document.getElementById("statusTegel").value = data.status;
-            document.getElementById("inputTijdsduur").value = data.tijdsduur;
-            document.getElementById("inputCapaciteit").value = data.maximaleCapaciteit;
-            document.getElementById("inputCategorie").value = data.categorie;
-          });
-      };
-
-      function slaWijzigingenInVoorstelOpOud() {
-            var xhr = new XMLHttpRequest();
-            var geupdateVoorstel = {};
-            geupdateVoorstel.id = voorstelID;
-            geupdateVoorstel.voornaam = document.getElementById("inputVoornaam").value;
-            geupdateVoorstel.achternaam = document.getElementById("inputAchternaam").value;
-            geupdateVoorstel.eMail = document.getElementById("inputEmail").value;
-            geupdateVoorstel.onderwerp = document.getElementById("inputOnderwerp").value;
-            geupdateVoorstel.samenvatting = document.getElementById("inputSamenvatting").value;
-            geupdateVoorstel.status = document.getElementById("statusTegel").value;
-            geupdateVoorstel.tijdsduur = document.getElementById("inputTijdsduur").value;
-            geupdateVoorstel.maximaleCapaciteit = document.getElementById("inputCapaciteit").value;
-            geupdateVoorstel.categorie = document.getElementById("inputCategorie").value;
-
-            JSONstatement = JSON.stringify(geupdateVoorstel);      
-            console.log(JSONstatement);         
-            xhr.open("PUT", "http://localhost:8082/voorstel/updateVoorstel/", true);          
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(JSONstatement);
-      }
 
         const genereerBenodigdhedenHTML = function(){
             welGeselecteerdHTMLString = "";
@@ -188,7 +146,7 @@
             genereerBenodigdhedenHTML();
         }
 
-        const laadGeselecteerdVoorstel = function(huidigVoorstelId){
+        const laadGeselecteerdVoorstel = function(){
             fetch(`http://localhost:8082/voorstel/geefVoorstelPerId/${huidigVoorstelId}`)
                 .then((request)=> request.text())
                 .then((data)=> geselecteerdVoorstel = JSON.parse(data))
@@ -201,6 +159,8 @@
                     document.getElementById("inputTijdsduur").value = geselecteerdVoorstel.tijdsduur;
                     document.getElementById("inputCapaciteit").value = geselecteerdVoorstel.maximaleCapaciteit;
                     document.getElementById("inputExtraOpmerkingen").value = geselecteerdVoorstel.extraOpmerkingen;
+                    document.getElementById("statusTegel").value = geselecteerdVoorstel.status;
+                    document.getElementById("inputCategorie").value = geselecteerdVoorstel.categorie.description;
                 })
         }
 
@@ -216,9 +176,10 @@
             geupdatetVoorstel.id = huidigVoorstelId;
             geupdatetVoorstel.benodigdhedenLijst = geselecteerdeBenodigdheden;
             geupdatetVoorstel.extraOpmerkingen = document.getElementById("inputExtraOpmerkingen").value;
+            geupdatetVoorstel.veranderd = true;
             console.log(geupdatetVoorstel);
             
-            fetch(`http://localhost:8082/voorstel/updateVoorstel`, {
+            fetch(`http://localhost:8082/voorstel/updateVoorstel/${huidigVoorstelId}`, {
                 method: "PUT", 
                 headers: {
                     "Content-Type" : "application/json"
@@ -229,10 +190,10 @@
             terugNaarSprekeromgeving();
         }
         function terugNaarSprekeromgeving() {
-            window.location.href = `sprekeromgeving.html?e=${huidigEvenement}`;
+            window.location.href = `sprekeromgeving.html?e=${localStorage.getItem("evenement")}`;
         }
         function uitloggen() {
-            window.location.href = `index.html?e=${encodeURI(huidigEvenement.naam)}`;
+            window.location.href = `index.html?e=${encodeURI(localStorage.getItem("evenement"))}`;
         }
     </script>
 
@@ -312,7 +273,7 @@
                 <tr>
                     <td>
                         <div>
-                            <input id="statusTegel" type="text" style="background-color: aquamarine; width:60px; text-align: center;">
+                            <input id="statusTegel" type="text" style="width: 200px; text-align: center;">
                         </div>
                         <div>
                             <!-- Dummy division voor de uitlijning-->
