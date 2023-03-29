@@ -1,0 +1,53 @@
+@media (max-width: 192em){
+ .section-hero{
+    padding-top: 12rem;
+ }
+ .upper-heading,
+.lower-heading{
+    font-size: 18rem;
+}
+.arrow-down{
+    transform: rotate(-45deg) translate(45%);
+}
+.section-about{
+    padding: 22rem 0rem 18rem 0rem;
+}
+.section-our-team{
+    padding-bottom: 60rem;
+}
+.our{
+    font-size: 16rem;
+}
+.our-team-decorator{
+    top: 60%;
+    left: 0%;
+}
+.team-2{
+    font-size: 4.2rem;
+}
+.holder{
+    margin-top: 7rem;
+}
+.team-member{
+    width: 30rem;
+}
+.form-header{
+    height: 22rem;
+}
+.m-scroll__title{
+    top: 0;    
+}
+.form-background{
+    height: 140%;
+}
+.section-last-time{
+    margin-top: 27rem;
+}
+.input{
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+.label{
+    font-size:1.6rem;
+}
+}
