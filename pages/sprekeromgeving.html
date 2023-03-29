@@ -249,7 +249,7 @@
             function gebruikerKrijgen(){
             const customerName = document.querySelector(".user-name");
             fetchAndJsonPersoon()
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"administrator": user.rol==="o"? "organisator": "spreker"}`) 
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: Spreker`) 
         }
 
         let huidigEvenementNaam;

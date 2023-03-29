@@ -57,7 +57,7 @@
             const customerName = document.querySelector(".user-name");
             fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
             .then(response=>response.json())
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"admin": user.rol==="o"? "organiser": "spreker"}`) 
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: Administrator`) 
         }
 
         // pakt de 'id' uit de URL
@@ -109,90 +109,69 @@
             document.getElementById("eind-Datum").value = huidigEvenement.eindDatumTijd;
 
             // Laat alle categorien zien in een lijst
-            var categorieLijst = "<ul class='catLijst-UL'>";
+            var categorieLijstHTML = "<ul class='catLijst-UL'>";
+                
                 for(var x = 0; x < huidigEvenement.categorieLijst.length; x++)
                 {
-                    categorieLijst += `<li><input type='text' class="categorie-list-item" value='${huidigEvenement.categorieLijst[x].name}'></li>`;
+                    categorieLijstHTML += `
+                        <li>
+                            <input type='text' class="categorie-list-item" value='${huidigEvenement.categorieLijst[x].name}'>
+                            <button onclick="verwijderCategorie(${huidigEvenement.categorieLijst[x].id})">-</button>
+                        </li>
+                        `;
                 }
-
-            categorieLijst += "</ul>"
-
+                categorieLijstHTML += "<br><br>"
+                categorieLijstHTML += `<input type="text" id="categorieNaam"> <button onclick="voegCategorieToe()">+</button>`
+                categorieLijstHTML += "</ul>"
             
             // Laat de Naam + Email zien van de organisator die bij dit evenement hoort.
             // de verwijder button er achter is om die organisator te verwijderen van dat evenement.
-            var organisatorLijst = "<ul>";
+            var organisatorLijstHTML = `<table border=1>`;
             for(var x = 0; x < organisatorData.length; x++)
             {
-                console.log(organisatorData[x]);
-                organisatorLijst += `<li>${organisatorData[x].voornaam} : ${organisatorData[x].email} `
-                    + ` <button onclick='verwijderOrganisator(${organisatorData[x].id})''>Verwijder</button></li>`
+                organisatorLijstHTML += `<tr><td>${organisatorData[x].voornaam} ${organisatorData[x].achternaam}</td>
+                                            <td rowspan="2"><button onclick="verwijderOrganisator(${organisatorData[x].id})">Verwijder</button></td></tr>
+                    <tr><td>${organisatorData[x].email}</td></tr>`
             }
-            organisatorLijst += "</ul>"
+            organisatorLijstHTML += "</table>"
 
             // Laat de locaties zien die behoren tot dit evenement
-            var locatieLijst = "<ul>";
+            var locatieLijstHTML = "<ul>";
                 for(var x = 0; x < huidigEvenement.locatieLijst.length; x++)
                 {
-                    locatieLijst += `<li><input type='text' value='${huidigEvenement.locatieLijst[x].name}'></li>`
+                    locatieLijstHTML += `
+                        <li>
+                            <input type='text' value='${huidigEvenement.locatieLijst[x].name}'>                       
+                            <button onclick="verwijderLocatie(${huidigEvenement.locatieLijst[x].id})">-</button>
+                        </li>
+                    `;
                 }
-            locatieLijst += "</ul>"
-
+                locatieLijstHTML += "<br><br>"
+                locatieLijstHTML += `<input type="text" id="locatieNaam"> <button onclick="voegLocatieToe()">+</button>`
+                locatieLijstHTML += "</ul>"
+            
             // vult de divs, met een lijst
-            document.getElementById("categorie-lijst").innerHTML = categorieLijst;
-            document.getElementById("organisator-Lijst-Namen").innerHTML = organisatorLijst;
-            document.getElementById("locatie-lijst").innerHTML = locatieLijst;
+            document.getElementById("categorie-lijst").innerHTML = categorieLijstHTML;
+            document.getElementById("organisator-Lijst-Namen").innerHTML = organisatorLijstHTML;
+            document.getElementById("locatie-lijst").innerHTML = locatieLijstHTML;
 
         }
 
-        function opslaan(evenementID)
-        {
-            // alle values moeten gepakt worden
-            // en dan verstuurd worden
-            let evenementNaam = document.getElementById("naam-Van-Evenement").value;
-            let evenementOmschrijving = document.getElementById("omschrijving-Evenement").value;
-            let evenementDatumBegin = document.getElementById("begin-Datum").value;
-            let evenementDatumEinde = document.getElementById("eind-Datum").value;
+        function evenementWijzigen()
+        {   
+            let evenement = {};
+            evenement.naam = document.getElementById("naam-Van-Evenement").value;
+            evenement.omschrijving = document.getElementById("omschrijving-Evenement").value;
+            evenement.beginDatumTijd = document.getElementById("begin-Datum").value;
+            evenement.eindDatumTijd = document.getElementById("eind-Datum").value;
 
-            organisator = [];
-            // organisator.voornaam = document.getElementById("organisatorNaam").value;
-            // organisator.achternaam = document.getElementById("organisatorAchterNaam").value;
-            // organisator.email = document.getElementById("organisatorEmail").value;
-
-            for(var x = 0; x < organisatorData.length; x++)
-            {
-                organisator.push(organisatorData[x].voornaam + " " + organisatorData[x].email);
-            }
-            
-            catArray = [];
-            for(x = 0; x < document.getElementById("categorie-lijst").innerHTML.length; x++)
-            {
-                catArray.push(document.getElementsByClassName("categorie-list-item")[x].value);   
-            }
-            
-            locaties = [];
-            for(x = 0; x < huidigEvenement.locatieLijst.length; x++)
-            {
-                locaties.push(huidigEvenement.locatieLijst[x].name);
-            }
-
-            let naarJSONBody = {
-                naam : evenementNaam,
-                omschrijving : evenementOmschrijving,
-                beginDatumTijd : evenementDatumBegin,
-                eindDatumTijd : evenementDatumEinde,
-                persoonLijst : organisator,
-                categorieLijst : catArray,
-                locatieLijst : locaties
-            };
-            
-            console.log(naarJSONBody);
-
-            // fetch("http://localhost:8082/evenement/updateEvenement/" + evenementID,
-            // {
-            //     method: "PUT",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify(),
-            // })
+            fetch(`http://localhost:8082/evenement/updateEvenement/${evenementId}`, {
+                method: "PUT", 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(evenement)
+            })
         }
 
 
@@ -226,6 +205,47 @@
             })
         }
 
+        function voegCategorieToe(){
+            let nieuweCategorie = {};
+
+            nieuweCategorie.name = document.getElementById("categorieNaam").value;
+
+            fetch(`http://localhost:8082/evenement/voegCategorieAanEvenementToe/${evenementId}`, {
+                method: "POST", 
+                headers: {
+                    "Content-Type": "application/json"
+                }, 
+                body: JSON.stringify(nieuweCategorie)
+            })
+        }
+
+        function verwijderCategorie(categorieId){
+            fetch(`http://localhost:8082/categorie/verwijderCategorie/${evenementId}/${categorieId}`, {
+              method: "DELETE", 
+              headers: { "Content-Type": "application/json"}  
+            })
+        }
+        function voegLocatieToe(){
+            let nieuweLocatie = {};
+
+            nieuweLocatie.name = document.getElementById("locatieNaam").value;
+
+            fetch(`http://localhost:8082/evenement/voegLocatieAanEvenementToe/${evenementId}`, {
+                method: "POST", 
+                headers: {
+                    "Content-Type": "application/json"
+                }, 
+                body: JSON.stringify(nieuweLocatie)
+            })
+        }
+
+        function verwijderLocatie(locatieId){
+            fetch(`http://localhost:8082/locatie/verwijderLocatie/${evenementId}/${locatieId}`, {
+              method: "DELETE", 
+              headers: { "Content-Type": "application/json"}  
+            })
+        }
+
     </script>
 
     
@@ -245,7 +265,7 @@
     <div class="grid-container">
         <div >
             <h1>Organisators</h1>
-            <div style="width: 35em; height: 25em; overflow-y: scroll;">
+            <div style="width: 35em; height: 25em; overflow-y: hidden;">
                 <table>
                     <tr>
                         <td>
@@ -334,7 +354,7 @@
             <br>
             <br>
 
-            <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="opslaan(evenementId)">Wijzigen</button>
+            <button class="voet-knoppen" onmouseover="this.style.background= '#3667C3'" onmouseout="this.style.background= 'rgb(43, 82, 155)'" onclick="evenementWijzigen(evenementId)">Wijzigen</button>
             <button class="voet-knoppen" style="background-color: white; color: black; border: 1px solid;" onclick="terugNaarAdminOmgeving()">Annuleren</button>
 
         </div>

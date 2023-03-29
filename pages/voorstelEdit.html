@@ -186,8 +186,11 @@
                 },
                 body: JSON.stringify(geupdatetVoorstel)
             })
-            .then(()=> laadGeselecteerdVoorstel(huidigVoorstelId))
-            terugNaarSprekeromgeving();
+            .then(()=> {
+                laadGeselecteerdVoorstel(huidigVoorstelId)
+                terugNaarSprekeromgeving();
+            })
+    
         }
         function terugNaarSprekeromgeving() {
             window.location.href = `sprekeromgeving.html?e=${localStorage.getItem("evenement")}`;
