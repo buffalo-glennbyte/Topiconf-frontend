@@ -23,7 +23,7 @@
             left: 0; 
             width: 100%;
             height: calc(100vh - 105px);
-            margin-top: 105px;
+            margin-top: 140px;
 
             padding-left: 100px;
             padding-right: 100px;
@@ -249,7 +249,7 @@
             function gebruikerKrijgen(){
             const customerName = document.querySelector(".user-name");
             fetchAndJsonPersoon()
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: Spreker`) 
+            .then(user=>customerName.textContent=`${user.voornaam} Rol: Spreker`) 
         }
 
         let huidigEvenementNaam;
