@@ -215,7 +215,8 @@
                 nieuwVoorstel.categorie = event[0].categorieLijst[0];
             })
             .then(notImportant=>{
-                fetch(`http://localhost:8082/spreker/voegVoorstelAanSprekerToe/${localStorage.getItem("userID")}`,
+                console.log(JSON.stringify(nieuwVoorstel));
+                fetch(`http://localhost:8082/spreker/voegVoorstelAanSprekerToe/${localStorage.getItem("userID")}/${currentId}`,
                 {
                     method: "PUT",
                     headers : {"Content-Type": "application/json"},
@@ -248,7 +249,7 @@
             function gebruikerKrijgen(){
             const customerName = document.querySelector(".user-name");
             fetchAndJsonPersoon()
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"administrator": user.rol==="o"? "organisator": "spreker"}`) 
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: Spreker`) 
         }
 
         let huidigEvenementNaam;
@@ -305,6 +306,13 @@
                       voornaam:d.voornaam,
                       onderwerp:d.onderwerp,
                       eMail:d. eMail,
+                      beschrijving:d.beschrijving,
+                      samenvatting:d.samenvatting,
+                      tijdsduur:d.tijdsduur,
+                      maximaleCapaciteit:d.maximaleCapaciteit,
+                      extraOpmerkingen:d.extraOpmerkingen,
+                      spreker:d.spreker,
+                      veranderd:true,
                       status : "ingetrokken"})
                     }).then(() => {
                         sluitModal();
@@ -445,7 +453,7 @@
                     <tr>
                         <td class="modal-td">
                             <div>
-                                <input id="statusTegel" type="text" style="background-color: aquamarine; width:60px; text-align: center;">
+                                <input id="statusTegel" type="text" style="width:200px; text-align: center;">
                             </div>
                             <div>
                                 <!-- Dummy division voor de uitlijning-->
