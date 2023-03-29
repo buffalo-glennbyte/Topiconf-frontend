@@ -60,7 +60,7 @@
             const customerName = document.querySelector(".user-name");
             fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
             .then(response=>response.json())
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: Organisator`) 
+            .then(user=>customerName.textContent=`${user.voornaam}       Rol: Organisator`) 
         }
 
         let huidigEvenementNaam;
@@ -102,7 +102,7 @@
         }
 
         function uitloggen() {
-            window.location.href = `index.html?e=${encodeURI(huidigEvenementNaam)}`;
+            window.location.href = `frontend-index.html?e=${encodeURI(huidigEvenementNaam)}`;
         }
     </script>
 
