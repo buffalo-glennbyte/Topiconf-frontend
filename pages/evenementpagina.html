@@ -370,7 +370,7 @@
             const customerName = document.querySelector(".user-name");
             fetch(`http://localhost:8082/persoon/geefPersoonPerId/${localStorage.getItem("userID")}`)
             .then(response=>response.json())
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: ${user.rol==="a"?"administrator": user.rol==="o"? "organisator": "spreker"}`) 
+            .then(user=>customerName.textContent=`${user.voornaam}  Rol: Organisator`) 
         }
 
         function toonProgrammaPerEvenement() {
@@ -421,13 +421,11 @@
                 if(this.readyState == 4){
                     var allLocationsPerEvent = JSON.parse(this.responseText);
                     HTMLString = "<table>";
-                    HTMLString += "<tr><th>Naam</th><th>Capaciteit</th><th>Omschrijving</th><th>Faciliteiten</th><th>Details</th><th><button class='datarow-btn' onclick='openModal("+ -1 + ","+'"locatieType"'+")'>Aanmaken <span class='fa-sharp fa-solid fa-plus'></span></button></th></tr>"
+                    HTMLString += "<tr><th>Naam</th><th>Capaciteit</th><th>Omschrijving</th><th><button class='datarow-btn' onclick='openModal("+ -1 + ","+'"locatieType"'+")'>Aanmaken <span class='fa-sharp fa-solid fa-plus'></span></button></th></tr>"
                     for(var i = 0; i < allLocationsPerEvent.length; i++){
                         HTMLString += "<tr><td>" + allLocationsPerEvent[i].name + "</td>";
                         HTMLString += "<td>" + allLocationsPerEvent[i].capacity + "</td>";
                         HTMLString += "<td>" + allLocationsPerEvent[i].description + "</td>"
-                        HTMLString += "<td>" + allLocationsPerEvent[i].faciliteiten + "</td>"
-                        HTMLString += "<td>" + allLocationsPerEvent[i].details + "</td>"
                         
                         HTMLString += "<td><div class='btn-wrapper'><span class='fa-solid fa-trash fa-lg' onclick='openModal("+ allLocationsPerEvent[i].id + "," +'"deleteLocatie"'+")'></span><span class='fa-sharp fa-solid fa-right-to-bracket fa-lg' onclick='openModal("+ allLocationsPerEvent[i].id + "," +'"locatieOpenType"'+")'></span></div></td></tr>"
                     }                   
