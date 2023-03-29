@@ -303,7 +303,8 @@ html{
 .mem-content-6,
 .mem-content-7,
 .mem-content-8,
-.mem-content-9
+.mem-content-9,
+.mem-content-10
 {
     background: linear-gradient(0deg, #262626d8 8%, rgba(253,187,45,0) 59%);
     position: absolute;
@@ -334,7 +335,7 @@ html{
     opacity: 1;
 }
 .member-3{
-    background: url(../images/m3.jpeg);
+    background: url(../images/m8.jpeg);
 }
 .member-3:hover .mem-content-3{
     opacity: 1;
@@ -364,15 +365,21 @@ html{
     opacity: 1;
 }
 .member-8{
-    background: url(../images/m8.jpeg);
+    background: url(../images/m3.jpeg);
 }
 .member-8:hover .mem-content-8{
     opacity: 1;
 }
 .member-9{
-    background: url(../images/mem9.webp);
+    background: url(../images/m9.jpeg);
 }
 .member-9:hover .mem-content-9{
+    opacity: 1;
+}
+.member-10{
+    background: url(../images/m10.jpeg);
+}
+.member-10:hover .mem-content-10{
     opacity: 1;
 }
 .team-member{
