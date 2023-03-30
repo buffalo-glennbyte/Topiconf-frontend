@@ -53,7 +53,7 @@ async function addVoorstel() {
     })
     .then(() => alert("Voorstel is succesvol verstuurd"));
     clearValue();
-    location.href=`index.html?e=${encodeURI(huidigEvenement.naam)}`;
+    // location.href=`index.html?e=${encodeURI(huidigEvenement.naam)}`;
     }
 }
 
@@ -96,7 +96,7 @@ function loadFunction() {
     var scrolled = (winScroll / height) * 100;
     document.getElementById("myBar").style.width = scrolled + "%";
 
-    if(scrolled>18) document.querySelector('.header').style.background = "#3c3c3c";
+    if(scrolled>1) document.querySelector('.header').style.background = "#3c3c3c";
     else document.querySelector('.header').style.background = "transparent";
 }
 

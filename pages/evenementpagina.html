@@ -305,8 +305,9 @@
             height: 80%;
         }
         .ctoevoegen {
-            width: 20%;
-            height: 30%;
+            margin: 5% auto;
+            width: 80%;
+            height: 80%;
         }
         .ptoevoegen {
             margin: 0% auto;
@@ -442,14 +443,18 @@
             var toetevoegenCategorie = {};
             toetevoegenCategorie.name = document.getElementById("categorieNaam").value;
             toetevoegenCategorie.description = document.getElementById("categorieOmschrijving").value;
-            JSONstatement = JSON.stringify(toetevoegenCategorie);             
+            JSONstatement = JSON.stringify(toetevoegenCategorie);
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    document.getElementById("categorieNaam").value = "";
+                    document.getElementById("categorieOmschrijving").value = "";
+                    toonCategoriePerEvenement();
+                    sluitModal();
+                }
+            }             
             xhr.open("POST", "http://localhost:8082/evenement/voegCategorieAanEvenementToe/" + id, true);          
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSONstatement);
-            alert("Categorie succesvol toegevoegd.");
-            document.getElementById("categorieNaam").value = "";
-            document.getElementById("categorieOmschrijving").value = "";
-            toonCategoriePerEvenement();
         }
 
         function voegLocatieToeAanEvenement(id){
@@ -458,15 +463,19 @@
             toetevoegenLocatie.name = document.getElementById("locatieNaam").value;
             toetevoegenLocatie.description = document.getElementById("locatieOmschrijving").value;
             toetevoegenLocatie.capacity = document.getElementById("locatieCapaciteit").value;
-            JSONstatement = JSON.stringify(toetevoegenLocatie);              
+            JSONstatement = JSON.stringify(toetevoegenLocatie);
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    document.getElementById("locatieNaam").value = "";
+                    document.getElementById("locatieOmschrijving").value = "";
+                    document.getElementById("locatieCapaciteit").value = "";
+                    toonLocatiesPerEvenement();
+                    sluitModal();
+                }
+            }              
             xhr.open("POST", "http://localhost:8082/evenement/voegLocatieAanEvenementToe/" + id, true);          
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSONstatement);
-            alert("Locatie succesvol toegevoegd.");
-            document.getElementById("locatieNaam").value = "";
-            document.getElementById("locatieOmschrijving").value = "";
-            document.getElementById("locatieCapaciteit").value = "";
-            toonLocatiesPerEvenement();
         }
 
         function verwijderCategorie(id){
@@ -749,10 +758,6 @@
                 <input id="locatieCapaciteit" name="capaciteit">
                 <label for=omschrijving>Omschrijving:</label>
                 <input id="locatieOmschrijving" name="omschrijving">
-                <label for=faciliteiten>Faciliteiten:</label>
-                <input id="locatieFaciliteiten" name="faciliteiten">
-                <label for=details>Details:</label>
-                <input id="locatieDetails" name="details">
                 <button class="asidewrapper-btns-btn" onclick="voegLocatieToeAanEvenement(${huidigEvenement.id})">Toevoegen</button>
             </div>`
             } else if (type == "locatieOpenType") {
@@ -768,10 +773,6 @@
                 <input id="locatieCapaciteit" name="capaciteit">
                 <label for=omschrijving>Omschrijving:</label>
                 <input id="locatieOmschrijving" name="omschrijving">
-                <label for=faciliteiten>Faciliteiten:</label>
-                <input id="locatieFaciliteiten" name="faciliteiten">
-                <label for=details>Details:</label>
-                <input id="locatieDetails" name="details">
             </div>`
             } else if (type == "deleteLocatie") {
                 document.querySelector(".modal-content").classList.remove("ltoevoegen");
@@ -836,8 +837,13 @@
                 modal.style.display = "none";
             }
         }
+
         function uitloggen() {
-            window.location.href = `index.html?e=${encodeURI(huidigEvenement.naam)}`;
+            window.location.href = `frontend-index.html?e=${encodeURI(huidigEvenement.naam)}`;
+        }
+
+        function terugNaarEvenementPagina() {
+            window.location.href=`organisatoromgeving.html?e=${encodeURI(huidigEvenement.naam)}`
         }
 </script>
 </head>
@@ -852,7 +858,7 @@
                 <!-- <li class="nav-listitem"><a id="programma" onclick="toonProgrammaPerEvenement()">Programma</a></li> -->
             </ul>
             <div class="nav-link">
-                <a href="organisatoromgeving.html">Terug naar evenementen</a>
+                <a onclick="terugNaarEvenementPagina()">Terug naar evenementen</a>
             </div>
         </nav>
     </header>

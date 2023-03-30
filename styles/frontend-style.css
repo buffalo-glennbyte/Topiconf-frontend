@@ -264,7 +264,7 @@ html{
     scale: 1/1.2;
     font-weight: 700;
     opacity: 0.02;
-    width: 100%;
+    width: 200%;
 }
 
 .our{
@@ -303,7 +303,8 @@ html{
 .mem-content-6,
 .mem-content-7,
 .mem-content-8,
-.mem-content-9
+.mem-content-9,
+.mem-content-10
 {
     background: linear-gradient(0deg, #262626d8 8%, rgba(253,187,45,0) 59%);
     position: absolute;
@@ -322,57 +323,63 @@ html{
     
 }
 .member-1{
-    background: url(../images/mem1.webp);
+    background: url(../images/m1.jpeg);
 }
 .member-1:hover .mem-content-1{
     opacity: 1;
 }
 .member-2{
-    background: url(../images/mem2.webp);
+    background: url(../images/m2.jpeg);
 }
 .member-2:hover .mem-content-2{
     opacity: 1;
 }
 .member-3{
-    background: url(../images/mem3.webp);
+    background: url(../images/m8.jpeg);
 }
 .member-3:hover .mem-content-3{
     opacity: 1;
 }
 .member-4{
-    background: url(../images/mem4.webp);
+    background: url(../images/m4.jpeg);
 }
 .member-4:hover .mem-content-4{
     opacity: 1;
 }
 .member-5{
-    background: url(../images/mem5.webp);
+    background: url(../images/m5.jpeg);
 }
 .member-5:hover .mem-content-5{
     opacity: 1;
 }
 .member-6{
-    background: url(../images/mem6.webp);
+    background: url(../images/m6.jpeg);
 }
 .member-6:hover .mem-content-6{
     opacity: 1;
 }
 .member-7{
-    background: url(../images/mem7.webp);
+    background: url(../images/m7.jpeg);
 }
 .member-7:hover .mem-content-7{
     opacity: 1;
 }
 .member-8{
-    background: url(../images/mem8.webp);
+    background: url(../images/m3.jpeg);
 }
 .member-8:hover .mem-content-8{
     opacity: 1;
 }
 .member-9{
-    background: url(../images/mem9.webp);
+    background: url(../images/m9.jpeg);
 }
 .member-9:hover .mem-content-9{
+    opacity: 1;
+}
+.member-10{
+    background: url(../images/m10.jpeg);
+}
+.member-10:hover .mem-content-10{
     opacity: 1;
 }
 .team-member{

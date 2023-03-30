@@ -23,7 +23,7 @@
             left: 0; 
             width: 100%;
             height: calc(100vh - 105px);
-            margin-top: 105px;
+            margin-top: 140px;
 
             padding-left: 100px;
             padding-right: 100px;
@@ -249,7 +249,7 @@
             function gebruikerKrijgen(){
             const customerName = document.querySelector(".user-name");
             fetchAndJsonPersoon()
-            .then(user=>customerName.textContent=`${user.voornaam}  Rol: Spreker`) 
+            .then(user=>customerName.textContent=`${user.voornaam} Rol: Spreker`) 
         }
 
         let huidigEvenementNaam;
@@ -261,7 +261,7 @@
         }
 
         function uitloggen() {
-            window.location.href = `index.html?e=${encodeURI(huidigEvenementNaam)}`;
+            window.location.href = `frontend-index.html?e=${encodeURI(huidigEvenementNaam)}`;
         }
 
         function toonAanvragen() {
@@ -279,7 +279,7 @@
                         for(var x = 0; x < alleVoorstellen.length; x++){
                             HTMLString += "<tr><td>" + alleVoorstellen[x].voornaam + " " + alleVoorstellen[x].achternaam + "</td>";
                             HTMLString += "<td>" + alleVoorstellen[x].onderwerp + "</td>";
-                            HTMLString += "<td>" + alleVoorstellen[x].samenvatting + "</td>";
+                            HTMLString += "<td style='max-width:20px'>" + alleVoorstellen[x].samenvatting.substring(0,80) + "</td>";
                             HTMLString += "<td id='tb-status'>" + alleVoorstellen[x].status + "</td>";
                             HTMLString += `<td><span class='fa-solid fa-trash fa-lg' onclick='openModal(${alleVoorstellen[x].id},"deleteVoorstel")'></span><span class='fa-sharp fa-solid fa-pen fa-lg' onclick='voorstelBewerken(${alleVoorstellen[x].id}, "${huidigEvenementNaam}")'></span></td></tr>`;
                         }
@@ -464,11 +464,11 @@
             </div> 
     
             <div>
-                <div class="flexRow">
-                    <h2>Voeg spreker toe</h2>
+                <div hidden class="flexRow">
+                    <!-- <h2>Voeg spreker toe</h2> -->
                     <p></p>
                 </div>
-                <div style="border: 1px solid slategrey; width: 300px; height: 120px; border-radius: 3px;">
+                <div hidden style="border: 1px solid slategrey; width: 300px; height: 120px; border-radius: 3px;">
                     <div class="flexRow">
                         <label class="modal-label" for="Voornaam">Voornaam: </label>
                         <input id="inputVoornaamNieuweSpreker" type="text" style="float: right;">
