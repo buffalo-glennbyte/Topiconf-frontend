@@ -237,7 +237,11 @@
               method: "DELETE", 
               headers: { "Content-Type": "application/json"}  
             })
+            .then(()=> {
+                window.location=window.location;
+            })
         }
+
         function voegLocatieToe(){
             let nieuweLocatie = {};
 
