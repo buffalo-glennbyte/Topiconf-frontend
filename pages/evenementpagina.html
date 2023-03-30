@@ -478,7 +478,7 @@
                     toonCategoriePerEvenement();
                 }
             }
-            xhr.open("DELETE", `http://localhost:8082/categorie/verwijderCategorie/${id}?id=${huidigEvenement.id}`, true);
+            xhr.open("DELETE", `http://localhost:8082/categorie/verwijderCategorie/${id}?evenementid=${huidigEvenement.id}`, true);
             xhr.send();
         }
 
@@ -491,7 +491,7 @@
                     toonLocatiesPerEvenement();
                 }
             }
-            xhr.open("DELETE", `http://localhost:8082/locatie/verwijderLocatie/${id}?id=${huidigEvenement.id}`, true);
+            xhr.open("DELETE", `http://localhost:8082/locatie/verwijderLocatie/${id}?evenementid=${huidigEvenement.id}`, true);
             xhr.send();
         }
 
