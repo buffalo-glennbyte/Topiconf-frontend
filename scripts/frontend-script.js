@@ -24,7 +24,7 @@ const clearValue = function () {
 
 function maakVoorstelEnUser(){
     addVoorstel();
-    createNewUser();
+    // createNewUser(); // Creeert een stacktrace in de backend en word niet meer gebruikt
 }
       
 async function addVoorstel() {
